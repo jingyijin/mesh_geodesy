@@ -1,0 +1,5 @@
+/home/spbe01/Development/MeshGeodesy/build/CMakeFiles/edit_cache.dir
+/home/spbe01/Development/MeshGeodesy/build/CMakeFiles/rebuild_cache.dir
+/home/spbe01/Development/MeshGeodesy/build/apps/CMakeFiles/main.dir
+/home/spbe01/Development/MeshGeodesy/build/apps/CMakeFiles/edit_cache.dir
+/home/spbe01/Development/MeshGeodesy/build/apps/CMakeFiles/rebuild_cache.dir

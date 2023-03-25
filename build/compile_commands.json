@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/spbe01/Development/MeshGeodesy/build/apps",
+  "command": "/usr/bin/c++   -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/main.dir/main.cpp.o -c /home/spbe01/Development/MeshGeodesy/apps/main.cpp",
+  "file": "/home/spbe01/Development/MeshGeodesy/apps/main.cpp",
+  "output": "apps/CMakeFiles/main.dir/main.cpp.o"
+}
+]
