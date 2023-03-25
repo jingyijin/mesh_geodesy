@@ -1,5 +1,8 @@
 /home/spbe01/Development/MeshGeodesy/build/CMakeFiles/edit_cache.dir
 /home/spbe01/Development/MeshGeodesy/build/CMakeFiles/rebuild_cache.dir
-/home/spbe01/Development/MeshGeodesy/build/apps/CMakeFiles/main.dir
-/home/spbe01/Development/MeshGeodesy/build/apps/CMakeFiles/edit_cache.dir
-/home/spbe01/Development/MeshGeodesy/build/apps/CMakeFiles/rebuild_cache.dir
+/home/spbe01/Development/MeshGeodesy/build/MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir
+/home/spbe01/Development/MeshGeodesy/build/MeshGeodesyApp/CMakeFiles/edit_cache.dir
+/home/spbe01/Development/MeshGeodesy/build/MeshGeodesyApp/CMakeFiles/rebuild_cache.dir
+/home/spbe01/Development/MeshGeodesy/build/MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir
+/home/spbe01/Development/MeshGeodesy/build/MeshGeodesyLib/CMakeFiles/edit_cache.dir
+/home/spbe01/Development/MeshGeodesy/build/MeshGeodesyLib/CMakeFiles/rebuild_cache.dir

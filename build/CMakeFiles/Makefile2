@@ -63,57 +63,101 @@ CMAKE_BINARY_DIR = /home/spbe01/Development/MeshGeodesy/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: apps/all
+all: MeshGeodesyApp/all
+all: MeshGeodesyLib/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: apps/preinstall
+preinstall: MeshGeodesyApp/preinstall
+preinstall: MeshGeodesyLib/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: apps/clean
+clean: MeshGeodesyApp/clean
+clean: MeshGeodesyLib/clean
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory apps
+# Directory level rules for directory MeshGeodesyApp
 
 # Recursive "all" directory target.
-apps/all: apps/CMakeFiles/main.dir/all
-.PHONY : apps/all
+MeshGeodesyApp/all: MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/all
+.PHONY : MeshGeodesyApp/all
 
 # Recursive "preinstall" directory target.
-apps/preinstall:
-.PHONY : apps/preinstall
+MeshGeodesyApp/preinstall:
+.PHONY : MeshGeodesyApp/preinstall
 
 # Recursive "clean" directory target.
-apps/clean: apps/CMakeFiles/main.dir/clean
-.PHONY : apps/clean
+MeshGeodesyApp/clean: MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/clean
+.PHONY : MeshGeodesyApp/clean
 
 #=============================================================================
-# Target rules for target apps/CMakeFiles/main.dir
+# Directory level rules for directory MeshGeodesyLib
+
+# Recursive "all" directory target.
+MeshGeodesyLib/all: MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/all
+.PHONY : MeshGeodesyLib/all
+
+# Recursive "preinstall" directory target.
+MeshGeodesyLib/preinstall:
+.PHONY : MeshGeodesyLib/preinstall
+
+# Recursive "clean" directory target.
+MeshGeodesyLib/clean: MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/clean
+.PHONY : MeshGeodesyLib/clean
+
+#=============================================================================
+# Target rules for target MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir
 
 # All Build rule for target.
-apps/CMakeFiles/main.dir/all:
-	$(MAKE) $(MAKESILENT) -f apps/CMakeFiles/main.dir/build.make apps/CMakeFiles/main.dir/depend
-	$(MAKE) $(MAKESILENT) -f apps/CMakeFiles/main.dir/build.make apps/CMakeFiles/main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/spbe01/Development/MeshGeodesy/build/CMakeFiles --progress-num=1,2 "Built target main"
-.PHONY : apps/CMakeFiles/main.dir/all
+MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/all: MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/all
+	$(MAKE) $(MAKESILENT) -f MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/build.make MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/depend
+	$(MAKE) $(MAKESILENT) -f MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/build.make MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/spbe01/Development/MeshGeodesy/build/CMakeFiles --progress-num=1,2,3,4 "Built target MeshGeodesyApp"
+.PHONY : MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/all
 
 # Build rule for subdir invocation for target.
-apps/CMakeFiles/main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/spbe01/Development/MeshGeodesy/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/CMakeFiles/main.dir/all
+MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/spbe01/Development/MeshGeodesy/build/CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/spbe01/Development/MeshGeodesy/build/CMakeFiles 0
-.PHONY : apps/CMakeFiles/main.dir/rule
+.PHONY : MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/rule
 
 # Convenience name for target.
-main: apps/CMakeFiles/main.dir/rule
-.PHONY : main
+MeshGeodesyApp: MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/rule
+.PHONY : MeshGeodesyApp
 
 # clean rule for target.
-apps/CMakeFiles/main.dir/clean:
-	$(MAKE) $(MAKESILENT) -f apps/CMakeFiles/main.dir/build.make apps/CMakeFiles/main.dir/clean
-.PHONY : apps/CMakeFiles/main.dir/clean
+MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/clean:
+	$(MAKE) $(MAKESILENT) -f MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/build.make MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/clean
+.PHONY : MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/clean
+
+#=============================================================================
+# Target rules for target MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir
+
+# All Build rule for target.
+MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/all:
+	$(MAKE) $(MAKESILENT) -f MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/build.make MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/depend
+	$(MAKE) $(MAKESILENT) -f MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/build.make MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/spbe01/Development/MeshGeodesy/build/CMakeFiles --progress-num=5,6 "Built target MeshGeodesyLib"
+.PHONY : MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/all
+
+# Build rule for subdir invocation for target.
+MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/spbe01/Development/MeshGeodesy/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/spbe01/Development/MeshGeodesy/build/CMakeFiles 0
+.PHONY : MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/rule
+
+# Convenience name for target.
+MeshGeodesyLib: MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/rule
+.PHONY : MeshGeodesyLib
+
+# clean rule for target.
+MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/clean:
+	$(MAKE) $(MAKESILENT) -f MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/build.make MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/clean
+.PHONY : MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

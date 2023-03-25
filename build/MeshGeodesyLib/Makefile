@@ -87,14 +87,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/spbe01/Development/MeshGeodesy/build/CMakeFiles /home/spbe01/Development/MeshGeodesy/build//CMakeFiles/progress.marks
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
+	cd /home/spbe01/Development/MeshGeodesy/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/spbe01/Development/MeshGeodesy/build/CMakeFiles /home/spbe01/Development/MeshGeodesy/build/MeshGeodesyLib//CMakeFiles/progress.marks
+	cd /home/spbe01/Development/MeshGeodesy/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MeshGeodesyLib/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/spbe01/Development/MeshGeodesy/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
+	cd /home/spbe01/Development/MeshGeodesy/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MeshGeodesyLib/clean
 .PHONY : clean
 
 # The main clean target
@@ -103,44 +103,56 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /home/spbe01/Development/MeshGeodesy/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MeshGeodesyLib/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
+	cd /home/spbe01/Development/MeshGeodesy/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MeshGeodesyLib/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/spbe01/Development/MeshGeodesy/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named MeshGeodesyApp
+# Convenience name for target.
+MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/rule:
+	cd /home/spbe01/Development/MeshGeodesy/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/rule
+.PHONY : MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/rule
 
-# Build rule for target.
-MeshGeodesyApp: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MeshGeodesyApp
-.PHONY : MeshGeodesyApp
-
-# fast build rule for target.
-MeshGeodesyApp/fast:
-	$(MAKE) $(MAKESILENT) -f MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/build.make MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/build
-.PHONY : MeshGeodesyApp/fast
-
-#=============================================================================
-# Target rules for targets named MeshGeodesyLib
-
-# Build rule for target.
-MeshGeodesyLib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MeshGeodesyLib
+# Convenience name for target.
+MeshGeodesyLib: MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/rule
 .PHONY : MeshGeodesyLib
 
 # fast build rule for target.
 MeshGeodesyLib/fast:
-	$(MAKE) $(MAKESILENT) -f MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/build.make MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/build
+	cd /home/spbe01/Development/MeshGeodesy/build && $(MAKE) $(MAKESILENT) -f MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/build.make MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/build
 .PHONY : MeshGeodesyLib/fast
+
+source/trimesh.o: source/trimesh.cpp.o
+.PHONY : source/trimesh.o
+
+# target to build an object file
+source/trimesh.cpp.o:
+	cd /home/spbe01/Development/MeshGeodesy/build && $(MAKE) $(MAKESILENT) -f MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/build.make MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/source/trimesh.cpp.o
+.PHONY : source/trimesh.cpp.o
+
+source/trimesh.i: source/trimesh.cpp.i
+.PHONY : source/trimesh.i
+
+# target to preprocess a source file
+source/trimesh.cpp.i:
+	cd /home/spbe01/Development/MeshGeodesy/build && $(MAKE) $(MAKESILENT) -f MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/build.make MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/source/trimesh.cpp.i
+.PHONY : source/trimesh.cpp.i
+
+source/trimesh.s: source/trimesh.cpp.s
+.PHONY : source/trimesh.s
+
+# target to generate assembly for a file
+source/trimesh.cpp.s:
+	cd /home/spbe01/Development/MeshGeodesy/build && $(MAKE) $(MAKESILENT) -f MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/build.make MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/source/trimesh.cpp.s
+.PHONY : source/trimesh.cpp.s
 
 # Help Target
 help:
@@ -150,8 +162,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... MeshGeodesyApp"
 	@echo "... MeshGeodesyLib"
+	@echo "... source/trimesh.o"
+	@echo "... source/trimesh.i"
+	@echo "... source/trimesh.s"
 .PHONY : help
 
 
@@ -163,6 +177,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/spbe01/Development/MeshGeodesy/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

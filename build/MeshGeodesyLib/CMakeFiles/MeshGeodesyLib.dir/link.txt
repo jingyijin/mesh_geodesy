@@ -1,0 +1,2 @@
+/usr/bin/ar qc libMeshGeodesyLib.a CMakeFiles/MeshGeodesyLib.dir/source/trimesh.cpp.o
+/usr/bin/ranlib libMeshGeodesyLib.a

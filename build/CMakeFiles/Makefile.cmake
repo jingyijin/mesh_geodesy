@@ -15,17 +15,29 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/CMakeLanguageInformation.cmake"
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/CMakeSystemSpecificInformation.cmake"
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/CMakeSystemSpecificInitialize.cmake"
+  "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/CheckFunctionExists.cmake"
+  "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/CheckLibraryExists.cmake"
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/Compiler/GNU-C.cmake"
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/Compiler/GNU-CXX.cmake"
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/Compiler/GNU.cmake"
+  "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/FindFLTK.cmake"
+  "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/FindFontconfig.cmake"
+  "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/FindFreetype.cmake"
+  "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/FindOpenGL.cmake"
+  "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/FindPackageHandleStandardArgs.cmake"
+  "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/FindPackageMessage.cmake"
+  "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/FindPkgConfig.cmake"
+  "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/FindX11.cmake"
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/Platform/Linux-GNU-C.cmake"
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/Platform/Linux-GNU-CXX.cmake"
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/Platform/Linux-GNU.cmake"
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/Platform/Linux.cmake"
   "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/Platform/UnixPaths.cmake"
+  "/home/spbe01/.local/lib/python3.10/site-packages/cmake/data/share/cmake-3.26/Modules/SelectLibraryConfigurations.cmake"
   "/home/spbe01/Development/MeshGeodesy/CMakeLists.txt"
-  "/home/spbe01/Development/MeshGeodesy/apps/CMakeLists.txt"
+  "/home/spbe01/Development/MeshGeodesy/MeshGeodesyApp/CMakeLists.txt"
+  "/home/spbe01/Development/MeshGeodesy/MeshGeodesyLib/CMakeLists.txt"
   "CMakeFiles/3.26.0/CMakeCCompiler.cmake"
   "CMakeFiles/3.26.0/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.26.0/CMakeSystem.cmake"
@@ -40,10 +52,12 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "apps/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "MeshGeodesyApp/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "MeshGeodesyLib/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "apps/CMakeFiles/main.dir/DependInfo.cmake"
+  "MeshGeodesyApp/CMakeFiles/MeshGeodesyApp.dir/DependInfo.cmake"
+  "MeshGeodesyLib/CMakeFiles/MeshGeodesyLib.dir/DependInfo.cmake"
   )
