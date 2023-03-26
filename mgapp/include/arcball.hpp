@@ -12,7 +12,7 @@
 
  ************************************************************************/
 
-#include "Baseball.hpp"
+#include "baseball.hpp"
 
 namespace gfx
 {

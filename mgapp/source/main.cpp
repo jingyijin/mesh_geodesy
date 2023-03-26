@@ -1,5 +1,5 @@
 #include <iostream>
-#include "MeshGUI.hpp"
+#include "meshGUI.hpp"
 
 using namespace std;
 

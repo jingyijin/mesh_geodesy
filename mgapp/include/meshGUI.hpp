@@ -1,9 +1,9 @@
 #ifndef MESHGUI_INCLUDED
 #define MESHGUI_INCLUDED
 
-#include "MxGUI.hpp"
+#include "mxGUI.hpp"
 #include "trimesh.hpp"
-#include "Arcball.hpp"
+#include "arcball.hpp"
 #include "vec4.hpp"
 
 typedef Vec4f rgbColor;

@@ -6,7 +6,7 @@
 
  ************************************************************************/
 
-#include "Baseball.hpp"
+#include "baseball.hpp"
 
 #include <sstream>
 

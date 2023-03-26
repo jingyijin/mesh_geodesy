@@ -1,6 +1,6 @@
 
-#include "MxGUI.hpp"
-#include "MeshGUI.hpp"
+#include "mxGUI.hpp"
+#include "meshGUI.hpp"
 #include "vec4.hpp"
 
 #include <FL/Fl_File_Chooser.H>

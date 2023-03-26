@@ -12,7 +12,7 @@
 
  ************************************************************************/
 
-#include "Arcball.hpp"
+#include "arcball.hpp"
 #include <sstream>
 
 namespace gfx

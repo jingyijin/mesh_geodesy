@@ -11,7 +11,7 @@
 #define HAVE_FLTK
 #ifdef HAVE_FLTK
 
-#include "MxGUI.hpp"
+#include "mxGUI.hpp"
 
 #include <FL/Fl_File_Chooser.H>
 #include <FL/fl_ask.H>
