@@ -42,6 +42,20 @@ void TriMesh::computeFNormal()
     }
 }
 
+void TriMesh::normalize()
+{
+	Vec3 bmin, bmax;
+	computeBBox(bmin, bmax);
+	double d = norm(bmax-bmin);
+	Vec3 center = bmin + (bmax - bmin)/2.;
+
+	int vsize = vertex.size();
+	for (int i=0; i<vsize; i++)
+		vertex[i] = 1/d * (vertex[i] - center);
+
+	computeFNormal();
+}
+
 void TriMesh::read_from_file(const string& filename)
 {
     ifstream fin(filename.c_str());
@@ -61,7 +75,7 @@ void TriMesh::read_from_file(const string& filename)
         else if (line[0] == 'f') {
             Face f;
             sscanf(line, "f %d %d %d", &f[0], &f[1], &f[2]);
-            f -= 1;
+            //f -= 1;
             face.push_back(f);
         }
     }

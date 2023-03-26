@@ -6,7 +6,8 @@
 #include <FL/Fl_File_Chooser.H>
 
 MeshGUI::MeshGUI() : MxGUI(), 
-        draw_mode(draw_mode_wireframe), 
+        draw_mode(draw_mode_solid), 
+        selection_mode(NoSelect),
         will_draw_bbox(false), 
         will_draw_surface_fnormal(true), 
         will_draw_mesh(false)	
@@ -29,6 +30,10 @@ void MeshGUI::initialize(int argc, char* argv[])
     add_menu_item("&File/Open", FL_CTRL+'o', (Fl_Callback *)cb_open_file, NULL);
     add_menu_item("&File/Open", FL_CTRL+'o', (Fl_Callback *)cb_open_file, NULL);
     add_menu_item("&File/Save", FL_CTRL+'s', (Fl_Callback *)cb_save_file, NULL);
+
+	add_toggle_menu("&Draw/Surface + face normal", 0, will_draw_surface_fnormal);
+	add_toggle_menu("&Draw/Mesh", 0, will_draw_mesh);
+	add_toggle_menu("&Draw/Bounding box", FL_CTRL+'b', will_draw_bbox);
 }
 
 int MeshGUI::add_menu_item(const char* name, int key, Fl_Callback *f, void* val, int flags) 
@@ -123,6 +128,7 @@ void MeshGUI::default_redraw()
     
     if (will_draw_bbox)            draw_bbox();
     if (will_draw_surface_fnormal) draw_surface_fnormal();
+    if (will_draw_mesh)            draw_mesh();
 }
 
 void MeshGUI::end_redraw() 
@@ -311,3 +317,22 @@ bool MeshGUI::mouse_up(int *where, int which)
     return ball.mouse_up(where, which);
 }
 
+bool MeshGUI::key_press(int key) 
+{
+    switch (key) {
+	case 'w':
+		draw_mode = draw_mode_wireframe;
+		canvas->redraw();
+		break;
+	case 's':
+		draw_mode = draw_mode_solid;
+		canvas->redraw();
+		break;
+	case 'n':
+		mesh->normalize();
+		reset_camera();
+		canvas->redraw();
+		break;
+	}
+    return true;
+}

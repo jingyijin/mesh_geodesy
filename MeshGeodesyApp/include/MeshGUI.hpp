@@ -119,6 +119,7 @@ public:
     bool mouse_down(int *where, int which); 
     bool mouse_drag(int *where, int *last, int which); 
     bool mouse_up(int *where, int which);
+    bool key_press(int key); 
 
     // callback functions
     static void cb_open_file();
