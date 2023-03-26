@@ -78,20 +78,20 @@ public:
 class MeshGUI : public MxGUI
 {
 protected:
-    Arcball ball;
-    Vec3 bb_min, bb_max;
+    Arcball m_ball;
+    Vec3 m_bb_min, m_bb_max;
 
-    Material* mat;
+    Material* m_mat;
 
 public:
-    TriMesh *mesh;
-    enum {draw_mode_wireframe, draw_mode_color, draw_mode_solid} draw_mode;
-    enum {NoSelect, FSelect, VSelect} selection_mode;
+    TriMesh *m_mesh;
+    enum {Draw_mode_wireframe, Draw_mode_color, Draw_mode_solid} m_draw_mode;
+    enum {Noselect, Fselect, Vselect} m_selection_mode;
 
     // Drawing protocol
-    bool will_draw_bbox;
-    bool will_draw_surface_fnormal;
-    bool will_draw_mesh;
+    bool m_will_draw_bbox;
+    bool m_will_draw_surface_fnormal;
+    bool m_will_draw_mesh;
 
 public:
     MeshGUI();

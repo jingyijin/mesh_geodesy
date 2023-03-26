@@ -22,31 +22,31 @@ public:
     typedef vector<Vec3> NormalVector;
 
 public:
-    VertexList vertex;
-    FaceList face;
-    NormalVector fnormal;
+    VertexList m_vertex;
+    FaceList m_face;
+    NormalVector m_fnormal;
 
-      int selected_vertex;
-    int selected_face;
+    int m_selected_vertex;
+    int m_selected_face;
 
 public:
     TriMesh() {}
     TriMesh(const TriMesh& m) { *this = m; }
     TriMesh(VertexList& vlist, FaceList& flist) 
-        : vertex(vlist), face(flist) {}
+        : m_vertex(vlist), m_face(flist) {}
     ~TriMesh() { clear(); }
     TriMesh& operator=(const TriMesh& m)
     {
-        vertex = m.vertex;
-        face = m.face;
-        fnormal = m.fnormal;
+        m_vertex = m.m_vertex;
+        m_face = m.m_face;
+        m_fnormal = m.m_fnormal;
         return *this;
     }
     void clear();
     void initialize();
 
-    void computeBBox(Vec3& min, Vec3& max);
-    void computeFNormal();
+    void compute_bbox(Vec3& min, Vec3& max);
+    void compute_fnormal();
     void normalize();
 
     // in/output methods

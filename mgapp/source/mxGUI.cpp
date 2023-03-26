@@ -21,19 +21,19 @@
 #include <fstream>
 #include <iostream>
 
-MxGUI *MxGUI::current = NULL;
+MxGUI *MxGUI::m_current = NULL;
 
 MxGLCanvas::MxGLCanvas(int x, int y, int w, int h, const char *l)
     : Fl_Gl_Window(x, y, w, h, l)
 {
-    last_click[0] = last_click[1] = -1;
-    app = NULL;
+    m_last_click[0] = m_last_click[1] = -1;
+    m_app = NULL;
 }
 
 void MxGLCanvas::attach_app(MxGUI *a)
 {
-    if( !app )
-    app = a;
+    if( !m_app )
+    m_app = a;
 }
 
 void MxGLCanvas::resize(int x, int y, int w, int h)
@@ -53,10 +53,10 @@ void MxGLCanvas::draw()
     if( !valid() )
     {
         valid(1);
-        if(app) app->setup_for_drawing();
+        if(m_app) m_app->setup_for_drawing();
     }
 
-    if(app) app->draw_contents();
+    if(m_app) m_app->draw_contents();
 }
 
 int MxGLCanvas::handle(int event)
@@ -89,17 +89,17 @@ int MxGLCanvas::handle(int event)
     switch( event )
     {
     case FL_PUSH:
-    need_redraw = app && app->mouse_down(where, which);
-    last_click[0]=where[0];  last_click[1]=where[1];
+    need_redraw = m_app && m_app->mouse_down(where, which);
+    m_last_click[0]=where[0];  m_last_click[1]=where[1];
     break;
 
     case FL_RELEASE:
-    need_redraw = app && app->mouse_up(where, which);
+    need_redraw = m_app && m_app->mouse_up(where, which);
     break;
 
     case FL_DRAG:
-    need_redraw = app && app->mouse_drag(where, last_click, which);
-    last_click[0]=where[0];  last_click[1]=where[1];
+    need_redraw = m_app && m_app->mouse_drag(where, m_last_click, which);
+    m_last_click[0]=where[0];  m_last_click[1]=where[1];
     break;
 
     case FL_FOCUS:
@@ -108,7 +108,7 @@ int MxGLCanvas::handle(int event)
     break;
 
     case FL_KEYBOARD:
-    if( !app || !app->key_press(Fl::event_key()) )
+    if( !m_app || !m_app->key_press(Fl::event_key()) )
         return 0;
     break;
 
@@ -139,44 +139,44 @@ void MxGUI::cb_animate(Fl_Menu_ *m)
 void MxGUI::cb_fps()
 {
     // Convert default_fps to a string
-    static char fps[64]; sprintf(fps, "%.1f", default_fps);
+    static char fps[64]; sprintf(fps, "%.1f", m_default_fps);
 
     const char *result = fl_input("Number of frames per second to draw", fps);
     if( result )
     {
-    default_fps = atof(result);
-    if( target_fps>0 ) target_fps=default_fps;
+    m_default_fps = atof(result);
+    if( m_target_fps>0 ) m_target_fps=m_default_fps;
     }
 }
 
 void MxGUI::cb_snapshot(int format)
 {
-    canvas->redraw();		// don't want to snap menu
+    m_canvas->redraw();		// don't want to snap menu
 //    snapshot_to_file(format);	// snapshot what's drawn
 }
 
 void MxGUI::cb_vga_size(int xw)
 {
-    if( toplevel->resizable() )
+    if( m_toplevel->resizable() )
     resize_canvas(xw, (3*xw)/4);
 }
 
 void MxGUI::cb_hdtv_size(int xw)
 {
-    if( toplevel->resizable() )
-    MxGUI::current->resize_canvas(xw, (9*xw)/16);
+    if( m_toplevel->resizable() )
+    MxGUI::m_current->resize_canvas(xw, (9*xw)/16);
 }
 
 void MxGUI::cb_dv_size(int xw)
 {
-    if( toplevel->resizable() )
-    MxGUI::current->resize_canvas(xw, (2*xw)/3);
+    if( m_toplevel->resizable() )
+    MxGUI::m_current->resize_canvas(xw, (2*xw)/3);
 }
 
 void MxGUI::cb_toggle(Fl_Menu_ *m, bool *flag)
 {
     *flag = m->mvalue()->value()!=0;
-    current->canvas->redraw();
+    m_current->m_canvas->redraw();
 }
 
 void MxGUI::cb_save_view_to_file() { save_view_to_file(); }
@@ -196,12 +196,12 @@ bool MxGUI::load_view_from_file()
 
 int MxGUI::add_menu(const std::string& s, int key, Fl_Callback *cb, int flags)
 {
-    return menu_bar->add(s.c_str(), key, cb, this, flags);
+    return m_menu_bar->add(s.c_str(), key, cb, this, flags);
 }
 
 int MxGUI::add_toggle_menu(const std::string& s, int key, bool& val, int flags)
 {
-    return menu_bar->add(s.c_str(), key, (Fl_Callback *)cb_toggle, &val,
+    return m_menu_bar->add(s.c_str(), key, (Fl_Callback *)cb_toggle, &val,
              FL_MENU_TOGGLE|(val?FL_MENU_VALUE:0)|flags);
 }
 
@@ -216,11 +216,11 @@ extern "C"{
 
 MxGUI::MxGUI()
 {
-    canvas = NULL;
-    status_line = NULL;
-    default_fps = 24.0f;
-    target_fps = 0.0f;
-    MxGUI::current = this;
+    m_canvas = NULL;
+    m_status_line = NULL;
+    m_default_fps = 24.0f;
+    m_target_fps = 0.0f;
+    MxGUI::m_current = this;
 }
 
 Fl_Window *MxGUI::create_window(int xw, int yw, int pad)
@@ -228,46 +228,46 @@ Fl_Window *MxGUI::create_window(int xw, int yw, int pad)
     int yfill = 0;
 
     Fl_Window *w = new Fl_Window(xw+2*pad, 0);
-    toplevel = w;
+    m_toplevel = w;
     w->box(FL_UP_BOX);
 
-      menu_bar = new Fl_Menu_Bar(0, yfill, w->w(), 30);
-      menu_bar->menu(menu_layout);
-      yfill += menu_bar->h();
+    m_menu_bar = new Fl_Menu_Bar(0, yfill, w->w(), 30);
+    m_menu_bar->menu(m_menu_layout);
+    yfill += m_menu_bar->h();
 
-      add_upper_controls(yfill, pad);
+    add_upper_controls(yfill, pad);
 
-      yfill += pad;
-      canvas = new MxGLCanvas(pad, yfill, xw, yw);
-      canvas->box(FL_DOWN_FRAME);
-      canvas->attach_app(this);
+    yfill += pad;
+    m_canvas = new MxGLCanvas(pad, yfill, xw, yw);
+    m_canvas->box(FL_DOWN_FRAME);
+    m_canvas->attach_app(this);
 
-      int glmode = 0;
-      if(canvas->can_do(FL_RGB8))    glmode|=FL_RGB8;
-      if(canvas->can_do(FL_DOUBLE))  glmode|=FL_DOUBLE;
-      if(canvas->can_do(FL_DEPTH))   glmode|=FL_DEPTH;
-      if(canvas->can_do(FL_ALPHA))   glmode|=FL_ALPHA;
-      if(glmode)                     canvas->mode(glmode);
+    int glmode = 0;
+    if(m_canvas->can_do(FL_RGB8))    glmode|=FL_RGB8;
+    if(m_canvas->can_do(FL_DOUBLE))  glmode|=FL_DOUBLE;
+    if(m_canvas->can_do(FL_DEPTH))   glmode|=FL_DEPTH;
+    if(m_canvas->can_do(FL_ALPHA))   glmode|=FL_ALPHA;
+    if(glmode)                       m_canvas->mode(glmode);
 
-      yfill += canvas->h();
+    yfill += m_canvas->h();
 
-      add_lower_controls(yfill, pad);
+    add_lower_controls(yfill, pad);
 
-      yfill += pad;
-      status_line = new Fl_Output(pad, yfill, xw, 25);
-      status_line->color(48);
-      status_line->labeltype(FL_NO_LABEL);
-      yfill += status_line->h();
+    yfill += pad;
+    m_status_line = new Fl_Output(pad, yfill, xw, 25);
+    m_status_line->color(48);
+    m_status_line->labeltype(FL_NO_LABEL);
+    yfill += m_status_line->h();
 
     w->end();
 
     w->size(w->w(), yfill+pad);		// adjust window height
-    w->resizable(*canvas);		// resize canvas with window
+    w->resizable(*m_canvas);		// resize canvas with window
 
     // These are used by resize_canvas() to resize the window based on
     // the target size of the canvas.
-    w_offset = w->w() - xw;
-    h_offset = w->h() - yw;
+    m_w_offset = w->w() - xw;
+    m_h_offset = w->h() - yw;
 
     return w;
 }
@@ -275,21 +275,21 @@ Fl_Window *MxGUI::create_window(int xw, int yw, int pad)
 static
 int arg_redirect(int argc, char **argv, int& index)
 {
-    MxGUI *app = MxGUI::current;
+    MxGUI *app = MxGUI::m_current;
     return app?app->cmdline_option(argc, argv, index):0;
 }
 
 void MxGUI::initialize(int argc, char **argv, Fl_Menu_Item *m, int xw, int yw)
 {
     Fl::visual(FL_RGB8);
-    menu_layout = m?m:NULL;
+    m_menu_layout = m?m:NULL;
 
     int index = 0;
     if( argv )
     Fl::args(argc, argv, index, arg_redirect);
 
     create_window(xw, yw);
-    toplevel->label("Graphics Program");
+    m_toplevel->label("Graphics Program");
 
     // Add dynamic entries
     typedef MxBinder<MxGUI> CB;
@@ -342,31 +342,31 @@ void MxGUI::initialize(int argc, char **argv, Fl_Menu_Item *m, int xw, int yw)
 
 int MxGUI::run()
 {
-    toplevel->show();
+    m_toplevel->show();
     return Fl::run();
 }
 
 static
 void cb_timeout(void *)
 {
-    MxGUI *app = MxGUI::current;
+    MxGUI *app = MxGUI::m_current;
 
-    if(!app || app->target_fps==0.0f)  return;
+    if(!app || app->m_target_fps==0.0f)  return;
 
     app->update_animation();
-    app->canvas->redraw();
-    Fl::repeat_timeout(1/app->target_fps, cb_timeout);
+    app->m_canvas->redraw();
+    Fl::repeat_timeout(1/app->m_target_fps, cb_timeout);
 }
 
 void MxGUI::animate(bool will)
 {
     if( will )
     {
-    target_fps = default_fps;
-    Fl::add_timeout(1/target_fps, cb_timeout);
+    m_target_fps = m_default_fps;
+    Fl::add_timeout(1/m_target_fps, cb_timeout);
     }
     else
-    target_fps = 0;
+    m_target_fps = 0;
 }
 
 int MxGUI::status(const char *fmt, ...)
@@ -377,7 +377,7 @@ int MxGUI::status(const char *fmt, ...)
     va_start(args, fmt);
     int n = vsprintf(strbuf, fmt, args);
 
-    status_line->value(strbuf);
+    m_status_line->value(strbuf);
     return n;
 }
 
@@ -423,22 +423,22 @@ int MxGUI::status(const char *fmt, ...)
 
 void MxGUI::lock_size()
 {
-    toplevel->size_range(toplevel->w(), toplevel->h(),
-             toplevel->w(), toplevel->h());
-    toplevel->resizable(NULL);
+    m_toplevel->size_range(m_toplevel->w(), m_toplevel->h(),
+            m_toplevel->w(), m_toplevel->h());
+    m_toplevel->resizable(NULL);
 }
 
 void MxGUI::unlock_size()
 {
-    toplevel->resizable(*canvas);
-    toplevel->size_range(100, 100, 0, 0);
+    m_toplevel->resizable(*m_canvas);
+    m_toplevel->size_range(100, 100, 0, 0);
 }
 
 
 void MxGUI::resize_canvas(int width, int height)
 {
-    toplevel->size(width+w_offset, height+h_offset);
-    toplevel->redraw();
+    m_toplevel->size(width+m_w_offset, height+m_h_offset);
+    m_toplevel->redraw();
 }
 
 ////////////////////////////////////////////////////////////////////////

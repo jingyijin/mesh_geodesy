@@ -34,8 +34,8 @@ enum { IMG_PNM=0, IMG_PNG=1, IMG_TIFF=2, IMG_JPEG=3, IMG_LIMIT=4 };
 class MxGLCanvas : public Fl_Gl_Window
 {
 private:
-    int last_click[2];
-    MxGUI *app;
+    int m_last_click[2];
+    MxGUI *m_app;
 
 public:
     // Override selected FLTK window methods
@@ -52,20 +52,20 @@ public:
 class MxGUI
 {
 private:
-    int w_offset, h_offset;
+    int m_w_offset, m_h_offset;
     Fl_Window *create_window(int xw=640, int yw=480, int pad=5);
 
 public:
     // This is the public interface of MxGUI available to the application.
     //
-    Fl_Window *toplevel;
-    MxGLCanvas *canvas;
-    Fl_Output *status_line;
-    Fl_Menu_Bar *menu_bar;
-    Fl_Menu_Item *menu_layout;
-    float default_fps, target_fps;
+    Fl_Window *m_toplevel;
+    MxGLCanvas *m_canvas;
+    Fl_Output *m_status_line;
+    Fl_Menu_Bar *m_menu_bar;
+    Fl_Menu_Item *m_menu_layout;
+    float m_default_fps, m_target_fps;
 
-    static MxGUI *current;	// There should only be one.
+    static MxGUI *m_current;	// There should only be one.
 
     MxGUI();
     virtual ~MxGUI() {}
@@ -82,7 +82,7 @@ public:
     void lock_size();
     void unlock_size();
 
-    void title(const char *l) { toplevel->label(l); }
+    void title(const char *l) { m_toplevel->label(l); }
 
     // Menu construction and standard callbacks
     int add_menu(const string&, int key, Fl_Callback *cb, int flags=0);
@@ -152,7 +152,7 @@ struct MxBinder
     {
     Gui *gui = static_cast<Gui*>(data);
     (gui->*cmd)();
-    gui->canvas->redraw();
+    gui->m_canvas->redraw();
     }
 
     template<GuiCommand2 cmd>
@@ -160,7 +160,7 @@ struct MxBinder
     {
     Gui *gui = static_cast<Gui*>(data);
     (gui->*cmd)(static_cast<Fl_Menu_ *>(w));
-    gui->canvas->redraw();
+    gui->m_canvas->redraw();
     }
 
     template<GuiCommand1 cmd, int i>
@@ -168,7 +168,7 @@ struct MxBinder
     {
     Gui *gui = static_cast<Gui*>(data);
     (gui->*cmd)(i);
-    gui->canvas->redraw();
+    gui->m_canvas->redraw();
     }
 };
 
