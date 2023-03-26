@@ -7,11 +7,9 @@ MeshGUI gui;
 
 int main(int argc, char *argv[])
 {
-	gui.initialize(argc, argv);
-	gui.resize_canvas(800, 500);
-    gui.title("Mesh Geodesy");
-	gui.mesh->read_from_file("../model/hand.obj");
-	gui.canvas->redraw();
-	
+    gui.initialize(argc, argv);
+    gui.toplevel->label("Mesh Geodesy");
+    gui.load_mesh("../model/hand.obj");
+    
     return gui.run();
 }

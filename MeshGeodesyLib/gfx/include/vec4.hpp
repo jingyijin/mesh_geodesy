@@ -31,11 +31,11 @@ public:
     // Copy constructors & assignment operators
     template<class U> TVec4(const TVec4<U>& v) { *this = v; }
     template<class U> TVec4(const TVec3<U>& v,T w)
-    	{ elt[0]=v[0];  elt[1]=v[1];  elt[2]=v[2];  elt[3]=w; }
+      { elt[0]=v[0];  elt[1]=v[1];  elt[2]=v[2];  elt[3]=w; }
     template<class U> TVec4(const U v[4])
-    	{ elt[0]=v[0]; elt[1]=v[1]; elt[2]=v[2]; elt[3]=v[3]; }
+      { elt[0]=v[0]; elt[1]=v[1]; elt[2]=v[2]; elt[3]=v[3]; }
     template<class U> TVec4& operator=(const TVec4<U>& v)
-	{ elt[0]=v[0];  elt[1]=v[1];  elt[2]=v[2]; elt[3]=v[3]; return *this; }
+  { elt[0]=v[0];  elt[1]=v[1];  elt[2]=v[2]; elt[3]=v[3]; return *this; }
     TVec4& operator=(T s) { elt[0]=elt[1]=elt[2]=elt[3]=s; return *this; }
 
 
@@ -89,14 +89,14 @@ template<class T> inline TVec4<T>& TVec4<T>::operator/=(T s)
 
 template<class T>
 inline TVec4<T> operator+(const TVec4<T> &u, const TVec4<T> &v)
-	{ return TVec4<T>(u[0]+v[0], u[1]+v[1], u[2]+v[2], u[3]+v[3]); }
+  { return TVec4<T>(u[0]+v[0], u[1]+v[1], u[2]+v[2], u[3]+v[3]); }
 
 template<class T>
 inline TVec4<T> operator-(const TVec4<T> &u, const TVec4<T>& v)
-	{ return TVec4<T>(u[0]-v[0], u[1]-v[1], u[2]-v[2], u[3]-v[3]); }
+  { return TVec4<T>(u[0]-v[0], u[1]-v[1], u[2]-v[2], u[3]-v[3]); }
 
 template<class T> inline TVec4<T> operator-(const TVec4<T> &u)
-	{ return TVec4<T>(-u[0], -u[1], -u[2], -u[3]); }
+  { return TVec4<T>(-u[0], -u[1], -u[2], -u[3]); }
 
 #if _MSC_VER>=1200
 // Normally, we use the <class T, class N> construct below to allow the scalar
@@ -107,32 +107,32 @@ template<class T> inline TVec4<T> operator-(const TVec4<T> &u)
 // floats to ints.
 //
   template<class T> inline TVec4<T> operator*(T s, const TVec4<T> &v)
-	{ return TVec4<T>(v[0]*s, v[1]*s, v[2]*s, v[3]*s); }
+  { return TVec4<T>(v[0]*s, v[1]*s, v[2]*s, v[3]*s); }
   template<class T> inline TVec4<T> operator*(const TVec4<T> &v, T s)
-	{ return s*v; }
+  { return s*v; }
 
   template<class T> inline TVec4<T> operator/(const TVec4<T> &v, T s)
-	{ return TVec4<T>(v[0]/s, v[1]/s, v[2]/s, v[3]/s); }
+  { return TVec4<T>(v[0]/s, v[1]/s, v[2]/s, v[3]/s); }
 #else
   template<class T, class N> inline TVec4<T> operator*(N s, const TVec4<T> &v)
-	{ return TVec4<T>(v[0]*s, v[1]*s, v[2]*s, v[3]*s); }
+  { return TVec4<T>(v[0]*s, v[1]*s, v[2]*s, v[3]*s); }
   template<class T, class N> inline TVec4<T> operator*(const TVec4<T> &v, N s)
-	{ return s*v; }
+  { return s*v; }
 
   template<class T, class N> inline TVec4<T> operator/(const TVec4<T> &v, N s)
-	{ return TVec4<T>(v[0]/s, v[1]/s, v[2]/s, v[3]/s); }
+  { return TVec4<T>(v[0]/s, v[1]/s, v[2]/s, v[3]/s); }
 #endif
 
 template<class T> inline T operator*(const TVec4<T> &u, const TVec4<T> &v)
-	{ return u[0]*v[0] + u[1]*v[1] + u[2]*v[2] + u[3]*v[3]; }
+  { return u[0]*v[0] + u[1]*v[1] + u[2]*v[2] + u[3]*v[3]; }
 
 template<class T>
 inline std::ostream &operator<<(std::ostream &out, const TVec4<T>& v)
-	{ return out <<v[0] <<" " <<v[1] <<" " <<v[2] <<" " <<v[3]; }
+  { return out <<v[0] <<" " <<v[1] <<" " <<v[2] <<" " <<v[3]; }
 
 template<class T>
 inline std::istream &operator>>(std::istream &in, TVec4<T>& v)
-	{ return in >> v[0] >> v[1] >> v[2] >> v[3]; }
+  { return in >> v[0] >> v[1] >> v[2] >> v[3]; }
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -152,9 +152,9 @@ inline TVec4<T> cross(const TVec4<T>& a, const TVec4<T>& b, const TVec4<T>& c)
     T d6 = (b[0] * c[1]) - (b[1] * c[0]);
 
     return TVec4<T>(- a[1] * d1 + a[2] * d2 - a[3] * d3,
-		      a[0] * d1 - a[2] * d4 + a[3] * d5,
-		    - a[0] * d2 + a[1] * d4 - a[3] * d6,
-		      a[0] * d3 - a[1] * d5 + a[2] * d6);
+          a[0] * d1 - a[2] * d4 + a[3] * d5,
+        - a[0] * d2 + a[1] * d4 - a[3] * d6,
+          a[0] * d3 - a[1] * d5 + a[2] * d6);
 }
 
 template<class T> inline T norm2(const TVec4<T>& v) { return v*v; }
@@ -170,7 +170,7 @@ template<class T> inline TVec3<T> proj(const TVec4<T>& v)
 {
     TVec3<T> u(v[0], v[1], v[2]);
     if( v[3]!=1.0 && v[3]!=0.0 )
-	u /= v[3];
+  u /= v[3];
     return u;
 }
 

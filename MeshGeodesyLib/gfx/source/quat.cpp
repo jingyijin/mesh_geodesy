@@ -21,11 +21,11 @@ Quat exp(const Quat& q)
 
     if( theta > FEQ_EPS )
     {
-	double s = sin(theta) / theta;
-	return Quat( s*q.vector(), c);
+    double s = sin(theta) / theta;
+    return Quat( s*q.vector(), c);
     }
     else
-	return Quat(q.vector(), c);
+    return Quat(q.vector(), c);
 }
 
 // Based on code from the Appendix of
@@ -96,37 +96,37 @@ Quat slerp(const Quat& from, const Quat& to, double t)
 
     if( (1+cosine) < FEQ_EPS )
     {
-	// The quaternions are (nearly) diametrically opposed.  We
-	// treat this specially (based on suggestion in Watt & Watt).
-	//
-	double A = sin( (1-t)*M_PI/2.0 );
-	double B = sin( t*M_PI/2.0 );
+    // The quaternions are (nearly) diametrically opposed.  We
+    // treat this specially (based on suggestion in Watt & Watt).
+    //
+    double A = sin( (1-t)*M_PI/2.0 );
+    double B = sin( t*M_PI/2.0 );
 
-	return Quat( A*v_from[0] + B*(-v_from[1]),
-		     A*v_from[1] + B*(v_from[0]),
-		     A*v_from[2] + B*(-s_from),
-		     A*s_from    + B*(v_from[2]) );
+    return Quat( A*v_from[0] + B*(-v_from[1]),
+             A*v_from[1] + B*(v_from[0]),
+             A*v_from[2] + B*(-s_from),
+             A*s_from    + B*(v_from[2]) );
     }
 
     double A, B;
     if( (1-cosine) < FEQ_EPS )
     {
-	// The quaternions are very close.  Approximate with normal
-	// linear interpolation.  This is cheaper and avoids division
-	// by very small numbers.
-	//
-	A = 1.0 - t;
-	B = t;
+    // The quaternions are very close.  Approximate with normal
+    // linear interpolation.  This is cheaper and avoids division
+    // by very small numbers.
+    //
+    A = 1.0 - t;
+    B = t;
     }
     else
     {
-	// This is the normal case.  Perform SLERP.
-	//
-	double theta = acos(cosine);
-	double sine = sqrt(1 - cosine*cosine);
+    // This is the normal case.  Perform SLERP.
+    //
+    double theta = acos(cosine);
+    double sine = sqrt(1 - cosine*cosine);
 
-	A = sin( (1-t)*theta ) / sine;
-	B = sin( t*theta ) / sine;
+    A = sin( (1-t)*theta ) / sine;
+    B = sin( t*theta ) / sine;
 
     }
 

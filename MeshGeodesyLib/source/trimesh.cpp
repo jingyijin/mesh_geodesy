@@ -5,18 +5,18 @@
 
 void TriMesh::clear()
 {
-	vertex.clear();
-	face.clear();
-	fnormal.clear();
+    vertex.clear();
+    face.clear();
+    fnormal.clear();
 }
 
 void TriMesh::initialize()
 {
-	selected_vertex = -1;
-	selected_face = -1;
+    selected_vertex = -1;
+    selected_face = -1;
 
-	computeFNormal();
-//	initVtxFaceMap();
+    computeFNormal();
+//    initVtxFaceMap();
 }
 
 void TriMesh::computeBBox(Vec3& min, Vec3& max)
@@ -25,21 +25,21 @@ void TriMesh::computeBBox(Vec3& min, Vec3& max)
     else                  min = max = vertex[0];
 
     for(int i=1; i<vertex.size(); i++)
-	for(int j=0; j<3; j++)
-	{
-	    if( vertex[i][j] < min[j])  min[j]=vertex[i][j];
-	    if( vertex[i][j] > max[j])  max[j]=vertex[i][j];
-	}
+    for(int j=0; j<3; j++)
+    {
+        if( vertex[i][j] < min[j])  min[j]=vertex[i][j];
+        if( vertex[i][j] > max[j])  max[j]=vertex[i][j];
+    }
 }
 
 void TriMesh::computeFNormal()
 {
-	fnormal.clear();
-	for (FaceList::iterator iter = face.begin(); iter != face.end(); iter++) 
-	{
-		const Face& f = *iter;
-		fnormal.push_back(triangle_normal(vertex[f[0]], vertex[f[1]], vertex[f[2]]));
-	}
+    fnormal.clear();
+    for (FaceList::iterator iter = face.begin(); iter != face.end(); iter++) 
+    {
+        const Face& f = *iter;
+        fnormal.push_back(triangle_normal(vertex[f[0]], vertex[f[1]], vertex[f[2]]));
+    }
 }
 
 void TriMesh::read_from_file(const string& filename)
@@ -50,6 +50,7 @@ void TriMesh::read_from_file(const string& filename)
         return;
     }
 
+    this->clear();
     char line[1024];
     while (fin.getline(line, 1024)) {
         if (line[0] == 'v') {
@@ -64,6 +65,7 @@ void TriMesh::read_from_file(const string& filename)
             face.push_back(f);
         }
     }
+    cout << "Read " << vertex.size() << " vertices and " << face.size() << " faces." << endl;
     this->computeFNormal();
 
     fin.close();

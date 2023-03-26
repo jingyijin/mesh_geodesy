@@ -71,8 +71,8 @@ public:
     virtual ~MxGUI() {}
 
     virtual void initialize(int argc, char **argv,
-			    Fl_Menu_Item *layout=NULL,
-			    int xw=640, int yw=480);
+                Fl_Menu_Item *layout=NULL,
+                int xw=640, int yw=480);
     virtual int run();
 
     int status(const char *fmt, ...);
@@ -150,25 +150,25 @@ struct MxBinder
     template<GuiCommand cmd>
     static void to(Fl_Widget *, void *data)
     {
-	Gui *gui = static_cast<Gui*>(data);
-	(gui->*cmd)();
-	gui->canvas->redraw();
+    Gui *gui = static_cast<Gui*>(data);
+    (gui->*cmd)();
+    gui->canvas->redraw();
     }
 
     template<GuiCommand2 cmd>
     static void to_menu(Fl_Widget *w, void *data)
     {
-	Gui *gui = static_cast<Gui*>(data);
-	(gui->*cmd)(static_cast<Fl_Menu_ *>(w));
-	gui->canvas->redraw();
+    Gui *gui = static_cast<Gui*>(data);
+    (gui->*cmd)(static_cast<Fl_Menu_ *>(w));
+    gui->canvas->redraw();
     }
 
     template<GuiCommand1 cmd, int i>
     static void to_arg(Fl_Widget *, void *data)
     {
-	Gui *gui = static_cast<Gui*>(data);
-	(gui->*cmd)(i);
-	gui->canvas->redraw();
+    Gui *gui = static_cast<Gui*>(data);
+    (gui->*cmd)(i);
+    gui->canvas->redraw();
     }
 };
 

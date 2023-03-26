@@ -60,12 +60,12 @@ void update_bbox(Vec& min, Vec& max, const List& items)
 
     for(iterator i=items.begin(); i!=items.end(); i++)
     {
-	const Vec& v = *i;
-	for(int j=0; j<Vec::dim(); j++)
-	{
-	    if( v[j] < min[j] )  min[j] = v[j];	    
-	    if( v[j] > max[j] )  max[j] = v[j];
-	}
+    const Vec& v = *i;
+    for(int j=0; j<Vec::dim(); j++)
+    {
+        if( v[j] < min[j] )  min[j] = v[j];	    
+        if( v[j] > max[j] )  max[j] = v[j];
+    }
     }
 }
 

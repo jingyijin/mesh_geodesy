@@ -2,9 +2,9 @@
 
   Arcball rotation control.  See the original article
 
-  	"Arcball Rotation Control"
-	by Ken Shoemake <shoemake@graphics.cis.upenn.edu>
-	in "Graphics Gems IV", Academic Press, 1994.
+      "Arcball Rotation Control"
+    by Ken Shoemake <shoemake@graphics.cis.upenn.edu>
+    in "Graphics Gems IV", Academic Press, 1994.
 
   for more details.
 
@@ -25,9 +25,9 @@ static void quat_to_sphere(const Quat& q, Vec3& from, Vec3& to)
 
     double s = sqrt(v[0]*v[0] + v[1]*v[1]);
     if( s==0.0 )
-	from = Vec3(0.0, 1.0, 0.0);
+    from = Vec3(0.0, 1.0, 0.0);
     else
-	from = Vec3(-v[1]/s, v[0]/s, 0.0);
+    from = Vec3(-v[1]/s, v[0]/s, 0.0);
 
     to[0] = q.scalar()*from[0] - v[2]*from[1];
     to[1] = q.scalar()*from[1] + v[2]*from[2];
@@ -57,12 +57,12 @@ Vec3 Arcball::proj_to_sphere(const Vec2& mouse)
 
     if( mag > 1.0 )
     {
-	double s = sqrt(mag);
-	return Vec3(p[0]/s, p[1]/s, 0.0);
+    double s = sqrt(mag);
+    return Vec3(p[0]/s, p[1]/s, 0.0);
     }
     else
     {
-	return Vec3(p[0], p[1], sqrt(1-mag));
+    return Vec3(p[0], p[1], sqrt(1-mag));
     }
 }
 
@@ -72,8 +72,8 @@ void Arcball::update()
 
     if( is_dragging )
     {
-	q_drag = quat_from_sphere(v_from, v_to);
-	q_now = q_drag * q_down;
+    q_drag = quat_from_sphere(v_from, v_to);
+    q_now = q_drag * q_down;
     }
 }
 
@@ -97,10 +97,10 @@ bool Arcball::mouse_down(int *where, int which)
 
     if( which==1 )
     {
-	is_dragging = true;
-	Vec2 v( (2.0 * where[0] - W)/W,  (H - 2.0 * where[1])/H );
-	v_from = proj_to_sphere(v);
-	v_to = v_from;
+    is_dragging = true;
+    Vec2 v( (2.0 * where[0] - W)/W,  (H - 2.0 * where[1])/H );
+    v_from = proj_to_sphere(v);
+    v_to = v_from;
     }
 
     return true;
@@ -125,20 +125,20 @@ bool Arcball::mouse_drag(int *where, int *last, int which)
 
     if( which==1 )
     {
-	Vec2 v( (2.0 * where[0] - W)/W,  (H - 2.0 * where[1])/H );
-	v_to = proj_to_sphere(v);
+    Vec2 v( (2.0 * where[0] - W)/W,  (H - 2.0 * where[1])/H );
+    v_to = proj_to_sphere(v);
     }
     else if( which==2 )
     {
-	trans[0] += diam * (where[0] - last[0]) / W;
-	trans[1] += diam * (last[1] - where[1]) / H;
+    trans[0] += diam * (where[0] - last[0]) / W;
+    trans[1] += diam * (last[1] - where[1]) / H;
     }
     else if( which==3 )
     {
-	trans[2] += 0.02*diam*(where[1] - last[1]);
+    trans[2] += 0.02*diam*(where[1] - last[1]);
     }
     else
-	return false;
+    return false;
 
     return true;
 }

@@ -19,7 +19,7 @@
 #include <cstdio>
 #include <cstdarg>
 #include <fstream>
-
+#include <iostream>
 
 MxGUI *MxGUI::current = NULL;
 
@@ -33,7 +33,7 @@ MxGLCanvas::MxGLCanvas(int x, int y, int w, int h, const char *l)
 void MxGLCanvas::attach_app(MxGUI *a)
 {
     if( !app )
-	app = a;
+    app = a;
 }
 
 void MxGLCanvas::resize(int x, int y, int w, int h)
@@ -76,48 +76,48 @@ int MxGLCanvas::handle(int event)
 
     if( event != FL_RELEASE )
     {
-	if( Fl::event_state(FL_BUTTON1) )
-	{
-	    // emulate middle button by combination of left & right buttons
-	    if( Fl::event_state(FL_BUTTON3) )  which = 2;
-	    else                               which = 1;
-	}
-	else if( Fl::event_state(FL_BUTTON2) ) which = 2;
-	else if( Fl::event_state(FL_BUTTON3) ) which = 3;
+    if( Fl::event_state(FL_BUTTON1) )
+    {
+        // emulate middle button by combination of left & right buttons
+        if( Fl::event_state(FL_BUTTON3) )  which = 2;
+        else                               which = 1;
+    }
+    else if( Fl::event_state(FL_BUTTON2) ) which = 2;
+    else if( Fl::event_state(FL_BUTTON3) ) which = 3;
     }
 
     switch( event )
     {
     case FL_PUSH:
-	need_redraw = app && app->mouse_down(where, which);
-	last_click[0]=where[0];  last_click[1]=where[1];
-	break;
+    need_redraw = app && app->mouse_down(where, which);
+    last_click[0]=where[0];  last_click[1]=where[1];
+    break;
 
     case FL_RELEASE:
-	need_redraw = app && app->mouse_up(where, which);
-	break;
+    need_redraw = app && app->mouse_up(where, which);
+    break;
 
     case FL_DRAG:
-	need_redraw = app && app->mouse_drag(where, last_click, which);
-	last_click[0]=where[0];  last_click[1]=where[1];
-	break;
+    need_redraw = app && app->mouse_drag(where, last_click, which);
+    last_click[0]=where[0];  last_click[1]=where[1];
+    break;
 
     case FL_FOCUS:
     case FL_UNFOCUS:
-	// Do nothing special
-	break;
+    // Do nothing special
+    break;
 
     case FL_KEYBOARD:
-	if( !app || !app->key_press(Fl::event_key()) )
-	    return 0;
-	break;
+    if( !app || !app->key_press(Fl::event_key()) )
+        return 0;
+    break;
 
     default:
-	return Fl_Gl_Window::handle(event);
+    return Fl_Gl_Window::handle(event);
     }
 
     if( need_redraw )
-	redraw();
+    redraw();
 
     return 1;
 }
@@ -144,8 +144,8 @@ void MxGUI::cb_fps()
     const char *result = fl_input("Number of frames per second to draw", fps);
     if( result )
     {
-	default_fps = atof(result);
-	if( target_fps>0 ) target_fps=default_fps;
+    default_fps = atof(result);
+    if( target_fps>0 ) target_fps=default_fps;
     }
 }
 
@@ -158,19 +158,19 @@ void MxGUI::cb_snapshot(int format)
 void MxGUI::cb_vga_size(int xw)
 {
     if( toplevel->resizable() )
-	resize_canvas(xw, (3*xw)/4);
+    resize_canvas(xw, (3*xw)/4);
 }
 
 void MxGUI::cb_hdtv_size(int xw)
 {
     if( toplevel->resizable() )
-	MxGUI::current->resize_canvas(xw, (9*xw)/16);
+    MxGUI::current->resize_canvas(xw, (9*xw)/16);
 }
 
 void MxGUI::cb_dv_size(int xw)
 {
     if( toplevel->resizable() )
-	MxGUI::current->resize_canvas(xw, (2*xw)/3);
+    MxGUI::current->resize_canvas(xw, (2*xw)/3);
 }
 
 void MxGUI::cb_toggle(Fl_Menu_ *m, bool *flag)
@@ -202,7 +202,7 @@ int MxGUI::add_menu(const std::string& s, int key, Fl_Callback *cb, int flags)
 int MxGUI::add_toggle_menu(const std::string& s, int key, bool& val, int flags)
 {
     return menu_bar->add(s.c_str(), key, (Fl_Callback *)cb_toggle, &val,
-			 FL_MENU_TOGGLE|(val?FL_MENU_VALUE:0)|flags);
+             FL_MENU_TOGGLE|(val?FL_MENU_VALUE:0)|flags);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -286,7 +286,7 @@ void MxGUI::initialize(int argc, char **argv, Fl_Menu_Item *m, int xw, int yw)
 
     int index = 0;
     if( argv )
-	Fl::args(argc, argv, index, arg_redirect);
+    Fl::args(argc, argv, index, arg_redirect);
 
     create_window(xw, yw);
     toplevel->label("Graphics Program");
@@ -301,11 +301,11 @@ void MxGUI::initialize(int argc, char **argv, Fl_Menu_Item *m, int xw, int yw)
 
 #if defined(HAVE_LIBPNG)
     add_menu(snap+"&PNG",
-	    FL_CTRL+'p', CB::to_arg<&MxGUI::cb_snapshot, IMG_PNG>);
+        FL_CTRL+'p', CB::to_arg<&MxGUI::cb_snapshot, IMG_PNG>);
 #endif
 #if defined(HAVE_LIBTIFF)
     add_menu("&File/Snapshot to/&TIFF",
-	    FL_CTRL+'P', CB::to_arg<&MxGUI::cb_snapshot, IMG_TIFF>);
+        FL_CTRL+'P', CB::to_arg<&MxGUI::cb_snapshot, IMG_TIFF>);
 #endif
 #if defined(HAVE_LIBJPEG)
     add_menu("&File/Snapshot to/&JPEG", 0, CB::to_arg<&MxGUI::cb_snapshot, IMG_JPEG>);
@@ -332,11 +332,11 @@ void MxGUI::initialize(int argc, char **argv, Fl_Menu_Item *m, int xw, int yw)
 
     if( argv )
     {
-	if( index==argc )
-	    cmdline_file(NULL);
-	else
-	    for(; index<argc; index++)
-		cmdline_file(argv[index]);
+    if( index==argc )
+        cmdline_file(NULL);
+    else
+        for(; index<argc; index++)
+        cmdline_file(argv[index]);
     }
 }
 
@@ -362,11 +362,11 @@ void MxGUI::animate(bool will)
 {
     if( will )
     {
-	target_fps = default_fps;
-	Fl::add_timeout(1/target_fps, cb_timeout);
+    target_fps = default_fps;
+    Fl::add_timeout(1/target_fps, cb_timeout);
     }
     else
-	target_fps = 0;
+    target_fps = 0;
 }
 
 int MxGUI::status(const char *fmt, ...)
@@ -424,7 +424,7 @@ int MxGUI::status(const char *fmt, ...)
 void MxGUI::lock_size()
 {
     toplevel->size_range(toplevel->w(), toplevel->h(),
-			 toplevel->w(), toplevel->h());
+             toplevel->w(), toplevel->h());
     toplevel->resizable(NULL);
 }
 
@@ -445,15 +445,17 @@ void MxGUI::resize_canvas(int width, int height)
 
 void MxGUI::setup_for_drawing()
 {
+    cout << "MxGUI::setup_for_drawing()" << endl;
     glClearColor(0.65f, 0.65f, 0.65f, 0.0f);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-	glOrtho(-1, 1, -1, 1, -1, 1);
+    glOrtho(-1, 1, -1, 1, -1, 1);
 }
 
 void MxGUI::draw_contents()
 {
+    cout << "MxGUI::draw_contents()" << endl;
     glClear(GL_COLOR_BUFFER_BIT);
 
     glMatrixMode(GL_MODELVIEW);

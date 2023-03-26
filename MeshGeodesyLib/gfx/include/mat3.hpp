@@ -12,7 +12,7 @@
 
  ************************************************************************/
 
-#include "vec3.h"
+#include "vec3.hpp"
 
 namespace gfx
 {
@@ -27,7 +27,7 @@ public:
     //
     Mat3() { *this = 0.0; }
     Mat3(const Vec3& r0,const Vec3& r1,const Vec3& r2)
-    	{ row[0]=r0; row[1]=r1; row[2]=r2; }
+        { row[0]=r0; row[1]=r1; row[2]=r2; }
     Mat3(const Mat3& m) { *this = m; }
 
     // Descriptive interface
@@ -79,22 +79,22 @@ public:
 //
 
 inline Mat3& Mat3::operator=(const Mat3& m)
-	{ row[0] = m[0]; row[1] = m[1]; row[2] = m[2];  return *this; }
+    { row[0] = m[0]; row[1] = m[1]; row[2] = m[2];  return *this; }
 
 inline Mat3& Mat3::operator=(double s)
-	{ row[0]=s;  row[1]=s;  row[2]=s;  return *this; }
+    { row[0]=s;  row[1]=s;  row[2]=s;  return *this; }
 
 inline Mat3& Mat3::operator+=(const Mat3& m)
-	{ row[0] += m[0]; row[1] += m[1]; row[2] += m[2]; return *this; }
+    { row[0] += m[0]; row[1] += m[1]; row[2] += m[2]; return *this; }
 
 inline Mat3& Mat3::operator-=(const Mat3& m)
-	{ row[0] -= m[0]; row[1] -= m[1]; row[2] -= m[2]; return *this; }
+    { row[0] -= m[0]; row[1] -= m[1]; row[2] -= m[2]; return *this; }
 
 inline Mat3& Mat3::operator*=(double s)
-	{ row[0] *= s; row[1] *= s; row[2] *= s;  return *this; }
+    { row[0] *= s; row[1] *= s; row[2] *= s;  return *this; }
 
 inline Mat3& Mat3::operator/=(double s)
-	{ row[0] /= s; row[1] /= s; row[2] /= s;  return *this; }
+    { row[0] /= s; row[1] /= s; row[2] /= s;  return *this; }
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -102,32 +102,32 @@ inline Mat3& Mat3::operator/=(double s)
 //
 
 inline Mat3 operator+(const Mat3& n, const Mat3& m)
-	{ return Mat3(n[0]+m[0], n[1]+m[1], n[2]+m[2]); }
+    { return Mat3(n[0]+m[0], n[1]+m[1], n[2]+m[2]); }
 
 inline Mat3 operator-(const Mat3& n, const Mat3& m)
-	{ return Mat3(n[0]-m[0], n[1]-m[1], n[2]-m[2]); }
+    { return Mat3(n[0]-m[0], n[1]-m[1], n[2]-m[2]); }
 
 inline Mat3 operator-(const Mat3& m)
-	{ return Mat3(-m[0], -m[1], -m[2]); }
+    { return Mat3(-m[0], -m[1], -m[2]); }
 
 inline Mat3 operator*(double s, const Mat3& m)
-	{ return Mat3(m[0]*s, m[1]*s, m[2]*s); }
+    { return Mat3(m[0]*s, m[1]*s, m[2]*s); }
 inline Mat3 operator*(const Mat3& m, double s)
-	{ return s*m; }
+    { return s*m; }
 
 inline Mat3 operator/(const Mat3& m, double s)
-	{ return Mat3(m[0]/s, m[1]/s, m[2]/s); }
+    { return Mat3(m[0]/s, m[1]/s, m[2]/s); }
 
 inline Vec3 operator*(const Mat3& m, const Vec3& v)
-	{ return Vec3(m[0]*v, m[1]*v, m[2]*v); }
+    { return Vec3(m[0]*v, m[1]*v, m[2]*v); }
 
 extern Mat3 operator*(const Mat3& n, const Mat3& m);
 
 inline std::ostream &operator<<(std::ostream &out, const Mat3& M)
-	{ return out << M[0] << std::endl << M[1] << std::endl << M[2]; }
+    { return out << M[0] << std::endl << M[1] << std::endl << M[2]; }
 
 inline std::istream &operator>>(std::istream &in, Mat3& M)
-	{ return in >> M[0] >> M[1] >> M[2]; }
+    { return in >> M[0] >> M[1] >> M[2]; }
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -139,8 +139,8 @@ inline double det(const Mat3& m) { return m[0] * (m[1] ^ m[2]); }
 inline double trace(const Mat3& m) { return m(0,0) + m(1,1) + m(2,2); }
 
 inline Mat3 transpose(const Mat3& m)
-	{ return Mat3(m.col(0), m.col(1), m.col(2)); }
-	
+    { return Mat3(m.col(0), m.col(1), m.col(2)); }
+    
 extern Mat3 adjoint(const Mat3& m);
 
 extern double invert(Mat3& m_inv, const Mat3& m);

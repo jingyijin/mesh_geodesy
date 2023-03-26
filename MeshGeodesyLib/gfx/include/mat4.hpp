@@ -27,7 +27,7 @@ public:
     //"
     Mat4() { *this = 0.0; }
     Mat4(const Vec4& r0,const Vec4& r1,const Vec4& r2,const Vec4& r3)
-    	{ row[0]=r0; row[1]=r1; row[2]=r2; row[3]=r3; }
+        { row[0]=r0; row[1]=r1; row[2]=r2; row[3]=r3; }
     Mat4(const Mat4& m) { *this = m; }
 
     // Descriptive interface
@@ -110,24 +110,24 @@ inline Mat4& Mat4::operator/=(double s)
 //
 
 inline Mat4 operator+(const Mat4& n, const Mat4& m)
-	{ return Mat4(n[0]+m[0], n[1]+m[1], n[2]+m[2], n[3]+m[3]); }
+    { return Mat4(n[0]+m[0], n[1]+m[1], n[2]+m[2], n[3]+m[3]); }
 
 inline Mat4 operator-(const Mat4& n, const Mat4& m)
-	{ return Mat4(n[0]-m[0], n[1]-m[1], n[2]-m[2], n[3]-m[3]); }
+    { return Mat4(n[0]-m[0], n[1]-m[1], n[2]-m[2], n[3]-m[3]); }
 
 inline Mat4 operator-(const Mat4& n)
-	{ return Mat4(-n[0], -n[1], -n[2], -n[3]); }
+    { return Mat4(-n[0], -n[1], -n[2], -n[3]); }
 
 inline Mat4 operator*(double s, const Mat4& m)
-	{ return Mat4(m[0]*s, m[1]*s, m[2]*s, m[3]*s); }
+    { return Mat4(m[0]*s, m[1]*s, m[2]*s, m[3]*s); }
 inline Mat4 operator*(const Mat4& m, double s)
-	{ return s*m; }
+    { return s*m; }
 
 inline Mat4 operator/(const Mat4& m, double s)
-	{ return Mat4(m[0]/s, m[1]/s, m[2]/s, m[3]/s); }
+    { return Mat4(m[0]/s, m[1]/s, m[2]/s, m[3]/s); }
 
 inline Vec4 operator*(const Mat4& m, const Vec4& v)
-	{ return Vec4(m[0]*v, m[1]*v, m[2]*v, m[3]*v); }
+    { return Vec4(m[0]*v, m[1]*v, m[2]*v, m[3]*v); }
 
 extern Mat4 operator*(const Mat4& n, const Mat4& m);
 
@@ -161,10 +161,10 @@ extern Mat4 scaling_matrix(const Vec3& scale);
 extern Mat4 rotation_matrix_rad(double theta, const Vec3& axis);
 
 inline Mat4 rotation_matrix_deg(double theta, const Vec3& axis)
-	{ return rotation_matrix_rad(theta*M_PI/180.0, axis); }
+    { return rotation_matrix_rad(theta*M_PI/180.0, axis); }
 
 extern Mat4 perspective_matrix(double fovy, double aspect,
-			       double zmin=0.0, double zmax=0.0);
+                   double zmin=0.0, double zmax=0.0);
 
 extern Mat4 lookat_matrix(const Vec3& from, const Vec3& at, const Vec3& up);
 
@@ -180,7 +180,7 @@ inline double det(const Mat4& m) { return m[0] * cross(m[1], m[2], m[3]); }
 inline double trace(const Mat4& m) { return m(0,0)+m(1,1)+m(2,2)+m(3,3); }
 
 inline Mat4 transpose(const Mat4& m)
-	{ return Mat4(m.col(0), m.col(1), m.col(2), m.col(3)); }
+    { return Mat4(m.col(0), m.col(1), m.col(2), m.col(3)); }
 
 extern Mat4 adjoint(const Mat4& m);
 extern double invert(Mat4& m_inv, const Mat4& m);

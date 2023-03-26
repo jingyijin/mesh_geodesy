@@ -34,7 +34,7 @@ public:
     // This is now a standard constructor, except when compiling legacy MixKit
     // code.
     template<class U> TVec3(const U v[3])
-    	{ elt[0]=v[0]; elt[1]=v[1]; elt[2]=v[2]; }
+      { elt[0]=v[0]; elt[1]=v[1]; elt[2]=v[2]; }
 #else
     // For MixKit code, we need these constructors instead.
     // They SHOULD NOT be used in new code.
@@ -42,7 +42,7 @@ public:
     TVec3(const double *v) { elt[0]=v[0]; elt[1]=v[1]; elt[2]=v[2]; }
 #endif
     template<class U> TVec3& operator=(const TVec3<U>& v)
-	{ elt[0]=v[0];  elt[1]=v[1];  elt[2]=v[2];  return *this; }
+  { elt[0]=v[0];  elt[1]=v[1];  elt[2]=v[2];  return *this; }
     TVec3& operator=(T s) { elt[0]=elt[1]=elt[2]=s; return *this; }
 
     // Descriptive interface
@@ -77,16 +77,16 @@ public:
 //
 
 template<class T> inline TVec3<T>& TVec3<T>::operator+=(const TVec3<T>& v)
-	{ elt[0] += v[0];   elt[1] += v[1];   elt[2] += v[2];  return *this; }
+  { elt[0] += v[0];   elt[1] += v[1];   elt[2] += v[2];  return *this; }
 
 template<class T> inline TVec3<T>& TVec3<T>::operator-=(const TVec3<T>& v)
-	{ elt[0] -= v[0];   elt[1] -= v[1];   elt[2] -= v[2];  return *this; }
+  { elt[0] -= v[0];   elt[1] -= v[1];   elt[2] -= v[2];  return *this; }
 
 template<class T> inline TVec3<T>& TVec3<T>::operator*=(T s)
-	{ elt[0] *= s;   elt[1] *= s;   elt[2] *= s;  return *this; }
+  { elt[0] *= s;   elt[1] *= s;   elt[2] *= s;  return *this; }
 
 template<class T> inline TVec3<T>& TVec3<T>::operator/=(T s)
-	{ elt[0] /= s;   elt[1] /= s;   elt[2] /= s;  return *this; }
+  { elt[0] /= s;   elt[1] /= s;   elt[2] /= s;  return *this; }
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -96,14 +96,14 @@ template<class T> inline TVec3<T>& TVec3<T>::operator/=(T s)
 
 template<class T>
 inline TVec3<T> operator+(const TVec3<T> &u, const TVec3<T>& v)
-	{ return TVec3<T>(u[0]+v[0], u[1]+v[1], u[2]+v[2]); }
+  { return TVec3<T>(u[0]+v[0], u[1]+v[1], u[2]+v[2]); }
 
 template<class T>
 inline TVec3<T> operator-(const TVec3<T> &u, const TVec3<T>& v)
-	{ return TVec3<T>(u[0]-v[0], u[1]-v[1], u[2]-v[2]); }
+  { return TVec3<T>(u[0]-v[0], u[1]-v[1], u[2]-v[2]); }
 
 template<class T> inline TVec3<T> operator-(const TVec3<T> &v)
-	{ return TVec3<T>(-v[0], -v[1], -v[2]); }
+  { return TVec3<T>(-v[0], -v[1], -v[2]); }
 
 #if _MSC_VER>=1200
 // Normally, we use the <class T, class N> construct below to allow the scalar
@@ -114,44 +114,44 @@ template<class T> inline TVec3<T> operator-(const TVec3<T> &v)
 // floats to ints.
 //
   template<class T> inline TVec3<T> operator*(T s, const TVec3<T> &v)
-	{ return TVec3<T>(v[0]*s, v[1]*s, v[2]*s); }
+  { return TVec3<T>(v[0]*s, v[1]*s, v[2]*s); }
   template<class T> inline TVec3<T> operator*(const TVec3<T> &v, T s)
-	{ return s*v; }
+  { return s*v; }
 
   template<class T> inline TVec3<T> operator/(const TVec3<T> &v, T s)
-	{ return TVec3<T>(v[0]/s, v[1]/s, v[2]/s); }
+  { return TVec3<T>(v[0]/s, v[1]/s, v[2]/s); }
 #else
   template<class T, class N> inline TVec3<T> operator*(N s, const TVec3<T> &v)
-	{ return TVec3<T>(v[0]*s, v[1]*s, v[2]*s); }
+  { return TVec3<T>(v[0]*s, v[1]*s, v[2]*s); }
   template<class T, class N> inline TVec3<T> operator*(const TVec3<T> &v, N s)
-	{ return s*v; }
+  { return s*v; }
 
   template<class T, class N> inline TVec3<T> operator/(const TVec3<T> &v, N s)
-	{ return TVec3<T>(v[0]/s, v[1]/s, v[2]/s); }
+  { return TVec3<T>(v[0]/s, v[1]/s, v[2]/s); }
 #endif
 
 template<class T> inline T operator*(const TVec3<T> &u, const TVec3<T>& v)
-	{ return u[0]*v[0] + u[1]*v[1] + u[2]*v[2]; }
+  { return u[0]*v[0] + u[1]*v[1] + u[2]*v[2]; }
 
 template<class T> inline TVec3<T> cross(const TVec3<T>& u, const TVec3<T>& v)
 {
     return TVec3<T>( u[1]*v[2] - v[1]*u[2],
-		-u[0]*v[2] + v[0]*u[2],
-		 u[0]*v[1] - v[0]*u[1] );
+    -u[0]*v[2] + v[0]*u[2],
+     u[0]*v[1] - v[0]*u[1] );
 }
 
 template<class T>
 inline TVec3<T> operator^(const TVec3<T>& u, const TVec3<T>& v)
-	{ return cross(u, v); }
+  { return cross(u, v); }
 
 
 template<class T>
 inline std::ostream &operator<<(std::ostream &out, const TVec3<T>& v)
-	{ return out << v[0] << " " << v[1] << " " << v[2]; }
+  { return out << v[0] << " " << v[1] << " " << v[2]; }
 
 template<class T>
 inline std::istream &operator>>(std::istream &in, TVec3<T>& v)
-	{ return in >> v[0] >> v[1] >> v[2]; }
+  { return in >> v[0] >> v[1] >> v[2]; }
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -171,7 +171,7 @@ template<class T> inline TVec2<T> proj(const TVec3<T>& v)
 {
     TVec2<T> u(v[0], v[1]);
     if( v[2]!=1.0 && v[2]!=0.0 )
-	u /= v[2];
+  u /= v[2];
     return u;
 }
 

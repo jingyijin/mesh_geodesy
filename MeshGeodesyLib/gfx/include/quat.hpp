@@ -68,29 +68,29 @@ inline Quat Quat::ident() { return Quat(0, 0, 0, 1); }
 //
 
 inline Quat operator+(const Quat& q, const Quat& r)
-	{ return Quat(q.vector()+r.vector(), q.scalar()+r.scalar()); }
+    { return Quat(q.vector()+r.vector(), q.scalar()+r.scalar()); }
 
 inline Quat operator*(const Quat& q, const Quat& r)
 {
     return Quat(cross(q.vector(),r.vector()) +
-		r.scalar()*q.vector() +
-		q.scalar()*r.vector(),
-		q.scalar()*r.scalar() - q.vector()*r.vector());
+        r.scalar()*q.vector() +
+        q.scalar()*r.vector(),
+        q.scalar()*r.scalar() - q.vector()*r.vector());
 }
 
 inline Quat operator*(const Quat& q, double s)
-	{ return Quat(q.vector()*s, q.scalar()*s); }
+    { return Quat(q.vector()*s, q.scalar()*s); }
 inline Quat operator*(double s, const Quat& q)
-	{ return Quat(q.vector()*s, q.scalar()*s); }
+    { return Quat(q.vector()*s, q.scalar()*s); }
 
 inline Quat operator/(const Quat& q, double s)
-	{ return Quat(q.vector()/s, q.scalar()/s); }
+    { return Quat(q.vector()/s, q.scalar()/s); }
 
 inline std::ostream &operator<<(std::ostream &out, const Quat& q)
-	{ return out << q.vector() << " " << q.scalar(); }
+    { return out << q.vector() << " " << q.scalar(); }
 
 inline std::istream &operator>>(std::istream &in, Quat& q)
-	{ return in >> q.vector() >> q.scalar(); }
+    { return in >> q.vector() >> q.scalar(); }
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -99,7 +99,7 @@ inline std::istream &operator>>(std::istream &in, Quat& q)
 //
 
 inline double norm(const Quat& q)
-	{ return q.scalar()*q.scalar() + q.vector()*q.vector(); }
+    { return q.scalar()*q.scalar() + q.vector()*q.vector(); }
 
 inline Quat conjugate(const Quat& q) { return Quat(-q.vector(), q.scalar()); }
 inline Quat inverse(const Quat& q) { return conjugate(q)/norm(q); }
