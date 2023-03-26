@@ -77,7 +77,7 @@ public:
 
     int status(const char *fmt, ...);
     void animate(bool will);
-    bool snapshot_to_file(int format, const char *filenamep=NULL);
+//    bool snapshot_to_file(int format, const char *filenamep=NULL);
     void resize_canvas(int width, int height);
     void lock_size();
     void unlock_size();
