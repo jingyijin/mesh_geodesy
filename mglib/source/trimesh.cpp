@@ -45,16 +45,16 @@ void TriMesh::compute_fnormal()
 
 void TriMesh::normalize()
 {
-	Vec3 bmin, bmax;
-	compute_bbox(bmin, bmax);
-	double d = norm(bmax-bmin);
-	Vec3 center = bmin + (bmax - bmin)/2.;
+    Vec3 bmin, bmax;
+    compute_bbox(bmin, bmax);
+    double d = norm(bmax-bmin);
+    Vec3 center = bmin + (bmax - bmin)/2.;
 
-	int vsize = m_vertex.size();
-	for (int i=0; i<vsize; i++)
-		m_vertex[i] = 1/d * (m_vertex[i] - center);
+    int vsize = m_vertex.size();
+    for (int i=0; i<vsize; i++)
+        m_vertex[i] = 1/d * (m_vertex[i] - center);
 
-	compute_fnormal();
+    compute_fnormal();
 }
 
 void TriMesh::read_from_file(const string& filename)

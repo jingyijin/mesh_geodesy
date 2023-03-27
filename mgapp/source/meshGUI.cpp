@@ -2,18 +2,22 @@
 #include "mxGUI.hpp"
 #include "meshGUI.hpp"
 #include "vec4.hpp"
+#include "gltools.hpp"
 
 #include <FL/Fl_File_Chooser.H>
 
 MeshGUI::MeshGUI() : MxGUI(), 
         m_draw_mode(Draw_mode_solid), 
         m_selection_mode(Noselect),
+        m_selected_vertex(-1),
+        m_will_draw_vertices(false),
         m_will_draw_bbox(false), 
         m_will_draw_surface_fnormal(true), 
         m_will_draw_mesh(false)	
 {
     m_mesh = new TriMesh();
     m_mat = new Material();
+    m_obj = gluNewQuadric();
 }
 
 MeshGUI::~MeshGUI() 
@@ -31,9 +35,10 @@ void MeshGUI::initialize(int argc, char* argv[])
     add_menu_item("&File/Open", FL_CTRL+'o', (Fl_Callback *)cb_open_file, NULL);
     add_menu_item("&File/Save", FL_CTRL+'s', (Fl_Callback *)cb_save_file, NULL);
 
-	add_toggle_menu("&Draw/Surface + face normal", 0, m_will_draw_surface_fnormal);
-	add_toggle_menu("&Draw/Mesh", 0, m_will_draw_mesh);
-	add_toggle_menu("&Draw/Bounding box", FL_CTRL+'b', m_will_draw_bbox);
+    add_toggle_menu("&Draw/Vertices", 0, m_will_draw_vertices);
+    add_toggle_menu("&Draw/Surface + face normal", 0, m_will_draw_surface_fnormal);
+    add_toggle_menu("&Draw/Mesh", 0, m_will_draw_mesh);
+    add_toggle_menu("&Draw/Bounding box", FL_CTRL+'b', m_will_draw_bbox);
 }
 
 int MeshGUI::add_menu_item(const char* name, int key, Fl_Callback *f, void* val, int flags) 
@@ -124,11 +129,12 @@ void MeshGUI::begin_redraw()
 
 void MeshGUI::default_redraw() 
 {
-    if (!m_mesh) return;
-    
+    if (m_selected_vertex != -1)     draw_selection();
     if (m_will_draw_bbox)            draw_bbox();
     if (m_will_draw_surface_fnormal) draw_surface_fnormal();
     if (m_will_draw_mesh)            draw_mesh();
+    if (m_will_draw_vertices)        draw_vertices();
+
 }
 
 void MeshGUI::end_redraw() 
@@ -204,6 +210,24 @@ void MeshGUI::draw_box(const Vec3f& min, const Vec3f& max)
     glEnd();
 }
 
+void MeshGUI::draw_vertices() 
+{
+	glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
+
+	glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
+	glDisable(GL_LIGHTING);
+	glColor3f(0.f, 0.f, 0.f);
+
+	int psize = m_mesh->m_vertex.size();
+	glBegin(GL_POINTS);
+	for (int i=0; i<psize; i++) {
+		glArrayElement(i);
+	}
+	glEnd();
+	
+	glPopAttrib();    
+}
+
 void MeshGUI::draw_mesh() 
 {
     glDisable(GL_POLYGON_OFFSET_FILL);
@@ -230,16 +254,16 @@ void MeshGUI::draw_mesh()
     }
     glEnd();
     
- 	if (!m_will_draw_surface_fnormal) 
-	{
-		GLfloat bkg_color[4];
-		glGetFloatv(GL_COLOR_CLEAR_VALUE, bkg_color);
-		glColor4fv(bkg_color);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		draw_surface_fnormal();
-	}
-	
-	glPopAttrib();
+     if (!m_will_draw_surface_fnormal) 
+    {
+        GLfloat bkg_color[4];
+        glGetFloatv(GL_COLOR_CLEAR_VALUE, bkg_color);
+        glColor4fv(bkg_color);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        draw_surface_fnormal();
+    }
+    
+    glPopAttrib();
 }
 
 void MeshGUI::draw_surface_fnormal() 
@@ -292,6 +316,27 @@ void MeshGUI::draw_surface_fnormal()
     glPopAttrib();
 }
 
+void MeshGUI::draw_selection()
+{
+    const float sball_radius = 0.01f;
+
+	glPushAttrib(GL_ENABLE_BIT);
+
+	m_mat->load_red();
+	if (m_selected_vertex != -1)
+	{
+		Vec3& v = m_mesh->m_vertex[m_selected_vertex];
+		// draw a ball in the vertex position
+		glPushMatrix();
+		glTranslated(v[0], v[1], v[2]);
+		gluSphere(m_obj, sball_radius, 10, 10);
+		glPopMatrix();
+	}
+    m_mat->load_standard();
+
+	glPopAttrib();
+}
+
 void MeshGUI::setup_face_state(int fid) 
 {
     if (fid < m_mesh->m_fnormal.size())
@@ -300,6 +345,14 @@ void MeshGUI::setup_face_state(int fid)
 
 bool MeshGUI::mouse_down(int *where, int which) 
 {
+    if (which == 1 && Fl::event_state(FL_SHIFT)) 
+    {
+        int old = m_selected_vertex;
+        m_selected_vertex = pick_vertex(where);
+        cout << "selected vertex: " << m_selected_vertex << endl;
+        m_canvas->redraw();
+        return old != m_selected_vertex;
+    } 
     return m_ball.mouse_down(where, which);
 }
 
@@ -320,19 +373,59 @@ bool MeshGUI::mouse_up(int *where, int which)
 bool MeshGUI::key_press(int key) 
 {    
     switch (key) {
-	case 'w':
-		m_draw_mode = Draw_mode_wireframe;
-		m_canvas->redraw();
-		break;
-	case 's':
-		m_draw_mode = Draw_mode_solid;
-		m_canvas->redraw();
-		break;
-	case 'n':
-		m_mesh->normalize();
-		reset_camera();
-		m_canvas->redraw();
-		break;
-	}
+    case 'w':
+        m_draw_mode = Draw_mode_wireframe;
+        m_canvas->redraw();
+        break;
+    case 's':
+        m_draw_mode = Draw_mode_solid;
+        m_canvas->redraw();
+        break;
+    case 'n':
+        m_mesh->normalize();
+        reset_camera();
+        m_canvas->redraw();
+        break;
+    }
     return true;
+}
+
+int MeshGUI::pick_vertex(int where[2]) 
+{
+    GLuint buffer[128];
+    double radius = 16.0;
+	
+    m_selection_mode = Vselect;
+    m_canvas->make_current();
+    
+    begin_opengl_pick(where, radius, buffer, 128);
+    begin_redraw();
+    draw_for_selection();
+    end_redraw();
+    m_selection_mode = Noselect;
+	
+    return complete_opengl_pick(buffer);    
+}
+
+void MeshGUI::draw_for_selection() 
+{
+    glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
+
+	glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
+	glDisable(GL_LIGHTING);
+	glColor3f(0.f, 0.f, 0.f);
+    glPointSize(5.f);
+    
+    if (m_selection_mode == Vselect) {
+        int psize = m_mesh->m_vertex.size();
+        for (int i=0; i<psize; i++) {
+            glLoadName(i);
+            glBegin(GL_POINTS);
+            glArrayElement(i);
+            glEnd();
+        }
+    }	
+	glEnable(GL_LIGHTING);
+	glPopAttrib();    
 }

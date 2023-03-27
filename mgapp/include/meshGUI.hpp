@@ -65,13 +65,13 @@ public:
         rgbRefl new_diff;
         
         // Copy this material's values into the current OpenGL material
-        glMaterialfv(FACE, GL_EMISSION, emit);
-        glMaterialfv(FACE, GL_AMBIENT, r_amb);
-        glMaterialf(FACE, GL_SHININESS, shininess);
-        new_diff = rgbRefl(0.9f, 0.25f, 0.3f, 0.5f);;
-        glMaterialfv(FACE, GL_DIFFUSE, new_diff);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, r_amb);
+        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
+        new_diff = rgbRefl(0.9f, 0.1f, 0.1f, 1.0f);;
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, new_diff);
         new_diff = 0.3f * new_diff;
-        glMaterialfv(FACE, GL_SPECULAR, r_spec);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, r_spec);
     }
 };
 
@@ -81,7 +81,8 @@ protected:
     Arcball m_ball;
     Vec3 m_bb_min, m_bb_max;
 
-    Material* m_mat;
+    Material *m_mat;
+    GLUquadricObj *m_obj;
 
 public:
     TriMesh *m_mesh;
@@ -92,6 +93,9 @@ public:
     bool m_will_draw_bbox;
     bool m_will_draw_surface_fnormal;
     bool m_will_draw_mesh;
+    bool m_will_draw_vertices;
+
+	int m_selected_vertex;
 
 public:
     MeshGUI();
@@ -115,11 +119,16 @@ public:
     void draw_bbox();
     void draw_box(const Vec3f& min, const Vec3f& max);
     void draw_surface_fnormal();
+    void draw_for_selection();
+    void draw_selection();
+    void draw_vertices(); 
 
     bool mouse_down(int *where, int which); 
     bool mouse_drag(int *where, int *last, int which); 
     bool mouse_up(int *where, int which);
     bool key_press(int key); 
+
+    int pick_vertex(int where[2]); 
 
     // callback functions
     static void cb_open_file();
