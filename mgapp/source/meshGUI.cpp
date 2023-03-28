@@ -212,20 +212,20 @@ void MeshGUI::draw_box(const Vec3f& min, const Vec3f& max)
 
 void MeshGUI::draw_vertices() 
 {
-	glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
+    glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
 
-	glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
-	glDisable(GL_LIGHTING);
-	glColor3f(0.f, 0.f, 0.f);
+    glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
+    glDisable(GL_LIGHTING);
+    glColor3f(0.f, 0.f, 0.f);
 
-	int psize = m_mesh->m_vertex.size();
-	glBegin(GL_POINTS);
-	for (int i=0; i<psize; i++) {
-		glArrayElement(i);
-	}
-	glEnd();
-	
-	glPopAttrib();    
+    int psize = m_mesh->m_vertex.size();
+    glBegin(GL_POINTS);
+    for (int i=0; i<psize; i++) {
+        glArrayElement(i);
+    }
+    glEnd();
+    
+    glPopAttrib();    
 }
 
 void MeshGUI::draw_mesh() 
@@ -320,21 +320,21 @@ void MeshGUI::draw_selection()
 {
     const float sball_radius = 0.01f;
 
-	glPushAttrib(GL_ENABLE_BIT);
+    glPushAttrib(GL_ENABLE_BIT);
 
-	m_mat->load_red();
-	if (m_selected_vertex != -1)
-	{
-		Vec3& v = m_mesh->m_vertex[m_selected_vertex];
-		// draw a ball in the vertex position
-		glPushMatrix();
-		glTranslated(v[0], v[1], v[2]);
-		gluSphere(m_obj, sball_radius, 10, 10);
-		glPopMatrix();
-	}
+    m_mat->load_red();
+    if (m_selected_vertex != -1)
+    {
+        Vec3& v = m_mesh->m_vertex[m_selected_vertex];
+        // draw a ball in the vertex position
+        glPushMatrix();
+        glTranslated(v[0], v[1], v[2]);
+        gluSphere(m_obj, sball_radius, 10, 10);
+        glPopMatrix();
+    }
     m_mat->load_standard();
 
-	glPopAttrib();
+    glPopAttrib();
 }
 
 void MeshGUI::setup_face_state(int fid) 
@@ -394,7 +394,7 @@ int MeshGUI::pick_vertex(int where[2])
 {
     GLuint buffer[128];
     double radius = 16.0;
-	
+    
     m_selection_mode = Vselect;
     m_canvas->make_current();
     
@@ -403,18 +403,18 @@ int MeshGUI::pick_vertex(int where[2])
     draw_for_selection();
     end_redraw();
     m_selection_mode = Noselect;
-	
+    
     return complete_opengl_pick(buffer);    
 }
 
 void MeshGUI::draw_for_selection() 
 {
     glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
+    glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
 
-	glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
-	glDisable(GL_LIGHTING);
-	glColor3f(0.f, 0.f, 0.f);
+    glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
+    glDisable(GL_LIGHTING);
+    glColor3f(0.f, 0.f, 0.f);
     glPointSize(5.f);
     
     if (m_selection_mode == Vselect) {
@@ -425,7 +425,7 @@ void MeshGUI::draw_for_selection()
             glArrayElement(i);
             glEnd();
         }
-    }	
-	glEnable(GL_LIGHTING);
-	glPopAttrib();    
+    }
+    glEnable(GL_LIGHTING);
+    glPopAttrib();    
 }

@@ -11,13 +11,24 @@ set(GFX_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/gfx/include")
 
 set(MGLIB_SOURCES
     ${MGLIB_SOURCE_DIR}/trimesh.cpp
+    ${GFX_SOURCE_DIR}/heap.cpp
     ${GFX_SOURCE_DIR}/quat.cpp
 )
 
 set(MGLIB_HEADERS
+    ${MGLIB_INCLUDE_DIR}/edgestruct.hpp
+    ${MGLIB_INCLUDE_DIR}/geomesh.hpp
+    ${MGLIB_INCLUDE_DIR}/halfedge.hpp
+    ${MGLIB_INCLUDE_DIR}/interval.hpp
+    ${MGLIB_INCLUDE_DIR}/last_step.hpp
+    ${MGLIB_INCLUDE_DIR}/manifold.hpp
+    ${MGLIB_INCLUDE_DIR}/propagation.hpp
     ${MGLIB_INCLUDE_DIR}/trimesh.hpp
+    ${MGLIB_INCLUDE_DIR}/ray.hpp
+    ${MGLIB_INCLUDE_DIR}/typedef.hpp
     ${GFX_INCLUDE_DIR}/gfx.hpp
     ${GFX_INCLUDE_DIR}/geom3d.hpp
+    ${GFX_INCLUDE_DIR}/heap.hpp
     ${GFX_INCLUDE_DIR}/mat3.hpp
     ${GFX_INCLUDE_DIR}/mat4.hpp
     ${GFX_INCLUDE_DIR}/quat.hpp

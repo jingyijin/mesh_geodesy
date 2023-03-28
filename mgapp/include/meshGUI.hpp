@@ -95,7 +95,7 @@ public:
     bool m_will_draw_mesh;
     bool m_will_draw_vertices;
 
-	int m_selected_vertex;
+    int m_selected_vertex;
 
 public:
     MeshGUI();
