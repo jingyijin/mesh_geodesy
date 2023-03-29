@@ -1,7 +1,7 @@
 #ifndef GEO_SMF_INCLUDED
 #define GEO_SMF_INCLUDED
 
-#include "trimesh.hpp
+#include "trimesh.hpp"
 #include "edgestruct.hpp"
 #include "manifold.hpp"
 #include "heap.hpp"
@@ -19,7 +19,6 @@ class GeoTriMesh : public TriMesh
 {
 public:
     typedef set<Handle> HandleSet;
-    typedef Mixkit::MxHeap MxHeap;
     typedef EdgeStruct::RangeSet RangeSet;
     typedef vector<double> ScalarVector;
     typedef pair<int, int> IntPair;
@@ -84,7 +83,7 @@ public:
 
 public:
     GeoTriMesh();
-    GeoTriMesh(SMFModel* m);
+    GeoTriMesh(TriMesh *m);
     ~GeoTriMesh();
 
     void initialize();

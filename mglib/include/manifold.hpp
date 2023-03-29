@@ -19,9 +19,7 @@ public:
     typedef Halfedge<id_t> Edge;
     typedef typename Edge::Handle Handle;
     typedef std::set<Handle> HandleSet;
-    
     typedef std::map<idpair_t, Edge*> EdgeMap;
-    typedef std::set<Handle> HandleSet;
 
 public:
     CellList& cells;
@@ -48,7 +46,7 @@ public:
 
     void link_finite_elements()
     {
-        CellList::iterator e_it, e_end = cells.end();
+        typename CellList::iterator e_it, e_end = cells.end();
         id_t v_ids[4], v0_id, v1_id, fid=0;
         Handle e_hs[3];
         for(e_it = cells.begin(); e_it != e_end; e_it++, fid++)

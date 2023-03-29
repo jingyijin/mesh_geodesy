@@ -2,11 +2,12 @@
 #define INTERVAL_H_INCLUDED
 
 #include "halfedge.hpp"
+#include "main.hpp"
 #include "heap.hpp"
 
 enum TraversalState { Discovered, Finished };
 
-class Interval : public Mixkit::MxHeapable
+class Interval : public MxHeapable
 {
 public:
     typedef Halfedge<id_t>::Handle Handle;

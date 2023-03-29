@@ -2,6 +2,7 @@
 #define RAY_INCLUDED
 
 #include "vec3.hpp"
+#include "main.hpp"
 
 template <class Vec>
 class Ray

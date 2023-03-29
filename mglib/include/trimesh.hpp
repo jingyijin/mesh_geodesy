@@ -4,6 +4,7 @@
 #include "vec3.hpp"
 
 #include <vector>
+#include <set>
 #include <unordered_map>
 
 using namespace std;
@@ -20,6 +21,12 @@ public:
     typedef vector<Vec3> VertexList;
     typedef vector<Face> FaceList;
     typedef vector<Vec3> NormalVector;
+
+	typedef set<id_t> FaceSet;
+	typedef set<id_t> VertexSet;
+
+	typedef Face Cell;
+	typedef FaceList CellList;
 
 public:
     VertexList m_vertex;

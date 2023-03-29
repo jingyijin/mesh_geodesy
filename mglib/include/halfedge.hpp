@@ -1,9 +1,8 @@
 #ifndef HALF_EDGE_H_INCLUDED 
 #define HALF_EDGE_H_INCLUDED
 
+#include "cell_types.hpp"
 #include <assert.h>
-#include <set>
-#include <vector>
 
 template<class _Vertex, class _Face=id_t>
 class Halfedge
@@ -45,8 +44,8 @@ public:
     Vertex  Dest() const { return Lnext()->Org(); }
 
     // Halfedges are oriented from e[0] -> e[1]
-    Vertex& operator[](int i)		{ return i ? Dest() : Orig(); }
-    Vertex  operator[](int i) const { return i ? Dest() : Orig(); }
+    Vertex& operator[](int i)		{ return i ? Dest() : Org(); }
+    Vertex  operator[](int i) const { return i ? Dest() : Org(); }
 
     // Each edge maintains an ID for the face on its left
     Face& Lface()		{ return lface; }

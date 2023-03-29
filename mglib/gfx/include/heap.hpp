@@ -53,6 +53,7 @@ public:
   void reset() { MxHeapBase::clear(); }
 
   size_t size() const { return MxHeapBase::size(); }
+  bool empty()  const { return size() == 0; }
   MxHeapable       *item(int i)       { return (*this)[i]; }
   const MxHeapable *item(int i) const { return (*this)[i]; }
   MxHeapable *extract();
