@@ -3,10 +3,12 @@
 
 #include <set>
 #include <vector>
+#include <cstddef>
 
-typedef std::pair<id_t, id_t> idpair_t;
-typedef std::set<id_t> idset_t;
-typedef std::vector<id_t> idlist_t;
+typedef unsigned int iid_t;
+typedef std::pair<iid_t, iid_t> idpair_t;
+typedef std::set<iid_t> idset_t;
+typedef std::vector<iid_t> idlist_t;
 
 struct Polygon : public idlist_t
 {

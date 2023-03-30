@@ -1,7 +1,7 @@
 #ifndef PATH_TRACER_INCLUDED
 #define PATH_TRACER_INCLUDED
 
-#include "trimesh.hpp"
+#include "geomesh.hpp"
 #include "interval.hpp"
 
 class PathTracer

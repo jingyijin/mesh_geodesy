@@ -2,9 +2,10 @@
 #define MESHGUI_INCLUDED
 
 #include "mxGUI.hpp"
-#include "trimesh.hpp"
+#include "geomesh.hpp"
 #include "arcball.hpp"
 #include "vec4.hpp"
+#include "mls.hpp"
 
 typedef Vec4f rgbColor;
 typedef Vec4f rgbRefl;
@@ -18,7 +19,6 @@ public:
     rgbRefl r_diff;     // Fraction of incoming light reflected diffusely 
     rgbRefl r_spec;     // Fraction of incoming light reflected specularly
     rgbRefl r_transp_diff;     // Fraction of incoming light reflected diffusely 
-
     double shininess;   // Exponent for Phong illumination model
 
     Material() 
@@ -85,7 +85,8 @@ protected:
     GLUquadricObj *m_obj;
 
 public:
-    TriMesh *m_mesh;
+    GeoTriMesh *m_mesh;
+    MLS *m_mls;
     enum {Draw_mode_wireframe, Draw_mode_color, Draw_mode_solid} m_draw_mode;
     enum {Noselect, Fselect, Vselect} m_selection_mode;
 

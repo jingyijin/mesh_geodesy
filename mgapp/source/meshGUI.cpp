@@ -15,7 +15,7 @@ MeshGUI::MeshGUI() : MxGUI(),
         m_will_draw_surface_fnormal(true), 
         m_will_draw_mesh(false)	
 {
-    m_mesh = new TriMesh();
+    m_mesh = new GeoTriMesh();
     m_mat = new Material();
     m_obj = gluNewQuadric();
 }
@@ -24,6 +24,7 @@ MeshGUI::~MeshGUI()
 {
     if (m_mesh) delete m_mesh;
     if (m_mat)  delete m_mat;
+    if (m_obj)  gluDeleteQuadric(m_obj);
 }
 
 void MeshGUI::initialize(int argc, char* argv[])
@@ -66,10 +67,19 @@ void MeshGUI::cb_save_file()
 
 void MeshGUI::load_mesh(const string& filename)
 {
-    if (m_mesh) m_mesh->read_from_file(filename);
-    
-    m_mesh->initialize();
-    m_mesh->compute_bbox(m_bb_min, m_bb_max);
+	if (m_mesh) delete m_mesh;
+    TriMesh *tri = new TriMesh();
+
+    tri->read_from_file(filename);
+    tri->initialize();
+    tri->compute_bbox(m_bb_min, m_bb_max);
+	m_mesh = new GeoTriMesh(tri);
+
+	if (m_mls) delete m_mls;
+	m_mls = new MLS(m_mesh);
+
+    reset_camera();
+    m_canvas->redraw();
 }
 
 void MeshGUI::setup_for_drawing() 
@@ -386,6 +396,12 @@ bool MeshGUI::key_press(int key)
         reset_camera();
         m_canvas->redraw();
         break;
+	case 'd':
+        int v_selected = (m_selected_vertex == -1) ? 0 : m_selected_vertex;
+		m_mls->compute_distances(v_selected);
+        cout << "Calculating geodesic distances" << endl;
+		m_canvas->redraw();
+		break;
     }
     return true;
 }

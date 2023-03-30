@@ -56,6 +56,8 @@ public:
     void compute_fnormal();
     void normalize();
 
+	int other_vertex(int fid, int v0, int v1) const;
+
     // in/output methods
     void read_from_file(const string& filename);
     void write_to_file(const string& filename);

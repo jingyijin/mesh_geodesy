@@ -3,6 +3,7 @@
 
 #include "trimesh.hpp"
 #include "edgestruct.hpp"
+#include "interval.hpp"
 #include "manifold.hpp"
 #include "heap.hpp"
 #include "ray.hpp"
@@ -13,7 +14,7 @@
 #include <map>
 
 typedef ManifoldGraph<TriMesh> ManifoldGraphT;
-typedef ManifoldGraphT::Handle Handle;
+typedef Interval::Handle Handle;
 
 class GeoTriMesh : public TriMesh
 {

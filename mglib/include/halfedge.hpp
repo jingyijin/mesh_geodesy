@@ -3,8 +3,9 @@
 
 #include "cell_types.hpp"
 #include <assert.h>
+#include <ostream>
 
-template<class _Vertex, class _Face=id_t>
+template<class _Vertex, class _Face=iid_t>
 class Halfedge
 {
 public:
@@ -20,9 +21,9 @@ public:
 
 public:
     Halfedge(Vertex v, Face f=NoFace)
-        : lnext(NULL), lprev(NULL), sym(NULL), org(v), lface(f) {}
+        : lnext(nullptr), lprev(nullptr), sym(nullptr), org(v), lface(f) {}
 
-    ~Halfedge() { lnext=lprev=sym=NULL; }
+    ~Halfedge() { lnext=lprev=sym=nullptr; }
 
     Handle Lnext() const { return lnext; } 
     Handle Lprev() const { return lprev; }
@@ -71,8 +72,8 @@ public:
 
     static void paste(Handle e1, Handle e2)
     {
-        assert(e1->Sym() == NULL);
-        assert(e2->Sym() == NULL);
+        assert(e1->Sym() == nullptr);
+        assert(e2->Sym() == nullptr);
         assert(e1->Org() == e2->Dest());
 
         e1->sym = e2;
@@ -83,8 +84,8 @@ public:
     {
         if (e->sym)
         {
-            e->sym->sym = NULL;
-            e->sym = NULL;
+            e->sym->sym = nullptr;
+            e->sym = nullptr;
         }
     }
 };
