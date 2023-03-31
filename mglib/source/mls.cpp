@@ -16,14 +16,19 @@ MLS::~MLS()
 
 void MLS::clear_distances()
 {
-	vector<ScalarVector>::iterator dit = distances.begin(); 
-	for ( ; dit != distances.end(); dit++)
-		(*dit).clear();
+    LOG(INFO) << "MLS::clear_distances()";
+    for (auto& path : paths)
+        for (auto& knot : path)
+            knot.clear();
+    paths.clear(); 
+    for (auto& dist : distances)
+        dist.clear();
 	distances.clear();
 }
 
 void MLS::compute_distances(int selected_v)
 {
+    LOG(INFO) << "MLS::compute_distances(" << selected_v << ")";
 	clear_distances();
 
 	int vsize = mesh->m_vertex.size();
@@ -31,7 +36,6 @@ void MLS::compute_distances(int selected_v)
     // geodesic distance
     ScalarVector dist;
     KnotVectorVector path;
-    cout << "starting to compute distances " << selected_v << endl;
     mesh->compute_geodesic(selected_v, dist, path);
     distances.push_back(dist);
     paths.push_back(path);
@@ -42,6 +46,7 @@ void MLS::compute_distances(int selected_v)
 
 double MLS::project_distance(KnotVector& kv, VectorVector& field)
 {
+    LOG(INFO) << "MLS::project_distance()";
 	int ksize = kv.size(), index=1;
 
 	if (ksize < 2)
@@ -74,6 +79,7 @@ double MLS::project_distance(KnotVector& kv, VectorVector& field)
 
 Vec3 MLS::interpolate_gradient(VectorVector& field, Handle e, double interval)
 {
+    LOG(INFO) << "MLS::interpolate_gradient()";
 	double alpha = interval / mesh->edge_length(e);
 	Vec3 inter = (1.0-alpha) * field[e->Org()] + alpha * field[e->Dest()];
 

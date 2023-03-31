@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.11-3.18)
 
 project(mglib)
 
+find_package(glog REQUIRED)
+
 set(MGLIB_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(MGLIB_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(GFX_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/gfx/source")
@@ -46,6 +48,7 @@ set(MGLIB_HEADERS
     ${GFX_INCLUDE_DIR}/mat3.hpp
     ${GFX_INCLUDE_DIR}/mat4.hpp
     ${GFX_INCLUDE_DIR}/quat.hpp
+    ${GFX_INCLUDE_DIR}/raster.hpp
     ${GFX_INCLUDE_DIR}/vec2.hpp
     ${GFX_INCLUDE_DIR}/vec3.hpp
     ${GFX_INCLUDE_DIR}/vec4.hpp
@@ -60,3 +63,5 @@ target_include_directories(mglib PUBLIC
     ${MGLIB_INCLUDE_DIR}
     ${GFX_INCLUDE_DIR}
 )
+
+target_link_libraries(mglib PUBLIC glog::glog)

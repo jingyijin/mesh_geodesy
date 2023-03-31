@@ -10,6 +10,7 @@ find_library(XRENDER_LIBRARY NAMES Xrender)
 find_library(XFIXES_LIBRARY NAMES Xfixes)
 find_library(XCURSOR_LIBRARY NAMES Xcursor)
 find_library(XINERAMA_LIBRARY NAMES Xinerama)
+find_package(glog REQUIRED)
 
 set(MGAPP_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(MGAPP_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -44,4 +45,5 @@ target_link_libraries(mgapp mglib
     ${XFIXES_LIBRARY}
     ${XCURSOR_LIBRARY}
     ${XINERAMA_LIBRARY}
+    glog::glog
 )

@@ -145,6 +145,7 @@ bool Arcball::mouse_drag(int *where, int *last, int which)
 
 void Arcball::apply_transform()
 {
+    
     update();
     curquat = conjugate(q_now);
     Baseball::apply_transform();

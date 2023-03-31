@@ -15,22 +15,27 @@ MeshGUI::MeshGUI() : MxGUI(),
         m_will_draw_surface_fnormal(true), 
         m_will_draw_mesh(false),
         m_will_draw_geodesic_distance(false),
-        m_will_draw_geodesic_path(false)
+        m_will_draw_geodesic_path(false),
+        m_grid_period(0x10)
 {
     m_mesh = new GeoTriMesh();
     m_mat = new Material();
     m_obj = gluNewQuadric();
+
+    default_texture();
 }
 
 MeshGUI::~MeshGUI() 
 {
-    if (m_mesh) delete m_mesh;
-    if (m_mat)  delete m_mat;
-    if (m_obj)  gluDeleteQuadric(m_obj);
+    if (m_mesh)     delete m_mesh;
+    if (m_mat)      delete m_mat;
+    if (m_obj)      gluDeleteQuadric(m_obj);
+    if (m_texture)  delete m_texture;
 }
 
 void MeshGUI::initialize(int argc, char* argv[])
 {
+    LOG(INFO) << "MeshGUI::initialize";
     MxGUI::initialize(argc, argv);
 
     // Set up the menu bar
@@ -42,8 +47,8 @@ void MeshGUI::initialize(int argc, char* argv[])
     add_toggle_menu("&Draw/Surface + face normal", 0, m_will_draw_surface_fnormal);
     add_toggle_menu("&Draw/Mesh", 0, m_will_draw_mesh);
     add_toggle_menu("&Draw/Bounding box", FL_CTRL+'b', m_will_draw_bbox);
-	add_toggle_menu("&Draw/Geodesic distance", 0, m_will_draw_geodesic_distance);
-	add_toggle_menu("&Draw/Geodesic path", 0, m_will_draw_geodesic_path);
+    add_toggle_menu("&Draw/Geodesic distance", 0, m_will_draw_geodesic_distance);
+    add_toggle_menu("&Draw/Geodesic path", 0, m_will_draw_geodesic_path);
 }
 
 int MeshGUI::add_menu_item(const char* name, int key, Fl_Callback *f, void* val, int flags) 
@@ -71,16 +76,17 @@ void MeshGUI::cb_save_file()
 
 void MeshGUI::load_mesh(const string& filename)
 {
-	if (m_mesh) delete m_mesh;
+    LOG(INFO) << "MeshGUI::load_mesh " << filename;
+    if (m_mesh) delete m_mesh;
     TriMesh *tri = new TriMesh();
 
     tri->read_from_file(filename);
     tri->initialize();
     tri->compute_bbox(m_bb_min, m_bb_max);
-	m_mesh = new GeoTriMesh(tri);
+    m_mesh = new GeoTriMesh(tri);
 
-	if (m_mls) delete m_mls;
-	m_mls = new MLS(m_mesh);
+    if (m_mls) delete m_mls;
+    m_mls = new MLS(m_mesh);
 
     reset_camera();
     m_canvas->redraw();
@@ -88,6 +94,7 @@ void MeshGUI::load_mesh(const string& filename)
 
 void MeshGUI::setup_for_drawing() 
 {
+    LOG(INFO) << "MeshGUI::setup_for_drawing";
     glClearColor(1.f, 1.f, 1.f, 0.0f);
     
     glEnable(GL_DEPTH_TEST);
@@ -110,10 +117,62 @@ void MeshGUI::setup_for_drawing()
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    setup_texture();
+}
+
+void MeshGUI::setup_texture()
+{
+    LOG(INFO) << "MeshGUI::setup_texture";
+    GLenum fmt;
+    switch( m_texture->channels() )
+    {
+    case 1:  fmt=GL_LUMINANCE; break;
+    case 3:  fmt=GL_RGB; break;
+    case 4:  fmt=GL_RGBA; break;
+    default:
+         cerr << "Sorry, but I need a valid texture!" << endl;
+         exit(1);
+    }
+
+    // setting up the texture parameters
+    const GLenum TEX = GL_TEXTURE_2D;
+
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+#if 1
+    glTexImage2D(GL_TEXTURE_2D, 0, m_texture->channels(), m_texture->width(), m_texture->height(), 0,
+        fmt, GL_UNSIGNED_BYTE, m_texture->head());
+#else
+    gluBuild2DMipmaps(TEX, m_texture->channels(), m_texture->width(), m_texture->height(), 
+        fmt, GL_UNSIGNED_BYTE, m_texture->head());
+#endif
+
+    glTexParameterf(TEX, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameterf(TEX, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameterf(TEX, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(TEX, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+}
+
+void MeshGUI::default_texture()
+{
+    LOG(INFO) << "MeshGUI::default_texture";
+    if( m_texture )  delete m_texture;
+
+    // Set up an initial bogus texture
+    m_texture = new ByteRaster(512, 512, 1);
+    const int block = m_grid_period;
+    for(int i=0; i<m_texture->width(); ++i)
+    for(int j=0; j<m_texture->height(); ++j)
+    {
+        int g = ( ((i&block)==0) ^ ((j&block)==0) )*255;
+        m_texture->pixel(i,j)[0] = g;
+    }
 }
 
 void MeshGUI::draw_contents()
 {
+    LOG(INFO) << "MeshGUI::draw_contents";
     begin_redraw();
 
     glPushMatrix();
@@ -125,6 +184,7 @@ void MeshGUI::draw_contents()
 
 void MeshGUI::begin_redraw() 
 {
+    LOG(INFO) << "MeshGUI::begin_redraw";
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     
     if( m_selection_mode == Noselect ) 
@@ -143,18 +203,20 @@ void MeshGUI::begin_redraw()
 
 void MeshGUI::default_redraw() 
 {
+    LOG(INFO) << "MeshGUI::default_redraw";
     if (m_selected_vertex != -1)     draw_selection();
     if (m_will_draw_bbox)            draw_bbox();
     if (m_will_draw_surface_fnormal) draw_surface_fnormal();
     if (m_will_draw_mesh)            draw_mesh();
     if (m_will_draw_vertices)        draw_vertices();
 
-	if (m_will_draw_geodesic_distance)	draw_geodesic_distance();
-	if (m_will_draw_geodesic_path)		draw_geodesic_path();
+    if (m_will_draw_geodesic_distance)	draw_geodesic_distance();
+    if (m_will_draw_geodesic_path)		draw_geodesic_path();
 }
 
 void MeshGUI::end_redraw() 
 {
+    LOG(INFO) << "MeshGUI::end_redraw";
     m_ball.unapply_transform();
 }
 
@@ -199,6 +261,7 @@ void MeshGUI::camera_lookat(const Vec3& min, const Vec3& max, double aspect)
 
 void MeshGUI::draw_bbox() 
 {
+    LOG(INFO) << "MeshGUI::draw_bbox";
     glPushAttrib(GL_LIGHTING_BIT);
     glDisable(GL_LIGHTING);
     glColor3f(0.f, 0.f, 0.f);
@@ -208,6 +271,7 @@ void MeshGUI::draw_bbox()
 
 void MeshGUI::draw_box(const Vec3f& min, const Vec3f& max) 
 {
+    LOG(INFO) << "MeshGUI::draw_box";
     glBegin(GL_LINE_LOOP);
     glVertex3f(min[0],min[1],min[2]); glVertex3f(min[0],max[1],min[2]);
     glVertex3f(max[0],max[1],min[2]); glVertex3f(max[0],min[1],min[2]);
@@ -228,6 +292,7 @@ void MeshGUI::draw_box(const Vec3f& min, const Vec3f& max)
 
 void MeshGUI::draw_vertices() 
 {
+    LOG(INFO) << "MeshGUI::draw_vertices";
     glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
 
     glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
@@ -246,6 +311,7 @@ void MeshGUI::draw_vertices()
 
 void MeshGUI::draw_mesh() 
 {
+    LOG(INFO) << "MeshGUI::draw_mesh";
     glDisable(GL_POLYGON_OFFSET_FILL);
     
     glPushAttrib(GL_ENABLE_BIT|GL_POLYGON_BIT);
@@ -284,6 +350,7 @@ void MeshGUI::draw_mesh()
 
 void MeshGUI::draw_surface_fnormal() 
 {
+    LOG(INFO) << "MeshGUI::draw_surface_fnormal";
     glPushAttrib(GL_ENABLE_BIT|GL_POLYGON_BIT);
     glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
     
@@ -334,6 +401,7 @@ void MeshGUI::draw_surface_fnormal()
 
 void MeshGUI::draw_selection()
 {
+    LOG(INFO) << "MeshGUI::draw_selection";
     const float sball_radius = 0.01f;
 
     glPushAttrib(GL_ENABLE_BIT);
@@ -355,19 +423,20 @@ void MeshGUI::draw_selection()
 
 void MeshGUI::draw_geodesic_distance()
 {
-	if (m_mls->distances.empty()) return;
+    LOG(INFO) << "MeshGUI::draw_geodesic_distance";
+    if (m_mls->distances.empty()) return;
 
-	glPushAttrib(GL_ENABLE_BIT|GL_POLYGON_BIT);
-	glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
+    glPushAttrib(GL_ENABLE_BIT|GL_POLYGON_BIT);
+    glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
 
-	const TriMesh::FaceList& face = m_mesh->m_face;
+    const TriMesh::FaceList& face = m_mesh->m_face;
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     glEnable(GL_DEPTH_TEST);	// Enable the Z-Buffer
-	glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
 
-	int size = face.size();
+    int size = face.size();
     for (auto& dist : m_mls->distances)
     {
         for(int i=0; i<size; i++)
@@ -385,17 +454,18 @@ void MeshGUI::draw_geodesic_distance()
         }
     }
 
-	glPopAttrib();
+    glPopAttrib();
 }
 
 void MeshGUI::draw_geodesic_path()
 {
-	if (m_mls->paths.empty()) return;
+    LOG(INFO) << "MeshGUI::draw_geodesic_path";
+    if (m_mls->paths.empty()) return;
 
-	glPushAttrib(GL_ENABLE_BIT|GL_LINE_BIT);
-	glDisable(GL_LIGHTING);
-	glColor3f(0,0,0);
-	glLineWidth(2.0);
+    glPushAttrib(GL_ENABLE_BIT|GL_LINE_BIT);
+    glDisable(GL_LIGHTING);
+    glColor3f(0,0,0);
+    glLineWidth(2.0);
 
     for (auto &path : m_mls->paths) {
         GeoTriMesh::KnotVectorVector::iterator kit = path.begin();
@@ -409,7 +479,7 @@ void MeshGUI::draw_geodesic_path()
         }
     }
 
-	glPopAttrib();
+    glPopAttrib();
 }
 
 void MeshGUI::setup_face_state(int fid) 
@@ -420,6 +490,7 @@ void MeshGUI::setup_face_state(int fid)
 
 bool MeshGUI::mouse_down(int *where, int which) 
 {
+    LOG(INFO) << "MeshGUI::mouse_down";
     if (which == 1 && Fl::event_state(FL_SHIFT)) 
     {
         int old = m_selected_vertex;
@@ -447,7 +518,16 @@ bool MeshGUI::mouse_up(int *where, int which)
 
 bool MeshGUI::key_press(int key) 
 {    
+    LOG(INFO) << "MeshGUI::key_press";
     switch (key) {
+	case FL_Up:
+		up_frequency(); 
+        m_canvas->redraw(); 
+        break;
+	case FL_Down:
+		down_frequency(); 
+        m_canvas->redraw(); 
+        break;
     case 'w':
         m_draw_mode = Draw_mode_wireframe;
         m_canvas->redraw();
@@ -461,18 +541,19 @@ bool MeshGUI::key_press(int key)
         reset_camera();
         m_canvas->redraw();
         break;
-	case 'd':
+    case 'd':
         int v_selected = (m_selected_vertex == -1) ? 0 : m_selected_vertex;
-		m_mls->compute_distances(v_selected);
+        m_mls->compute_distances(v_selected);
         cout << "Calculating geodesic distances" << endl;
-		m_canvas->redraw();
-		break;
+        m_canvas->redraw();
+        break;
     }
     return true;
 }
 
 int MeshGUI::pick_vertex(int where[2]) 
 {
+    LOG(INFO) << "MeshGUI::pick_vertex";
     GLuint buffer[128];
     double radius = 16.0;
     
@@ -509,4 +590,20 @@ void MeshGUI::draw_for_selection()
     }
     glEnable(GL_LIGHTING);
     glPopAttrib();    
+}
+
+void MeshGUI::up_frequency()
+{
+    m_grid_period /= 2;
+    default_texture();
+    m_canvas->make_current();
+    setup_texture();
+}
+
+void MeshGUI::down_frequency()
+{
+    m_grid_period *= 2;
+    default_texture();  
+    m_canvas->make_current();
+    setup_texture();
 }

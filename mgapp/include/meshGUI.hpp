@@ -6,6 +6,7 @@
 #include "arcball.hpp"
 #include "vec4.hpp"
 #include "mls.hpp"
+#include "raster.hpp"
 
 typedef Vec4f rgbColor;
 typedef Vec4f rgbRefl;
@@ -84,9 +85,12 @@ protected:
     Material *m_mat;
     GLUquadricObj *m_obj;
 
+    int m_grid_period;
 public:
     GeoTriMesh *m_mesh;
     MLS *m_mls;
+   	ByteRaster* m_texture;
+
     enum {Draw_mode_wireframe, Draw_mode_color, Draw_mode_solid} m_draw_mode;
     enum {Noselect, Fselect, Vselect} m_selection_mode;
 
@@ -108,6 +112,8 @@ public:
     int add_menu_item(const char* name, int key, Fl_Callback *f, void* val=0, int flags=0);
 
     void setup_for_drawing(); 
+    void setup_texture();
+    void default_texture();
     void begin_redraw();
     void default_redraw();
     void end_redraw();
@@ -134,6 +140,8 @@ public:
     bool key_press(int key); 
 
     int pick_vertex(int where[2]); 
+    void up_frequency();
+    void down_frequency();
 
     // callback functions
     static void cb_open_file();

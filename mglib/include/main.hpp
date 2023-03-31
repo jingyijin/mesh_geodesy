@@ -3,6 +3,7 @@
 
 #include "gfx.hpp"
 #include "vec3.hpp"
+#include <glog/logging.h>
 
 #include <vector>
 

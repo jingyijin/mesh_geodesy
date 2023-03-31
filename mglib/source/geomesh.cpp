@@ -28,6 +28,7 @@ GeoTriMesh::~GeoTriMesh()
  
 void GeoTriMesh::initialize()
 {
+	LOG(INFO) << "GeoTriMesh::initialize()";
     graph = new ManifoldGraphT(m_vertex.size(), m_face);
     prop_step_size = 1;
     num_prop_edge = 0;
@@ -39,6 +40,7 @@ void GeoTriMesh::initialize()
 
 void GeoTriMesh::reset_distance()
 {
+	LOG(INFO) << "GeoTriMesh::reset_distance()";
     is_first_propagation = true;
     num_prop_edge = 0;
 
@@ -51,6 +53,7 @@ void GeoTriMesh::reset_distance()
 
 void GeoTriMesh::clear_edge_map()
 {
+	LOG(INFO) << "GeoTriMesh::clear_edge_map()";
     EdgeStructMap::iterator esit = edge_map.begin();
     for ( ; esit != edge_map.end(); esit++) {
         EdgeStruct& es = (*esit).second;
@@ -65,18 +68,16 @@ void GeoTriMesh::clear_edge_map()
 
 void GeoTriMesh::compute_geodesic(int selected_v, ScalarVector& distance, KnotVectorVector& path)
 {
-    cout << "GeoTriMesh::compute_geodesic: " << selected_v << endl;
+	LOG(INFO) << "GeoTriMesh::compute_geodesic(" << selected_v << ")";
     reset_distance();
 
     if (is_first_propagation)
         init_propagation(selected_v);
-    cout << "GeoTriMesh::compute_geodesic: " << selected_v << " " << m_vertex.size() << endl;
 
     // propagate intervals and compute distance field
     while (propagate_once());
     // trace the geodesic paths
     backtracing();
-    cout << "GeoTriMesh::compute_geodesic - after backtracking: " << selected_v << " " << m_vertex.size() << endl;
 
     // output the results
     distance.resize(m_vertex.size());
@@ -88,7 +89,7 @@ void GeoTriMesh::compute_geodesic(int selected_v, ScalarVector& distance, KnotVe
 
 bool GeoTriMesh::init_propagation(int selected_v)
 {
-    cout << "GeoTriMesh::init_propagation: " << selected_v << endl;
+	LOG(INFO) << "GeoTriMesh::init_propagation(" << selected_v << ")";
     Vec3& source_v = m_vertex[selected_v];
 
     // initialize the first elements in the priority queue
@@ -96,7 +97,6 @@ bool GeoTriMesh::init_propagation(int selected_v)
     graph->collect_vertex_front_edge(selected_v, f_edges);
     graph->collect_vertex_adj_edge_with_sym(selected_v, a_edges);
 
-    cout << "GeoTriMesh::init_propagation 2: " << selected_v << endl;
     HandleSet::iterator hit;
     
     // initialize intervals for the adjacent edges and insert them into edge map
@@ -105,8 +105,6 @@ bool GeoTriMesh::init_propagation(int selected_v)
         Interval* iv = create_init_interval(*hit, source_v);
         edge_map[(Handle) iv->handle()].push_back(iv);
     }
-
-    cout << "GeoTriMesh::init_propagation 3: " << selected_v << endl;
 
     // initialize interval for the front edges, 
     // inser them into edge map, and insert them into priority queue
@@ -117,15 +115,11 @@ bool GeoTriMesh::init_propagation(int selected_v)
         i_queue.insert(iv);
     }
 
-    cout << "GeoTriMesh::init_propagation 4: " << selected_v << endl;
-
     geo_distance[selected_v] = 0.f;
     for (EdgeStructMap::iterator eit = edge_map.begin(); eit != edge_map.end(); eit++)
         update_sfield((*eit).first, (*eit).second);
 
     is_first_propagation = false;
-
-    cout << "GeoTriMesh::init_propagation 5: " << selected_v << endl;
 
     return true;
 }
@@ -133,6 +127,7 @@ bool GeoTriMesh::init_propagation(int selected_v)
 // propagate one interval
 bool GeoTriMesh::propagate_once()
 {
+	LOG(INFO) << "GeoTriMesh::propagate_once()";
     apply_last_step();
 
     if (i_queue.empty()) return false;
@@ -183,6 +178,7 @@ bool GeoTriMesh::propagate_once()
 
 void GeoTriMesh::apply_last_step()
 {
+	LOG(INFO) << "GeoTriMesh::apply_last_step()";
     if (last_step.cur_iv == NULL) return;
 
     vector< pair<Interval*, Propagation> >::iterator pit = last_step.modified_ivs.begin();
@@ -203,6 +199,7 @@ void GeoTriMesh::apply_last_step()
 
 void GeoTriMesh::backtracing()
 {
+	LOG(INFO) << "GeoTriMesh::backtracing()";
     PathTracer tracer(*this, geo_path);
     tracer.trace_path();
 }
@@ -246,7 +243,7 @@ bool GeoTriMesh::is_iv_b1_end(bool tau, Interval* iv, double e_length)
 
 void GeoTriMesh::update_sfield(Handle to_e, EdgeStruct& ivs)
 {
-    cout << "GeoTriMesh::update_sfield 1: " << endl;
+	LOG(INFO) << "GeoTriMesh::update_sfield: ";
     if (to_e != NULL && !ivs.empty())
     {
         int v_endp1 = to_e->Org();
@@ -268,11 +265,11 @@ void GeoTriMesh::update_sfield(Handle to_e, EdgeStruct& ivs)
             if (FLT(new_dest, old_dest)) geo_distance[v_endp2] = new_dest;
         }
     }
-    cout << "GeoTriMesh::update_sfield 2: " << endl;
 }
 
 Interval* GeoTriMesh::create_init_interval(Handle e, Vec3& source)
 {
+	LOG(INFO) << "GeoTriMesh::create_init_interval()";
     Handle eh;
     double b0 = 0.0;
     double b1 = edge_length(e);
@@ -328,6 +325,7 @@ Interval* GeoTriMesh::create_interval(Handle e, double b0, double b1, double d0,
 
 Vec2 GeoTriMesh::get_s_coord(const Interval* iv) const
 {
+	LOG(INFO) << "GeoTriMesh::get_s_coord()";
     Vec2 s;
     double elength = edge_length((Handle) iv->handle());
     double b0, b1, r0, r1;
@@ -361,6 +359,7 @@ Vec2 GeoTriMesh::get_s_coord(const Interval* iv) const
 
 Vec2 GeoTriMesh::get_s_coord_straight(const Interval* iv) const
 {
+	LOG(INFO) << "GeoTriMesh::get_s_coord_straight()";
     Vec2 s;
     double elength = edge_length((Handle) iv->handle());
     double b0, b1, r0, r1;
@@ -509,6 +508,8 @@ Vec3 GeoTriMesh::vertex_normal(int vid)
 
 void GeoTriMesh::merge_interval(Interval* new_iv, EdgeStruct& old_ivs, Propagation& propag)
 {
+	LOG(INFO) << "GeoTriMesh::merge_interval";
+
 	// merge the intersected intervals with iv
 	Interval* v1 = new_iv;
 
@@ -600,6 +601,7 @@ void GeoTriMesh::absolute_merging_v1_shorter_v0(Interval* v0, Interval* v1, Prop
 
 double GeoTriMesh::get_px_value(Interval* v0, Interval* v1, Range& rg)
 {
+	LOG(INFO) << "GeoTriMesh::get_px_value";
 	// find the common point and update the intervals
 	Vec2 s0 = get_s_coord_straight(v0);
 	Vec2 s1 = get_s_coord_straight(v1);
@@ -634,6 +636,7 @@ double GeoTriMesh::get_px_value(Interval* v0, Interval* v1, Range& rg)
 
 void GeoTriMesh::partial_merging(Interval* v0, Interval* v1, Propagation& propag, Range& rg)
 {
+	LOG(INFO) << "GeoTriMesh::partial_merging";
 	double px = get_px_value(v0, v1, rg);
 
 	unsigned char cond = 0;
@@ -728,6 +731,7 @@ unsigned char GeoTriMesh::test001(Interval* v0, Interval* v1, Range& range)
 
 void GeoTriMesh::post_processing(Propagation& propag, Interval* b)
 {
+	LOG(INFO) << "GeoTriMesh::post_processing";
 	IntervalList& l = propag.altered;
 
 	// fill the gaps
@@ -793,6 +797,8 @@ void GeoTriMesh::post_processing(Propagation& propag, Interval* b)
 
 void GeoTriMesh::propagate_interval(Interval* iv, EdgeStructMap& new_ivs)
 {
+	LOG(INFO) << "GeoTriMesh::propagate_interval";
+
 	Handle cur_e, from_e = (Handle) iv->handle();
 	double from_e_length = edge_length(from_e);
 	id_t from_face, to_face;
@@ -891,6 +897,7 @@ void GeoTriMesh::propagate_interval(Interval* iv, EdgeStructMap& new_ivs)
 void GeoTriMesh::propagate_case1(const InterStruct& b0_it, const InterStruct& b1_it, Interval* iv, 
 								 EdgeStructMap& new_ivs)
 {
+	LOG(INFO) << "GeoTriMesh::propagate_case1";
 	// the propagated interval
 	if (FGT(b1_it.inter, b0_it.inter))
 	{
@@ -902,6 +909,7 @@ void GeoTriMesh::propagate_case1(const InterStruct& b0_it, const InterStruct& b1
 void GeoTriMesh::propagate_case2(const InterStruct& b0_it, const InterStruct& b1_it, double mid_dist,
 								 Interval* iv, EdgeStructMap& new_ivs)
 {
+	LOG(INFO) << "GeoTriMesh::propagate_case2";
 	double sigma = iv->get_sigma();
 	if (FGT(edge_length(b0_it.e), b0_it.inter))
 	{
@@ -918,6 +926,7 @@ void GeoTriMesh::propagate_case2(const InterStruct& b0_it, const InterStruct& b1
 void GeoTriMesh::propagate_case3_left(const InterStruct& b0_it, const InterStruct& b1_it, Handle from_e, 
 									  const Vec2& s, Interval* iv, EdgeStructMap& new_ivs)
 {
+	LOG(INFO) << "GeoTriMesh::propagate_case3_left";
 	Handle prop_e = b0_it.e;
 	Handle gap_e;
 	Vec2 pseudo_s;
@@ -949,6 +958,7 @@ void GeoTriMesh::propagate_case3_left(const InterStruct& b0_it, const InterStruc
 void GeoTriMesh::propagate_case3_right(const InterStruct& b0_it, const InterStruct& b1_it, Handle from_e, 
 									   const Vec2& s, Interval* iv, EdgeStructMap& new_ivs)
 {
+	LOG(INFO) << "GeoTriMesh::propagate_case3_right";
 	Handle prop_e = b0_it.e;
 	Handle gap_e = from_e->Dnext();
 	Vec2 pseudo_s;
@@ -980,6 +990,7 @@ void GeoTriMesh::propagate_case3_right(const InterStruct& b0_it, const InterStru
 void GeoTriMesh::cover_diamond_shape(Interval* iv, Handle cur_e, Vec3& source, double cur_sigma, double e_length, 
 									 EdgeStructMap& new_ivs, bool start)
 {
+	LOG(INFO) << "GeoTriMesh::cover_diamond_shape";
 	Handle aux_e;
 	if (!graph->is_infinite_face(cur_e->Lface())) 
 	{
@@ -999,6 +1010,7 @@ void GeoTriMesh::cover_diamond_shape(Interval* iv, Handle cur_e, Vec3& source, d
 
 void GeoTriMesh::fill_diamond_gap(Handle cur_e, double cur_sigma, Vec3& source, EdgeStructMap& new_ivs)
 {
+	LOG(INFO) << "GeoTriMesh::fill_diamond_gap";
 	bool inverted = (cur_e->Org() > cur_e->Dest());
 	Handle e = !inverted ? cur_e : cur_e->Sym();
 
@@ -1031,6 +1043,7 @@ void GeoTriMesh::fill_diamond_gap(Handle cur_e, double cur_sigma, Vec3& source, 
 
 bool GeoTriMesh::intersect_face_border(int face, Handle from_e, map<int,Vec2>& coord_map, Ray<Vec2> ray, InterStruct& inter)
 {
+	LOG(INFO) << "GeoTriMesh::intersect_face_border";
 	Handle adj_e = from_e->Sym();
 	Handle e = adj_e->Lnext(), min_e;
 	double min_t = FLT_MAX;
@@ -1103,6 +1116,7 @@ bool GeoTriMesh::intersect_face_border(int face, Handle from_e, map<int,Vec2>& c
 
 bool GeoTriMesh::intersect_face_border_loose(int face, Handle from_e, map<int,Vec2>& coord_map, Ray<Vec2> ray, InterStruct& inter)
 {
+	LOG(INFO) << "GeoTriMesh::intersect_face_border_loose";
 	Handle adj_e = from_e->Sym();
 	Handle e = adj_e->Lnext(), min_e;
 	double min_t = FLT_MAX;
