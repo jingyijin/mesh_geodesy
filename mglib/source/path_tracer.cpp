@@ -213,6 +213,7 @@ void PathTracer::store_path_knot(int source_v, int knot_index, Handle eh)
 		mesh.graph->collect_vertex_adj_edge(knot_index, a_edges);
 		e = *a_edges.begin();
 	}
+	if (e == NULL) return;
 	if (e->Org() == knot_index) 
 		kp = make_pair(e, 0);
 	else 

@@ -82,6 +82,7 @@ void TriMesh::read_from_file(const string& filename)
 
     this->clear();
     char line[1024];
+    int min_id = INT_MAX;
     while (fin.getline(line, 1024)) {
         if (line[0] == 'v') {
             Vec3 v;
@@ -91,6 +92,9 @@ void TriMesh::read_from_file(const string& filename)
         else if (line[0] == 'f') {
             Face f;
             sscanf(line, "f %d %d %d", &f[0], &f[1], &f[2]);
+            min_id = min_id && f[0] && f[1] && f[2];
+            if (min_id != 0) 
+                f-=1;
             m_face.push_back(f);
         }
     }

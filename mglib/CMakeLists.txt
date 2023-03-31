@@ -21,6 +21,8 @@ set(MGLIB_SOURCES
     ${GFX_SOURCE_DIR}/quat.cpp
 )
 
+set(CMAKE_BUILD_TYPE Debug)
+
 set(MGLIB_HEADERS
     ${MGLIB_INCLUDE_DIR}/auxiliar.hpp
     ${MGLIB_INCLUDE_DIR}/cell_types.hpp

@@ -119,7 +119,7 @@ bool GeoTriMesh::init_propagation(int selected_v)
 
     cout << "GeoTriMesh::init_propagation 4: " << selected_v << endl;
 
-    geo_distance[m_selected_vertex] = 0.f;
+    geo_distance[selected_v] = 0.f;
     for (EdgeStructMap::iterator eit = edge_map.begin(); eit != edge_map.end(); eit++)
         update_sfield((*eit).first, (*eit).second);
 
@@ -133,9 +133,6 @@ bool GeoTriMesh::init_propagation(int selected_v)
 // propagate one interval
 bool GeoTriMesh::propagate_once()
 {
-    if (DEBUG)
-        DEBUG = DEBUG;
-
     apply_last_step();
 
     if (i_queue.empty()) return false;

@@ -29,6 +29,8 @@ set(MGAPP_HEADERS
     ${MGAPP_INCLUDE_DIR}/baseball.hpp
 )
 
+set(CMAKE_BUILD_TYPE Debug)
+
 add_executable(mgapp ${MGAPP_SOURCES} ${MGAPP_HEADERS})
 
 target_include_directories(mgapp PRIVATE ${MGAPP_INCLUDE_DIR})

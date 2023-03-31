@@ -22,11 +22,6 @@ public:
 	vector<ScalarVector> distances;
 	vector<KnotVectorVector> paths;
 
-	// constraints
-	ValueConstraintMap value_constraints;
-	GradientConstraintMap gradient_constraints;
-	vector<VectorVector> gradient_field;
-
 	ScalarVector scalar_field;
 
 public:

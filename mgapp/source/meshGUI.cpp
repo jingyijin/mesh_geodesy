@@ -13,7 +13,9 @@ MeshGUI::MeshGUI() : MxGUI(),
         m_will_draw_vertices(false),
         m_will_draw_bbox(false), 
         m_will_draw_surface_fnormal(true), 
-        m_will_draw_mesh(false)	
+        m_will_draw_mesh(false),
+        m_will_draw_geodesic_distance(false),
+        m_will_draw_geodesic_path(false)
 {
     m_mesh = new GeoTriMesh();
     m_mat = new Material();
@@ -40,6 +42,8 @@ void MeshGUI::initialize(int argc, char* argv[])
     add_toggle_menu("&Draw/Surface + face normal", 0, m_will_draw_surface_fnormal);
     add_toggle_menu("&Draw/Mesh", 0, m_will_draw_mesh);
     add_toggle_menu("&Draw/Bounding box", FL_CTRL+'b', m_will_draw_bbox);
+	add_toggle_menu("&Draw/Geodesic distance", 0, m_will_draw_geodesic_distance);
+	add_toggle_menu("&Draw/Geodesic path", 0, m_will_draw_geodesic_path);
 }
 
 int MeshGUI::add_menu_item(const char* name, int key, Fl_Callback *f, void* val, int flags) 
@@ -145,6 +149,8 @@ void MeshGUI::default_redraw()
     if (m_will_draw_mesh)            draw_mesh();
     if (m_will_draw_vertices)        draw_vertices();
 
+	if (m_will_draw_geodesic_distance)	draw_geodesic_distance();
+	if (m_will_draw_geodesic_path)		draw_geodesic_path();
 }
 
 void MeshGUI::end_redraw() 
@@ -345,6 +351,65 @@ void MeshGUI::draw_selection()
     m_mat->load_standard();
 
     glPopAttrib();
+}
+
+void MeshGUI::draw_geodesic_distance()
+{
+	if (m_mls->distances.empty()) return;
+
+	glPushAttrib(GL_ENABLE_BIT|GL_POLYGON_BIT);
+	glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
+
+	const TriMesh::FaceList& face = m_mesh->m_face;
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    glEnable(GL_DEPTH_TEST);	// Enable the Z-Buffer
+	glEnable(GL_TEXTURE_2D);
+
+	int size = face.size();
+    for (auto& dist : m_mls->distances)
+    {
+        for(int i=0; i<size; i++)
+        {
+            const Face& f = face[i];
+            glBegin(GL_TRIANGLES);
+            setup_face_state(i);
+            glTexCoord2f(dist[f[0]], 1.f);
+            glArrayElement(f[0]);
+            glTexCoord2f(dist[f[1]], 1.f);
+            glArrayElement(f[1]);
+            glTexCoord2f(dist[f[2]], 1.f);
+            glArrayElement(f[2]);
+            glEnd();
+        }
+    }
+
+	glPopAttrib();
+}
+
+void MeshGUI::draw_geodesic_path()
+{
+	if (m_mls->paths.empty()) return;
+
+	glPushAttrib(GL_ENABLE_BIT|GL_LINE_BIT);
+	glDisable(GL_LIGHTING);
+	glColor3f(0,0,0);
+	glLineWidth(2.0);
+
+    for (auto &path : m_mls->paths) {
+        GeoTriMesh::KnotVectorVector::iterator kit = path.begin();
+        for ( ; kit != path.end(); kit++) {
+            MLS::KnotVector& vv = (*kit);
+            MLS::KnotVector::iterator vit = vv.begin();
+            glBegin(GL_LINE_STRIP);
+            for ( ; vit != vv.end(); vit++)
+                glVertex3dv(m_mesh->edge_point((*vit).first, (*vit).second));
+            glEnd();
+        }
+    }
+
+	glPopAttrib();
 }
 
 void MeshGUI::setup_face_state(int fid) 

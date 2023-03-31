@@ -95,6 +95,8 @@ public:
     bool m_will_draw_surface_fnormal;
     bool m_will_draw_mesh;
     bool m_will_draw_vertices;
+	bool m_will_draw_geodesic_distance;
+	bool m_will_draw_geodesic_path;
 
     int m_selected_vertex;
 
@@ -123,6 +125,8 @@ public:
     void draw_for_selection();
     void draw_selection();
     void draw_vertices(); 
+    void draw_geodesic_distance();
+    void draw_geodesic_path();
 
     bool mouse_down(int *where, int which); 
     bool mouse_drag(int *where, int *last, int which); 
