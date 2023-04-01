@@ -10,14 +10,9 @@
  * Date: 4/1/2023
  ************************************************************************/
 
-#include "trimesh.hpp"
-#include "edgestruct.hpp"
 #include "interval.hpp"
 #include "manifold.hpp"
 #include "heap.hpp"
-#include "ray.hpp"
-#include "propagation.hpp"
-#include "typedef.hpp"
 #include "last_step.hpp"
 
 #include <map>

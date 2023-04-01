@@ -10,7 +10,6 @@
  ************************************************************************/
 
 #include "geomesh.hpp"
-#include "interval.hpp"
 
 class PathTracer
 {

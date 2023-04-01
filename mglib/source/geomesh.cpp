@@ -7,7 +7,6 @@
  * Date: 4/1/2023
  ************************************************************************/
 
-#include "auxiliar.hpp"
 #include "geomesh.hpp"
 #include "general_math.hpp"
 #include "path_tracer.hpp"
@@ -58,15 +57,8 @@ void GeoTriMesh::reset_distance()
 void GeoTriMesh::clear_edge_map()
 {
     LOG(INFO) << "GeoTriMesh::clear_edge_map()";
-    // delete the intervals
-    cout << "edge_map.size() = " << edge_map.size() << endl;
-    for (auto& es : edge_map) {
-        cout << "es.second.size() = " << es.second.size() << endl;
-        for (auto& iv : es.second) {
-            delete iv;
-        }
+    for (auto& es : edge_map)
         es.second.clear();
-    }
     edge_map.clear();
 }
 

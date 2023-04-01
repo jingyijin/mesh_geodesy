@@ -8,7 +8,6 @@
  ************************************************************************/
 
 #include "mls.hpp"
-#include "auxiliar.hpp"
 #include "general_math.hpp"
 
 MLS::MLS(GeoTriMesh *m)

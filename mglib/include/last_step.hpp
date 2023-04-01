@@ -11,9 +11,7 @@
 
 
 #include "ray.hpp"
-#include "edgestruct.hpp"
 #include "propagation.hpp"
-#include "typedef.hpp"
 
 class LastStepInfo 
 {

@@ -9,15 +9,24 @@
  * Date: 4/1/2023
  ************************************************************************/
 
-#include "ray.hpp"
 #include "vec2.hpp"
 #include "vec3.hpp"
 #include "mat4.hpp"
 
 #include <set>
 #include <vector>
+#include <glog/logging.h>
 
 #define BETWEEN(a,b,c) (a>b && a<c)
+
+const double FEQ_EPS_LOOSE = 1e-3;
+
+inline bool FLT(double a, double b, double e=FEQ_EPS)  { return (b-a)>e;}
+inline bool FGT(double a, double b, double e=FEQ_EPS)  { return (a-b)>e;}
+inline bool FLT_LOOSE(double a, double b, double e=FEQ_EPS_LOOSE)  { return (b-a)>e;}
+inline bool FGT_LOOSE(double a, double b, double e=FEQ_EPS_LOOSE)  { return (a-b)>e;}
+
+extern double current_time, prev_time;
 
 using namespace std;
 
@@ -97,5 +106,41 @@ public:
         return (value < 0) ? -1 : 1;
     }
 };
+
+template <class T>
+inline void print_vector(const vector<T>& vec)
+{
+    cout << "vector size: " << vec.size() << endl;
+    for (typename vector<T>::const_iterator iter = vec.begin(); iter != vec.end(); iter++)
+        cout << *iter << endl;
+}
+
+template <class T>
+void copy_vector(vector<T>& from, vector<T>& to)
+{
+    to.clear();
+    to.resize(from.size());
+    copy(from.begin(), from.end(), to.begin());
+}
+
+template <class T>
+void attach_vector(vector<T>& first, vector<T>& second)
+{
+    for (typename vector<T>::iterator lit = second.begin(); lit != second.end(); lit++)
+        first.push_back(*lit);
+}
+
+inline void reset_time()
+{
+    prev_time = get_cpu_time();
+}
+
+inline double get_used_time()
+{
+    current_time = get_cpu_time();
+    double diff = current_time - prev_time;
+    prev_time = current_time;
+    return diff;
+}
 
 #endif

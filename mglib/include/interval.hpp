@@ -12,7 +12,7 @@
 
 
 #include "halfedge.hpp"
-#include "main.hpp"
+#include "general_math.hpp"
 #include "heap.hpp"
 
 enum TraversalState { Discovered, Finished };

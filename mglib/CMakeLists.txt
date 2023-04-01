@@ -26,7 +26,6 @@ set(MGLIB_SOURCES
 set(CMAKE_BUILD_TYPE Debug)
 
 set(MGLIB_HEADERS
-    ${MGLIB_INCLUDE_DIR}/auxiliar.hpp
     ${MGLIB_INCLUDE_DIR}/cell_types.hpp
     ${MGLIB_INCLUDE_DIR}/edgestruct.hpp
     ${MGLIB_INCLUDE_DIR}/general_math.hpp
@@ -34,14 +33,12 @@ set(MGLIB_HEADERS
     ${MGLIB_INCLUDE_DIR}/halfedge.hpp
     ${MGLIB_INCLUDE_DIR}/interval.hpp
     ${MGLIB_INCLUDE_DIR}/last_step.hpp
-    ${MGLIB_INCLUDE_DIR}/main.hpp
     ${MGLIB_INCLUDE_DIR}/manifold.hpp
     ${MGLIB_INCLUDE_DIR}/mls.hpp
     ${MGLIB_INCLUDE_DIR}/path_tracer.hpp
     ${MGLIB_INCLUDE_DIR}/propagation.hpp
     ${MGLIB_INCLUDE_DIR}/trimesh.hpp
     ${MGLIB_INCLUDE_DIR}/ray.hpp
-    ${MGLIB_INCLUDE_DIR}/typedef.hpp
     ${GFX_INCLUDE_DIR}/gfx.hpp
     ${GFX_INCLUDE_DIR}/geom3d.hpp
     ${GFX_INCLUDE_DIR}/heap.hpp

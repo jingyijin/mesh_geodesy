@@ -13,7 +13,15 @@
 #include <assert.h>
 #include <float.h>
 
-#include "typedef.hpp"
+#include "trimesh.hpp"
+#include "manifold.hpp"
+#include "interval.hpp"
+
+typedef ManifoldGraph<TriMesh> ManifoldGraphT;
+typedef ManifoldGraphT::Handle Handle;
+
+typedef vector<Interval*> IntervalList;
+typedef pair<double, double> Range;
 
 class EdgeStruct : public vector<Interval*>
 {

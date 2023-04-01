@@ -10,7 +10,7 @@
  ************************************************************************/
 
 #include "vec3.hpp"
-#include "main.hpp"
+#include "general_math.hpp"
 
 template <class Vec>
 class Ray
