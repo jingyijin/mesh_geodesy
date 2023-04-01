@@ -12,10 +12,10 @@ typedef std::vector<iid_t> idlist_t;
 
 struct Polygon : public idlist_t
 {
-	Polygon(size_t N) : idlist_t(N) {}
-	Polygon(const idlist_t& p) : idlist_t(p) {}
+    Polygon(size_t N) : idlist_t(N) {}
+    Polygon(const idlist_t& p) : idlist_t(p) {}
 
-	int dim() const { return 2; }
+    int dim() const { return 2; }
 };
 
 typedef idset_t VertSet;

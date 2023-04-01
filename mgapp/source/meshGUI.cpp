@@ -163,12 +163,12 @@ void MeshGUI::default_texture()
     m_texture = new ByteRaster(512, 512, 1);
     const int block = m_grid_period;
     for(int i=0; i<m_texture->width(); ++i)
-    for(int j=0; j<m_texture->height(); ++j)
-    {
-        int g = ( ((i&block)==0) ^ ((j&block)==0) )*255;
-        m_texture->pixel(i,j)[0] = g;
+        for(int j=0; j<m_texture->height(); ++j)
+        {
+            int g = ( ((i&block)==0) ^ ((j&block)==0) )*255;
+            m_texture->pixel(i,j)[0] = g;
+        }
     }
-}
 
 void MeshGUI::draw_contents()
 {
@@ -187,8 +187,7 @@ void MeshGUI::begin_redraw()
     LOG(INFO) << "MeshGUI::begin_redraw";
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     
-    if( m_selection_mode == Noselect ) 
-    {
+    if( m_selection_mode == Noselect ) {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
     }

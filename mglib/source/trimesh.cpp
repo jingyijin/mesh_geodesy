@@ -20,18 +20,18 @@ void TriMesh::initialize()
 
 int TriMesh::other_vertex(int fid, int v0, int v1) const
 {
-	int other_v = 0;
-	const Face& f = m_face[fid];
-	for (int i=0; i<3; i++)
-	{
-		int vid = f[i];
-		if (vid != v0 && vid != v1)
-		{
-			other_v = vid;
-			break;
-		}
-	}
-	return other_v;
+    int other_v = 0;
+    const Face& f = m_face[fid];
+    for (int i=0; i<3; i++)
+    {
+        int vid = f[i];
+        if (vid != v0 && vid != v1)
+        {
+            other_v = vid;
+            break;
+        }
+    }
+    return other_v;
 }
 
 void TriMesh::compute_bbox(Vec3& min, Vec3& max)

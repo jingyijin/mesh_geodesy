@@ -44,29 +44,7 @@ bool GMath::within_range(double interv, const pair<double, double>& range)
 {
     return !(FLT(interv, range.first) || FGT(interv, range.second));
 }
-/*
-bool GMath::collinear(const Vec3& p, const Vec3& q, const Vec3& r)
-{
-    // following CGAL implementation
-    Vec3 dp = p-r;
-    Vec3 dq = q-r;
-    if (GMath::sign_of_determinant2x2(dp[0], dq[0], dp[1], dq[1]) == 0)
-        return false;
 
-    return GMath::sign_of_determinant2x2(dp[0], dq[0], dp[2], dq[2]) == 0 && 
-           GMath::sign_of_determinant2x2(dp[1], dq[1], dp[2], dq[2]) == 0;
-}
-*/
-/*
-bool GMath::collinear(const Vec3& p1, const Vec3& p2, const Vec3& p3)
-{
-    Vec3 d1 = p2-p1;
-    Vec3 d2 = p3-p1;
-    Vec3 c = d1^d2;
-
-    return FEQ(c*c, 0.0);
-}
-*/
 bool GMath::collinear(const Vec3& a, const Vec3& b, const Vec3& c)
 {
     double det = a * (b ^ c);

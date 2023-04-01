@@ -6,39 +6,35 @@
 class MLS
 {
 public:
-	typedef vector< pair<int, double> > ValueConstraintMap;
-	typedef vector< pair<int, Vec3> > GradientConstraintMap;
-	typedef vector<double> ScalarVector;
-	typedef vector<Vec3> VectorVector;
+    typedef vector< pair<int, double> > ValueConstraintMap;
+    typedef vector< pair<int, Vec3> > GradientConstraintMap;
+    typedef vector<double> ScalarVector;
+    typedef vector<Vec3> VectorVector;
 
-	typedef pair<Handle, double> KnotPair;
-	typedef vector<KnotPair> KnotVector;
-	typedef vector<KnotVector> KnotVectorVector;
-
-public:
-	GeoTriMesh *mesh;
-
-	// geodesic distances and paths
-	vector<ScalarVector> distances;
-	vector<KnotVectorVector> paths;
-
-	ScalarVector scalar_field;
+    typedef pair<Handle, double> KnotPair;
+    typedef vector<KnotPair> KnotVector;
+    typedef vector<KnotVector> KnotVectorVector;
 
 public:
-	MLS(GeoTriMesh *m);
-	~MLS();
+    GeoTriMesh *mesh;
 
-	void clear();
-	void clear_distances();
+    // geodesic distances and paths
+    vector<ScalarVector> distances;
+    vector<KnotVectorVector> paths;
 
-	void compute_distances(int selected_v);
+    ScalarVector scalar_field;
 
-	// methods related to computing projected path distances
-	double project_distance(KnotVector& kv, VectorVector& field);
-    Vec3 interpolate_gradient(VectorVector& field, Handle e, double interval);
+public:
+    MLS(GeoTriMesh *m);
+    ~MLS();
 
-	// in/output methods
-	void print_knot_vector(const KnotVector& kn);
+    void clear();
+    void clear_distances();
+
+    void compute_distances(int selected_v);
+
+    // in/output methods
+    void print_knot_vector(const KnotVector& kn);
 };
 
 #endif
