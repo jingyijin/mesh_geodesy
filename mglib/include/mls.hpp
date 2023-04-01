@@ -1,6 +1,14 @@
 #ifndef MLS_INCLUDED
 #define MLS_INCLUDED
 
+/************************************************************************
+ * File description: MLS class to compute geodesic distances and paths
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include "geomesh.hpp"
 
 class MLS

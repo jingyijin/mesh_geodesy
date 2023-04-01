@@ -1,6 +1,14 @@
 #ifndef HALF_EDGE_H_INCLUDED 
 #define HALF_EDGE_H_INCLUDED
 
+/************************************************************************
+ * File description: Half-edge data structure for mesh generation
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include "cell_types.hpp"
 #include <assert.h>
 #include <ostream>

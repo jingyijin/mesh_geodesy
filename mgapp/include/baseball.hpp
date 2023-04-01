@@ -7,6 +7,8 @@
 /************************************************************************
 
   Common base class for ball-based rotators (e.g., Trackball & Arcball).
+  Code originally part of LibQSlim; 
+  it is pulled out of gfx library to keep gfx clean of OpenGL dependencies.
   
   $Id: baseball.h 443 2005-06-14 00:53:40Z garland $
 

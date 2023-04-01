@@ -1,6 +1,15 @@
 #ifndef LAST_STEP_INFO_INCLUDED
 #define LAST_STEP_INFO_INCLUDED
 
+/************************************************************************
+ * File description: Last step information for mesh generation
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
+
 #include "ray.hpp"
 #include "edgestruct.hpp"
 #include "propagation.hpp"

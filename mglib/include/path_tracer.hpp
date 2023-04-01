@@ -1,6 +1,14 @@
 #ifndef PATH_TRACER_INCLUDED
 #define PATH_TRACER_INCLUDED
 
+/************************************************************************
+ * File description: Path tracer class to compute geodesic distances and paths
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include "geomesh.hpp"
 #include "interval.hpp"
 

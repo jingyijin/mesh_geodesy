@@ -1,6 +1,14 @@
 #ifndef CELL_TYPES_H_INCLUDED 
 #define CELL_TYPES_H_INCLUDED
 
+/************************************************************************
+ * File description: Cell types for mesh generation
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include <set>
 #include <vector>
 #include <cstddef>

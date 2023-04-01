@@ -1,6 +1,15 @@
 #ifndef GEO_SMF_INCLUDED
 #define GEO_SMF_INCLUDED
 
+/************************************************************************
+ * File description: GeoTriMesh class for geodesic computation. It holds 
+ * the key mesh data structure and the geodesic computation.
+ * 
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include "trimesh.hpp"
 #include "edgestruct.hpp"
 #include "interval.hpp"

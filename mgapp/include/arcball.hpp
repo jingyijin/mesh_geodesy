@@ -7,6 +7,8 @@
 /************************************************************************
 
   Arcball rotation control.
+  Code originally part of LibQSlim; 
+  it is pulled out of gfx library to keep gfx clean of OpenGL dependencies.
   
   $Id: arcball.h 427 2004-09-27 04:45:31Z garland $
 

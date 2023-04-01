@@ -1,6 +1,15 @@
 #ifndef TRIMESH_INCLUDED
 #define TRIMESH_INCLUDED
 
+/************************************************************************
+ * File description: Triangular mesh class
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
+
 #include "vec3.hpp"
 
 #include <vector>

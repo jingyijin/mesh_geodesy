@@ -1,3 +1,12 @@
+/************************************************************************
+ * File description: Geometric mesh class with key data structure and
+ * computation methods for geodesic distance and path computation.
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include "auxiliar.hpp"
 #include "geomesh.hpp"
 #include "general_math.hpp"

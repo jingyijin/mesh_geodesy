@@ -1,6 +1,14 @@
 #ifndef AUXILIAR_H_INCLUDED
 #define AUXILIAR_H_INCLUDED
 
+/************************************************************************
+ * File description: Helper functions for miscellaneous tasks
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include "main.hpp"
 #include <time.h>
 

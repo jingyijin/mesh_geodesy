@@ -4,7 +4,11 @@
 #include <vector>
 #include <stddef.h>
 
-// source grabbed from MixTex
+/************************************************************************
+
+  source grabbed from MixTex
+
+ ************************************************************************/
 
 class MxHeapable;
 typedef std::vector<MxHeapable *> MxHeapBase;

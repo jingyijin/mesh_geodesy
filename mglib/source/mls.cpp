@@ -1,3 +1,12 @@
+/************************************************************************
+ * File description: MLS class as the main class to store distances
+ * and paths for the geodesic computation.
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include "mls.hpp"
 #include "auxiliar.hpp"
 #include "general_math.hpp"

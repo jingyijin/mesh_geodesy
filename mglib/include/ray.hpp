@@ -1,6 +1,14 @@
 #ifndef RAY_INCLUDED 
 #define RAY_INCLUDED
 
+/************************************************************************
+ * File description: Ray class for flattened calculation of the wavefront
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include "vec3.hpp"
 #include "main.hpp"
 

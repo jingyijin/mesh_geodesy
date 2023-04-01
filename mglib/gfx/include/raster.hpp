@@ -30,8 +30,8 @@ private:
 public:
     Raster(int w, int h, int c)
     {
-	W=w; H=h; nchan=c;
-	data = new T[length()];
+    W=w; H=h; nchan=c;
+    data = new T[length()];
     }
     virtual ~Raster() { delete[] data; }
 
@@ -100,14 +100,14 @@ inline void Raster<T>::reverse(int start, int end)
     
     while(i<j)
     {
-	for(int k=0; k<channels(); k++)
-	{
-	    T tmp = (*this)[i+k];
-	    (*this)[i+k] = (*this)[j+k];
-	    (*this)[j+k] = tmp;
-	}
-	i += channels();
-	j -= channels();
+    for(int k=0; k<channels(); k++)
+    {
+        T tmp = (*this)[i+k];
+        (*this)[i+k] = (*this)[j+k];
+        (*this)[j+k] = tmp;
+    }
+    i += channels();
+    j -= channels();
     }
 }
 
@@ -119,8 +119,8 @@ inline void Raster<T>::hflip()
 
      while( i<length() )
      {
-	 reverse(i, i+j);
-	 i += j + channels();
+     reverse(i, i+j);
+     i += j + channels();
      }
 }
 

@@ -7,6 +7,8 @@
 /************************************************************************
 
   Handy functions for common OpenGL tasks
+  Code originally part of LibQSlim; 
+  it is pulled out of gfx library to keep gfx clean of OpenGL dependencies.
 
   $Id: gltools.cxx 446 2005-06-18 13:58:15Z garland $
 

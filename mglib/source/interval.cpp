@@ -1,3 +1,12 @@
+/************************************************************************
+ * File description: Interval class for the wavefront algorithm
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
+
 #include "interval.hpp"
 
 Interval::Interval(Handle e_, double b0_, double b1_, double d0_, double d1_, double sigma_, bool tau_)

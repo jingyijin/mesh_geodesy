@@ -1,7 +1,9 @@
 /************************************************************************
 
-  MxGUI
-  
+  MxGUI - Superclass for all mesh-based GUIs.
+  Code originally part of LibQSlim; 
+  Placed in this directory to keep the library files free of OpenGL dependencies.
+
   $Id: gui.cxx 447 2005-06-18 14:01:16Z garland $
 
  ************************************************************************/

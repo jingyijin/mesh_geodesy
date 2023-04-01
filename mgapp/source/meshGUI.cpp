@@ -1,4 +1,13 @@
 
+/************************************************************************
+ * File description: Main file for the mesh geodesy GUI related functions
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
+
 #include "mxGUI.hpp"
 #include "meshGUI.hpp"
 #include "vec4.hpp"

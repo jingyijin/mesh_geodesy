@@ -8,6 +8,9 @@
 
   for more details.
 
+  Code originally part of LibQSlim; 
+  Placed in this directory to keep the library files free of OpenGL dependencies.
+
   $Id: arcball.cxx 427 2004-09-27 04:45:31Z garland $
 
  ************************************************************************/
@@ -145,7 +148,7 @@ bool Arcball::mouse_drag(int *where, int *last, int which)
 
 void Arcball::apply_transform()
 {
-    
+
     update();
     curquat = conjugate(q_now);
     Baseball::apply_transform();

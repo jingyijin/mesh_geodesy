@@ -1,6 +1,14 @@
 #ifndef MANIFOLD_H_INCLUDED
 #define MANIFOLD_H_INCLUDED
 
+/************************************************************************
+ * File description: Manifold graph data structure for mesh generation
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include "halfedge.hpp"
 
 #include <map>

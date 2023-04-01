@@ -2,6 +2,9 @@
 
   Common code for ball-based rotation controllers.
 
+  Code originally part of LibQSlim; 
+  Placed in this directory to keep the library files free of OpenGL dependencies.
+
   $Id: baseball.cxx 427 2004-09-27 04:45:31Z garland $
 
  ************************************************************************/

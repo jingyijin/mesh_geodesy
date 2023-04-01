@@ -1,3 +1,11 @@
+/************************************************************************
+ * File description: TriMesh class for the wavefront algorithm
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include "trimesh.hpp"
 #include "geom3d.hpp"
 

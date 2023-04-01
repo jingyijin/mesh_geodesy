@@ -1,6 +1,16 @@
 #ifndef INTERVAL_H_INCLUDED
 #define INTERVAL_H_INCLUDED
 
+/************************************************************************
+ * File description: Interval structure for the wave front algorithm
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
+
+
 #include "halfedge.hpp"
 #include "main.hpp"
 #include "heap.hpp"

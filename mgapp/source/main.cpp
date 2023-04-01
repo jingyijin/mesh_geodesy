@@ -1,3 +1,11 @@
+/************************************************************************
+ * File description: Main file for the mesh geodesy application
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include <iostream>
 #include <glog/logging.h>
 

@@ -1,6 +1,19 @@
 #ifndef MESHGUI_INCLUDED
 #define MESHGUI_INCLUDED
 
+/************************************************************************
+ * MeshGUI is a class that provides a GUI for a mesh.  It is a subclass
+ * of mxGUI, which provides the basic GUI functionality.  The class
+ * provides a number of virtual functions that can be overridden to
+ * provide custom functionality.  The class provides customized rendering
+ * of the mesh, and provides a number of callbacks for mouse and keyboard
+ * events.
+ *
+ * Author: Jingyi Jin
+ * Version: 0.1
+ * Date: 4/1/2023
+ ************************************************************************/
+
 #include "mxGUI.hpp"
 #include "geomesh.hpp"
 #include "arcball.hpp"
