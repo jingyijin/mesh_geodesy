@@ -16,9 +16,10 @@ MeshGUI::MeshGUI() : MxGUI(),
         m_will_draw_mesh(false),
         m_will_draw_geodesic_distance(false),
         m_will_draw_geodesic_path(false),
-        m_grid_period(0x10)
+        m_grid_period(0x10),
+        m_mesh(nullptr),
+        m_mls(nullptr)
 {
-    m_mesh = new GeoTriMesh();
     m_mat = new Material();
     m_obj = gluNewQuadric();
 
@@ -28,9 +29,11 @@ MeshGUI::MeshGUI() : MxGUI(),
 MeshGUI::~MeshGUI() 
 {
     if (m_mesh)     delete m_mesh;
+    if (m_mls)      delete m_mls;
+
+    if (m_texture)  delete m_texture;
     if (m_mat)      delete m_mat;
     if (m_obj)      gluDeleteQuadric(m_obj);
-    if (m_texture)  delete m_texture;
 }
 
 void MeshGUI::initialize(int argc, char* argv[])
@@ -77,7 +80,7 @@ void MeshGUI::cb_save_file()
 void MeshGUI::load_mesh(const string& filename)
 {
     LOG(INFO) << "MeshGUI::load_mesh " << filename;
-    if (m_mesh) delete m_mesh;
+    if (m_mls) delete m_mls;
     TriMesh *tri = new TriMesh();
 
     tri->read_from_file(filename);
@@ -85,7 +88,6 @@ void MeshGUI::load_mesh(const string& filename)
     tri->compute_bbox(m_bb_min, m_bb_max);
     m_mesh = new GeoTriMesh(tri);
 
-    if (m_mls) delete m_mls;
     m_mls = new MLS(m_mesh);
 
     reset_camera();

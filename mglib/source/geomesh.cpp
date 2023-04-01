@@ -8,11 +8,6 @@
 
 bool DEBUG = false;
 
-GeoTriMesh::GeoTriMesh()
-: TriMesh(), ERROR_TOLERANCE(0.001)
-{
-}
-
 GeoTriMesh::GeoTriMesh(TriMesh *m)
 : TriMesh(*m), ERROR_TOLERANCE(0.001)
 {
@@ -54,11 +49,14 @@ void GeoTriMesh::reset_distance()
 void GeoTriMesh::clear_edge_map()
 {
     LOG(INFO) << "GeoTriMesh::clear_edge_map()";
-    for (auto& kv : edge_map) {
-        for (auto& iv : kv.second) {
+    // delete the intervals
+    cout << "edge_map.size() = " << edge_map.size() << endl;
+    for (auto& es : edge_map) {
+        cout << "es.second.size() = " << es.second.size() << endl;
+        for (auto& iv : es.second) {
             delete iv;
         }
-        kv.second.clear();
+        es.second.clear();
     }
     edge_map.clear();
 }

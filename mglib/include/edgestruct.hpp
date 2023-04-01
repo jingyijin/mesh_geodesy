@@ -31,6 +31,10 @@ public:
     { modified = false;	}
     EdgeStruct(Interval* iv)
     { push_back(iv); modified = false; }
+    ~EdgeStruct() { 
+        for (IntervalList::iterator iit = begin(); iit != end(); iit++) 
+            delete *iit; 
+    }
 
     IntervalList::const_iterator get_const_begin() const { return begin(); }
     IntervalList::const_iterator get_const_end() const { return end(); }

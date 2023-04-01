@@ -83,7 +83,6 @@ public:
     EdgeCoveringMap edge_covering;
 
 public:
-    GeoTriMesh();
     GeoTriMesh(TriMesh *m);
     ~GeoTriMesh();
 
