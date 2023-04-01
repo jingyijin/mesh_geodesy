@@ -26,7 +26,6 @@ set(MGLIB_SOURCES
 set(CMAKE_BUILD_TYPE Debug)
 
 set(MGLIB_HEADERS
-    ${MGLIB_INCLUDE_DIR}/cell_types.hpp
     ${MGLIB_INCLUDE_DIR}/edgestruct.hpp
     ${MGLIB_INCLUDE_DIR}/general_math.hpp
     ${MGLIB_INCLUDE_DIR}/geomesh.hpp

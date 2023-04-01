@@ -9,9 +9,21 @@
  * Date: 4/1/2023
  ************************************************************************/
 
-#include "cell_types.hpp"
 #include <assert.h>
 #include <ostream>
+#include <vector>
+
+typedef unsigned int iid_t;
+typedef std::pair<iid_t, iid_t> idpair_t;
+typedef std::vector<iid_t> idlist_t;
+
+struct Polygon : public idlist_t
+{
+    Polygon(size_t N) : idlist_t(N) {}
+    Polygon(const idlist_t& p) : idlist_t(p) {}
+
+    int dim() const { return 2; }
+};
 
 template<class _Vertex, class _Face=iid_t>
 class Halfedge
