@@ -147,15 +147,6 @@ extern int infer_image_type(const char *filename);
 extern bool write_image(const char *filename, const ByteRaster&, int type=-1);
 extern ByteRaster *read_image(const char *filename, int type=-1);
 
-// PNM support provided by libgfx (always available)
-extern bool will_write_raw_pnm;
-extern bool write_pnm_image(const char *filename, const ByteRaster&);
-extern ByteRaster *read_pnm_image(const char *filename);
-
-// TIFF support provided through libtiff (if available).
-extern bool write_tiff_image(const char *filename, const ByteRaster&);
-extern ByteRaster *read_tiff_image(const char *filename);
-
 // PNG support provided through libpng (if available).
 extern bool write_png_image(const char *filename, const ByteRaster&);
 extern ByteRaster *read_png_image(const char *filename);

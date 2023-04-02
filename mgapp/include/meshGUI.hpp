@@ -159,6 +159,11 @@ public:
     // callback functions
     static void cb_open_file();
     static void cb_save_file();
+    static void cb_load_default_texture();
+    static void cb_load_texture();
+    static void cb_save_distance();
+    static void cb_load_distance();
+
     void load_mesh(const string& filename);
 };
 

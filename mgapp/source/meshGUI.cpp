@@ -55,12 +55,17 @@ void MeshGUI::initialize(int argc, char* argv[])
     add_menu_item("&File/Open", FL_CTRL+'o', (Fl_Callback *)cb_open_file, NULL);
     add_menu_item("&File/Save", FL_CTRL+'s', (Fl_Callback *)cb_save_file, NULL);
 
-    add_toggle_menu("&Draw/Vertices", 0, m_will_draw_vertices);
+    add_toggle_menu("&Draw/Vertices",              0, m_will_draw_vertices);
     add_toggle_menu("&Draw/Surface + face normal", 0, m_will_draw_surface_fnormal);
-    add_toggle_menu("&Draw/Mesh", 0, m_will_draw_mesh);
+    add_toggle_menu("&Draw/Mesh",                  0, m_will_draw_mesh);
     add_toggle_menu("&Draw/Bounding box", FL_CTRL+'b', m_will_draw_bbox);
-    add_toggle_menu("&Draw/Geodesic distance", 0, m_will_draw_geodesic_distance);
-    add_toggle_menu("&Draw/Geodesic path", 0, m_will_draw_geodesic_path);
+    add_toggle_menu("&Draw/Geodesic distance",     0, m_will_draw_geodesic_distance);
+    add_toggle_menu("&Draw/Geodesic path",         0, m_will_draw_geodesic_path);
+
+    add_menu_item("&Tools/Default texture",        0, (Fl_Callback *)cb_load_default_texture, NULL);
+    add_menu_item("&Tools/Load texture",           0, (Fl_Callback *)cb_load_texture, NULL);
+    add_menu_item("&Tools/Save geodesic distance", 0, (Fl_Callback *)cb_save_distance, NULL);
+    add_menu_item("&Tools/Load geodesic distance", 0, (Fl_Callback *)cb_load_distance, NULL);
 }
 
 int MeshGUI::add_menu_item(const char* name, int key, Fl_Callback *f, void* val, int flags) 
@@ -84,6 +89,44 @@ void MeshGUI::cb_save_file()
         if (gui.m_mesh)
             gui.m_mesh->write_to_file(output_filename);
     }
+}
+
+void MeshGUI::cb_load_default_texture()
+{
+    gui.default_texture();
+    gui.setup_texture();
+    gui.m_canvas->redraw();
+}
+
+void MeshGUI::cb_load_texture()
+{
+    const char *filename = fl_file_chooser("Load texture:", "*.png", "");
+    if (!filename) return;
+
+    ByteRaster *img = read_image(filename);
+    if( img )
+    {
+        if (gui.m_texture) delete gui.m_texture;
+        gui.m_texture = img;
+        gui.m_canvas->make_current();
+        gui.setup_texture();
+    }
+}
+
+void MeshGUI::cb_save_distance() 
+{
+    string input_filename = fl_file_chooser("Select input file", "*{.dist}", NULL);
+
+    if (!input_filename.empty())
+        gui.m_mls->save_distances(input_filename);
+}
+
+void MeshGUI::cb_load_distance() 
+{
+    string output_filename = fl_file_chooser("Select output file", "*{.dist}", NULL);
+
+    if (!output_filename.empty())
+        gui.m_mls->load_distances(output_filename);
 }
 
 void MeshGUI::load_mesh(const string& filename)
@@ -447,21 +490,19 @@ void MeshGUI::draw_geodesic_distance()
     glEnable(GL_TEXTURE_2D);
 
     int size = face.size();
-    for (auto& dist : m_mls->distances)
+    GeoTriMesh::ScalarVector& dist = m_mls->distances;
+    for(int i=0; i<size; i++)
     {
-        for(int i=0; i<size; i++)
-        {
-            const Face& f = face[i];
-            glBegin(GL_TRIANGLES);
-            setup_face_state(i);
-            glTexCoord2f(dist[f[0]], 1.f);
-            glArrayElement(f[0]);
-            glTexCoord2f(dist[f[1]], 1.f);
-            glArrayElement(f[1]);
-            glTexCoord2f(dist[f[2]], 1.f);
-            glArrayElement(f[2]);
-            glEnd();
-        }
+        const Face& f = face[i];
+        glBegin(GL_TRIANGLES);
+        setup_face_state(i);
+        glTexCoord2f(dist[f[0]], 1.f);
+        glArrayElement(f[0]);
+        glTexCoord2f(dist[f[1]], 1.f);
+        glArrayElement(f[1]);
+        glTexCoord2f(dist[f[2]], 1.f);
+        glArrayElement(f[2]);
+        glEnd();
     }
 
     glPopAttrib();
@@ -477,18 +518,13 @@ void MeshGUI::draw_geodesic_path()
     glColor3f(0,0,0);
     glLineWidth(2.0);
 
-    for (auto &path : m_mls->paths) {
-        GeoTriMesh::KnotVectorVector::iterator kit = path.begin();
-        for ( ; kit != path.end(); kit++) {
-            MLS::KnotVector& vv = (*kit);
-            MLS::KnotVector::iterator vit = vv.begin();
-            glBegin(GL_LINE_STRIP);
-            for ( ; vit != vv.end(); vit++)
-                glVertex3dv(m_mesh->edge_point((*vit).first, (*vit).second));
-            glEnd();
-        }
+    for (auto& path : m_mls->paths ) {
+        MLS::KnotVector::iterator vit = path.begin();
+        glBegin(GL_LINE_STRIP);
+        for ( ; vit != path.end(); vit++)
+            glVertex3dv(m_mesh->edge_point((*vit).first, (*vit).second));
+        glEnd();
     }
-
     glPopAttrib();
 }
 
@@ -530,12 +566,12 @@ bool MeshGUI::key_press(int key)
 {    
     LOG(INFO) << "MeshGUI::key_press";
     switch (key) {
-	case FL_Up:
-		up_frequency(); 
+    case FL_Up:
+        up_frequency(); 
         m_canvas->redraw(); 
         break;
-	case FL_Down:
-		down_frequency(); 
+    case FL_Down:
+        down_frequency(); 
         m_canvas->redraw(); 
         break;
     case 'w':

@@ -5,6 +5,9 @@ cmake_minimum_required(VERSION 3.11-3.18)
 project(mglib)
 
 find_package(glog REQUIRED)
+find_package(PNG REQUIRED)
+message("PNG include directory: ${PNG_INCLUDE_DIRS}")
+message("PNG lib directory: ${PNG_LIBRARY_DIRS}")
 
 set(MGLIB_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(MGLIB_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -21,6 +24,7 @@ set(MGLIB_SOURCES
     ${GFX_SOURCE_DIR}/heap.cpp
     ${GFX_SOURCE_DIR}/mat4.cpp
     ${GFX_SOURCE_DIR}/quat.cpp
+    ${GFX_SOURCE_DIR}/raster.cpp
 )
 
 set(CMAKE_BUILD_TYPE Debug)
@@ -58,6 +62,10 @@ add_library(mglib STATIC
 target_include_directories(mglib PUBLIC 
     ${MGLIB_INCLUDE_DIR}
     ${GFX_INCLUDE_DIR}
+    ${PNG_INCLUDE_DIR}
 )
 
-target_link_libraries(mglib PUBLIC glog::glog)
+target_link_libraries(mglib PUBLIC 
+    glog::glog
+    ${PNG_LIBRARIES}
+)

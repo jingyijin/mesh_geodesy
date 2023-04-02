@@ -27,8 +27,8 @@ public:
     GeoTriMesh *mesh;
 
     // geodesic distances and paths
-    vector<ScalarVector> distances;
-    vector<KnotVectorVector> paths;
+    ScalarVector distances;
+    KnotVectorVector paths;
 
     ScalarVector scalar_field;
 
@@ -40,6 +40,9 @@ public:
     void clear_distances();
 
     void compute_distances(int selected_v);
+
+    void save_distances(const string& filename);
+    void load_distances(const string& filename);
 
     // in/output methods
     void print_knot_vector(const KnotVector& kn);
