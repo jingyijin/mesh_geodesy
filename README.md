@@ -22,7 +22,6 @@ mgapp: It is a GUI-based tool built on FLTK that allows interactive visualizatio
 
 This project was tested under a Ubuntu system. It requires installation of the following dependencies
 * FLTK - Installation instructions available through [link][2]
-[2]: https://github.com/fltk/fltk/blob/master/README.txt
 * glog - ```sudo apt-get install -y libgoogle-glog-dev```
 * libpng - ```sudo apt-get install libpng-dev```
 
@@ -31,3 +30,5 @@ This project was tested under a Ubuntu system. It requires installation of the f
 This library uses some code from LibQSlim, a library for triangle mesh simplification created by my thesis advisor, Michael Garland. I would like to thank him for his invaluable teaching and unintentional contributions.
 
 I would also like to acknowledge the help of ChatGPT for providing advice on using CMake in this project. It made possible to deliver this project (even not yet complete) in such short period of time.
+
+[2]: https://github.com/fltk/fltk/blob/master/README.txt
