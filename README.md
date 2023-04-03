@@ -23,16 +23,31 @@ mblib: It is a self contained library that provides a set of APIs for calculatin
 ### Mesh Geodesy Application
 mgapp: It is a GUI-based tool built on FLTK that allows interactive visualization and manipulation of 3D triangle meshes. The application provides a few more features, such as selecting vertices, changing textures, and more.
 
-## Installation Requirements
+## Installation & Requirements
 
 This project was tested under a Ubuntu system. It requires installation of the following dependencies
 * FLTK - Installation instructions available through [link][2]
-* glog - ```sudo apt-get install -y libgoogle-glog-dev```
-* libpng - ```sudo apt-get install libpng-dev```
+* glog - 
+```$ sudo apt-get install -y libgoogle-glog-dev```
+* libpng - 
+```$ sudo apt-get install libpng-dev```
+
+Installation of this package can be done by the typical
+```
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+```
+
+Then launch the mgapp with
+```
+$ mgapp/mgapp
+```
 
 ## Acknoledgemeent
 
-This library uses some code from LibQSlim, a library for triangle mesh simplification created by my thesis advisor, Michael Garland. I would like to thank him for his invaluable teaching and unintentional contributions.
+This library uses some code from LibQSlim, a library for triangle mesh simplification created by my thesis advisor, Michael Garland. I tried my best to package those files in an independent subdirectory called `gfx/`, but some files such as arcball, GUI were spread in `mgapp/`. I would like to thank Prof. Garland for his invaluable teaching and unintentional contributions.
 
 I would also like to acknowledge the help of ChatGPT for providing advice on using CMake in this project. It made possible to deliver this project (even not yet complete) in such short period of time.
 
