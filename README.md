@@ -7,6 +7,8 @@ Geodesic distance calculation is a powerful technique in mesh processing that al
 
 Computing exact geodesic distances on 3D triangle meshes is a challenging problem. Traditional shortest path algorithms, such as Dijkstra's approximation algorithm, only traverses along the edges of the mesh, which can cause significant accurancy discrepancies in sparsely sampled meshes. The Mesh Geodesy library is an attempt to provide a solution to this problem by calculating accurate (albeit with floating point approximations) distances and paths for a given vertex to all other vertices.
 
+<img src="pictures/cow_path.png " alt="alt text" width="300" height="250"> <img src="pictures/dancer_path.png " alt="alt text" width="300" height="250"> <img src="pictures/hand_path.png " alt="alt text" width="300" height="250">
+
 This library implements the exact algorithim presented in the paper "Fast Exact and Approximate Geodesics on Meshes" by Hoppe and team. [link][1]
 
 [1]: https://hhoppe.com/geodesics.pdf
