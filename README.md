@@ -3,7 +3,10 @@
 
 Geodesic distance calculation is a powerful technique in mesh processing that allows measurement of the shortest path between two points on a 3D surface. Unlike Euclidean distance, which assumes a flat space, geodesic distance takes into account the curvature of the surface and provides a metric that is constrained to the geometry of the mesh. This makes it particularly useful for a variety of applications, in computer graphics, computational geometry, physical simulations, and other areas.
 
-![alt text](pictures/lucy3.gif "Progressive rendering of a 3D mesh with triangles sorted according to their geodesic distance to a starting vertex.")
+| Example | 
+| ------- | 
+| <img src="pictures/lucy3.gif" alt="alt text" height="500"> | 
+| Progressive rendering of a 3D mesh with triangles sorted according to their geodesic distance to a starting vertex.|
 
 Computing exact geodesic distances on 3D triangle meshes is a challenging problem. Traditional shortest path algorithms, such as Dijkstra's approximation algorithm, only traverses along the edges of the mesh, which can cause significant accurancy discrepancies in sparsely sampled meshes. The Mesh Geodesy library is an attempt to provide a solution to this problem by calculating accurate (albeit with floating point approximations) distances and paths for a given vertex to all other vertices.
 
