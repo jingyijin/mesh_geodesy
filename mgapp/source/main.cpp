@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
     gui.initialize(argc, argv);
     gui.m_toplevel->label("Mesh Geodesy");
-    gui.load_mesh("../../model/lucy.obj");
+    gui.load_mesh("../model/nicolo.obj");
 
     return gui.run();
 }

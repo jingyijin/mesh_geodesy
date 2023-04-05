@@ -40,6 +40,7 @@ public:
     void clear_distances();
 
     void compute_distances(int selected_v);
+    void sort_faces_by_distance();
 
     void save_distances(const string& filename);
     void load_distances(const string& filename);

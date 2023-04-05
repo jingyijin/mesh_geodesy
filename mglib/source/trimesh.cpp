@@ -101,10 +101,12 @@ void TriMesh::read_from_file(const string& filename)
             Face f;
             sscanf(line, "f %d %d %d", &f[0], &f[1], &f[2]);
             min_id = min_id && f[0] && f[1] && f[2];
-            if (min_id != 0) 
-                f-=1;
             m_face.push_back(f);
         }
+    }
+    if (min_id != 0) {
+        for (auto& f : m_face)
+            f -= 1;
     }
     this->compute_fnormal();
 

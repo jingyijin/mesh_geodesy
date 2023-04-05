@@ -11,6 +11,7 @@
 #include "general_math.hpp"
 
 #include <fstream>
+#include <algorithm>
 
 MLS::MLS(GeoTriMesh *m)
 : mesh(m)
@@ -46,6 +47,34 @@ void MLS::compute_distances(int selected_v)
     cout << "finished computing geodesic for vertex " << selected_v << endl;
 }
 
+void MLS::sort_faces_by_distance()
+{
+    cout << "MLS::sort_faces_by_distance()" << endl;
+    // sort faces by distance
+    vector<pair<double, Face>> dist_face_pairs;
+    int i;
+    double min_dist;
+    for (auto& f : mesh->m_face)
+    {
+        min_dist = DBL_MAX;
+        // min of dist at vertices
+        for (i=0; i<3; ++i)
+            min_dist = min(min_dist, distances[f[i]]);
+        min_dist /= 3.;
+        dist_face_pairs.push_back(make_pair(min_dist, f));
+    }
+    sort(dist_face_pairs.begin(), dist_face_pairs.end(), 
+        [](const pair<double, Face>& p1, const pair<double, Face>& p2) {
+            return p1.first < p2.first;
+    });
+
+    // update the face list
+    mesh->m_face.clear();
+    for (auto& p : dist_face_pairs)
+        mesh->m_face.push_back(p.second);
+    mesh->compute_fnormal();
+}
+
 void MLS::save_distances(const string& filename)
 {
     LOG(INFO) << "MLS::save_distances(" << filename << ")";
@@ -75,7 +104,7 @@ void MLS::load_distances(const string& filename)
     distances.clear();
     // load distances
     char line[1024];
-    float dist=0.f;
+    double dist=0.;
     while (fin.getline(line, 1024)) {
         if (line[0] == 's') {
             sscanf(line, "s %lf", &dist);

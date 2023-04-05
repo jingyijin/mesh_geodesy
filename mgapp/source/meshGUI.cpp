@@ -27,7 +27,9 @@ MeshGUI::MeshGUI() : MxGUI(),
         m_will_draw_geodesic_path(false),
         m_grid_period(0x10),
         m_mesh(nullptr),
-        m_mls(nullptr)
+        m_mls(nullptr),
+        m_displayed_face_id(0),
+        m_display_face_increment(400)
 {
     m_mat = new Material();
     m_obj = gluNewQuadric();
@@ -149,7 +151,8 @@ void MeshGUI::load_mesh(const string& filename)
 void MeshGUI::setup_for_drawing() 
 {
     LOG(INFO) << "MeshGUI::setup_for_drawing";
-    glClearColor(1.f, 1.f, 1.f, 0.0f);
+    glClearColor(1.f, 1.f, 1.f, 0.0f); // white
+    // glClearColor(26.f/255.f, 34.f/255.f, 40.f/255.f, 0.0f);  // dark blue
     
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
@@ -417,7 +420,7 @@ void MeshGUI::draw_surface_fnormal()
         m_mesh->compute_fnormal();
 
     TriMesh::FaceList& face = m_mesh->m_face;
-    int fsize = face.size();
+    int fsize = (m_target_fps == 0) ? face.size() : m_displayed_face_id;
     if (m_draw_mode == Draw_mode_solid) 
     {
         glBegin(GL_TRIANGLES);
@@ -515,8 +518,8 @@ void MeshGUI::draw_geodesic_path()
 
     glPushAttrib(GL_ENABLE_BIT|GL_LINE_BIT);
     glDisable(GL_LIGHTING);
-    glColor3f(0,0,0);
-    glLineWidth(2.0);
+    glColor3f(0.3f,0.4f,0.5f);
+    glLineWidth(0.5f);
 
     for (auto& path : m_mls->paths ) {
         MLS::KnotVector::iterator vit = path.begin();
@@ -562,6 +565,24 @@ bool MeshGUI::mouse_up(int *where, int which)
     return m_ball.mouse_up(where, which);
 }
 
+void MeshGUI::animate(bool will)
+{
+    MxGUI::animate(will);
+    m_target_fps = 1;
+}
+
+void MeshGUI::update_animation()
+{
+    m_displayed_face_id += m_display_face_increment;
+    m_displayed_face_id %= m_mesh->m_face.size();
+
+    int where[2] = {350, 282};
+    int last[2] = {348,282};
+    m_ball.mouse_drag(where, last, 1);
+    apply_camera();
+    m_canvas->redraw();
+}
+
 bool MeshGUI::key_press(int key) 
 {    
     LOG(INFO) << "MeshGUI::key_press";
@@ -588,9 +609,13 @@ bool MeshGUI::key_press(int key)
         m_canvas->redraw();
         break;
     case 'd':
-        int v_selected = (m_selected_vertex == -1) ? 0 : m_selected_vertex;
-        m_mls->compute_distances(v_selected);
+        m_selected_vertex = (m_selected_vertex == -1) ? 0 : m_selected_vertex;
+        m_mls->compute_distances(m_selected_vertex);
         cout << "Calculating geodesic distances" << endl;
+        m_canvas->redraw();
+        break;
+    case 'p':
+        m_mls->sort_faces_by_distance();
         m_canvas->redraw();
         break;
     }
