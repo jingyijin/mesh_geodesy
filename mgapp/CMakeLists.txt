@@ -30,7 +30,7 @@ set(MGAPP_HEADERS
     ${MGAPP_INCLUDE_DIR}/baseball.hpp
 )
 
-#set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Debug)
 
 add_executable(mgapp ${MGAPP_SOURCES} ${MGAPP_HEADERS})
 

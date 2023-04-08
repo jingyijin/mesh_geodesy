@@ -531,7 +531,7 @@ void MeshGUI::draw_geodesic_path()
     glPopAttrib();
 }
 
-void MeshGUI::setup_face_state(int fid) 
+inline void MeshGUI::setup_face_state(int fid) 
 {
     if (fid < m_mesh->m_fnormal.size())
         glNormal3dv(m_mesh->m_fnormal[fid]);

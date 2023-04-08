@@ -27,7 +27,7 @@ set(MGLIB_SOURCES
     ${GFX_SOURCE_DIR}/raster.cpp
 )
 
-#set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Debug)
 
 set(MGLIB_HEADERS
     ${MGLIB_INCLUDE_DIR}/edgestruct.hpp

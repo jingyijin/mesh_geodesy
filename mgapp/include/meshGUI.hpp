@@ -206,69 +206,181 @@ public:
     * @brief Apply the current camera transformation to the OpenGL context.
     */
     void apply_camera();
+    /**
+    * @brief Resets the camera to the original position
+    */    
     void reset_camera();
+    /**
+    * @brief Sets up the camera using the Look-At model, such that the center of the bounding box is the target to look at.
+    * @param min Minimum point of the bounding box.
+    * @param max Maximum point of the bounding box.
+    * @param aspect Aspect ratio of the canvas.
+    */    
     void camera_lookat(const Vec3& min, const Vec3& max, double aspect);
 
-    void setup_face_state(int fid);
+    /**
+     * @brief Sets up the OpenGL state for a face with the given ID.
+     *
+     * @param fid The ID of the face to set up the state for.
+     */
+    inline void setup_face_state(int fid);
+    /**
+     * @brief Draws the mesh using wireframe mode.
+     *
+     * This function draws the mesh using wireframe mode. It uses the vertex and face
+     * information from the mesh to create an OpenGL mesh, and draws the edges of the
+     * mesh as black lines. If the flag m_will_draw_surface_fnormal is not set, it also
+     * draws the mesh surface using flat shading based on face normals.
+     */
     void draw_mesh();
     void draw_contents();
+    /**
+     * @brief Draws the bounding box of the mesh as a wireframe box.
+     *
+     * This function draws the bounding box of the mesh as a wireframe box. It
+     * uses the `draw_box` function to draw the box, and sets the color to black.
+     */
     void draw_bbox();
+    /**
+     * @brief Draws a box with the given minimum and maximum points.
+     *
+     * @param min Minimum point of the box.
+     * @param max Maximum point of the box.
+     */    
     void draw_box(const Vec3f& min, const Vec3f& max);
+    /**
+     * @brief Draws the mesh surface using flat shading based on face normals.
+     *
+     * This function draws the mesh surface using flat shading based on face normals.
+     * It uses the vertex and face information from the mesh to create an OpenGL mesh.
+     * The mesh is drawn either as solid faces or as wireframe edges.
+     */
     void draw_surface_fnormal();
+    /**
+     * Draws the mesh for selection mode (vertex selection).
+     */
     void draw_for_selection();
+    /**
+     * @brief Draws a sphere at the position of the selected vertex.
+     *
+     * Draws a sphere at the position of the selected vertex if one is currently selected.
+     * The sphere has a radius of 0.01 units and is drawn in red.
+     */
     void draw_selection();
+    /**
+     * @brief Draws the mesh vertices as black points.
+     *
+     * This function draws the mesh vertices as black points. 
+     */
     void draw_vertices(); 
+    /**
+     * @brief Draws the geodesic distance texture on the mesh.
+     *
+     * This function draws the geodesic distance texture on the mesh. It uses the
+     * distances calculated by the MLS algorithm to color each triangle of the mesh
+     * according to its geodesic distance. The texture is applied to the triangles
+     * as a fill, and the mesh is drawn with depth testing enabled and texture
+     * mapping enabled.
+     */    
     void draw_geodesic_distance();
+    /**
+     * @brief Draws the geodesic paths on the mesh.
+     *
+     * This function draws the geodesic paths on the mesh. It uses the paths
+     * calculated by the MLS algorithm to draw each geodesic path as a line
+     * segment. The color of the line segments is set to a shade of gray, and the
+     * line width is set to 0.5.
+     */
     void draw_geodesic_path();
 
+    /**
+     * @brief Handles mouse down event.
+     * 
+     * @param where Pointer to mouse click location.
+     * @param which Mouse button that was clicked.
+     * @return Returns true if selected vertex changed, false otherwise.
+     */
     bool mouse_down(int *where, int which); 
+    /**
+     * @brief Handles mouse drag event.
+     *
+     * @param where Pointer to mouse drag location.
+     * @param last Pointer to last mouse drag location.
+     * @param which Mouse button that was clicked.
+     * @return Returns true if selected vertex changed, false otherwise.
+     */
     bool mouse_drag(int *where, int *last, int which); 
+    /**
+     * @brief Handles mouse up event.
+     *
+     * @param where Pointer to mouse up location.
+     * @param which Mouse button that was clicked.
+     * @return Returns true if selected vertex changed, false otherwise.
+     */
     bool mouse_up(int *where, int which);
+    /**
+     * @brief Handles key press event.
+     *
+     * @param key Key that was pressed.
+     * @return Returns true if selected vertex changed, false otherwise.
+     */
     bool key_press(int key); 
+    /**
+     * @brief Updates animation.
+     */
     void update_animation();
+    /**
+     * @brief Starts animation.
+     * 
+     * @param will Boolean indicating whether or not to animate.
+     */
     void animate(bool will);
 
+    /**
+     * @brief Selects the vertex closest to the given mouse location.
+     *
+     * @param where Pointer to mouse location.
+     * @return The index of the selected vertex, or -1 if none selected.
+     */
     int pick_vertex(int where[2]); 
+    /**
+     * Increases the frequency of the grid and updates the texture.
+     */
     void up_frequency();
+    /**
+     * Decreases the frequency of the grid and updates the texture.
+     */    
     void down_frequency();
 
-    // callback functions
+    /**
+     * Callback function for opening a mesh file.
+     */
     static void cb_open_file();
-    static void cb_save_file();    void apply_camera();
-    void reset_camera();
-    void camera_lookat(const Vec3& min, const Vec3& max, double aspect);
-
-    void setup_face_state(int fid);
-    void draw_mesh();
-    void draw_contents();
-    void draw_bbox();
-    void draw_box(const Vec3f& min, const Vec3f& max);
-    void draw_surface_fnormal();
-    void draw_for_selection();
-    void draw_selection();
-    void draw_vertices(); 
-    void draw_geodesic_distance();
-    void draw_geodesic_path();
-
-    bool mouse_down(int *where, int which); 
-    bool mouse_drag(int *where, int *last, int which); 
-    bool mouse_up(int *where, int which);
-    bool key_press(int key); 
-    void update_animation();
-    void animate(bool will);
-
-    int pick_vertex(int where[2]); 
-    void up_frequency();
-    void down_frequency();
-
-    // callback functions
-    static void cb_open_file();
+    /**
+     * Callback function for saving a mesh file.
+     */
     static void cb_save_file();
+    /**
+     * Callback function for loading the default texture.
+     */
     static void cb_load_default_texture();
+    /**
+     * Callback function for loading a texture from file.
+     */
     static void cb_load_texture();
+    /**
+     * Callback function for saving a geodesic distance file.
+     */
     static void cb_save_distance();
+    /**
+     * Callback function for loading a geodesic distance file.
+     */
     static void cb_load_distance();
 
+    /**
+    * @brief Loads a mesh from file and initializes the MLS, resets camera, and redraws the canvas.
+    * @param filename the name of the file containing the mesh to load
+    */
     void load_mesh(const string& filename);
 };
 extern MeshGUI gui;

@@ -38,17 +38,52 @@ private:
     MxGUI *m_app;
 
 public:
-    // Override selected FLTK window methods
-    //
+    /**
+     * @brief Overrides the draw method of Fl_Gl_Window to perform custom OpenGL rendering.
+     */
     virtual void draw();
+    /**
+     * @brief Overrides the handle method of Fl_Gl_Window to handle events.
+     * @param event The event to handle.
+     * @return int Returns 1 if the event was handled, 0 otherwise.
+     */
     virtual int handle(int event);
+    /**
+     * @brief Overrides the resize method of Fl_Gl_Window to handle canvas resizing.
+     * @param x X position of the canvas.
+     * @param y Y position of the canvas.
+     * @param w Width of the canvas.
+     * @param h Height of the canvas.
+     */
     virtual void resize(int x, int y, int w, int h);
 
 public:
+    /**
+    * @brief Default constructor for MxGLCanvas.
+    * @param x X position of the canvas.
+    * @param y Y position of the canvas.
+    * @param w Width of the canvas.
+    * @param h Height of the canvas.
+    * @param label Label for the canvas.
+    */
     MxGLCanvas(int x, int y, int w, int h, const char *label=NULL);
+    /**
+     * @brief Attaches a parent MxGUI object to this canvas.
+     * @param a Pointer to the parent MxGUI object.
+     */    
     void attach_app(MxGUI *a);
 };
 
+/**
+* @class MxGUI
+* @brief Class for creating a graphical user interface using FLTK.
+* This class provides a simple interface for creating a graphical user interface (GUI)
+* using the Fast Light Toolkit (FLTK). It provides a toplevel window, a GL canvas for
+* rendering 3D graphics, a status line, and a menu bar. The GUI can be initialized by
+* calling the initialize method and then run by calling the run method. The animate
+* method can be used to toggle animation on or off. The status method can be used to
+* display a status message in the status line.
+*/
 class MxGUI
 {
 private:
@@ -56,26 +91,76 @@ private:
     Fl_Window *create_window(int xw=640, int yw=480, int pad=5);
 
 public:
-    // This is the public interface of MxGUI available to the application.
-    //
+    /**
+    * @brief Pointer to the top-level FLTK window.
+    */
     Fl_Window *m_toplevel;
+    /**
+     * @brief Pointer to the OpenGL canvas for rendering 3D graphics.
+     */    
     MxGLCanvas *m_canvas;
+    /**
+     * @brief Pointer to the status line.
+     */    
     Fl_Output *m_status_line;
+    /**
+     * @brief Pointer to the menu bar.
+     */    
     Fl_Menu_Bar *m_menu_bar;
+    /**
+     * @brief Pointer to the layout menu item.
+     */    
     Fl_Menu_Item *m_menu_layout;
-    float m_default_fps, m_target_fps;
+    /**
+     * @brief Default frames per second for animation.
+     */
+    float m_default_fps;
+    /**
+     * @brief Target frames per second for animation.
+     */    
+    float m_target_fps;
 
+    /**
+     * @brief Pointer to the current MxGUI object.
+     */
     static MxGUI *m_current;	// There should only be one.
 
+    /**
+     * @brief Constructor for MxGUI.
+     */
     MxGUI();
+    /**
+     * @brief Virtual destructor for MxGUI.
+     */    
     virtual ~MxGUI() {}
 
+    /**
+     * @brief Initializes the GUI.
+     * @param argc The number of command line arguments.
+     * @param argv The command line arguments.
+     * @param layout Pointer to the layout menu item.
+     * @param xw The width of the window.
+     * @param yw The height of the window.
+     */
     virtual void initialize(int argc, char **argv,
                 Fl_Menu_Item *layout=NULL,
                 int xw=640, int yw=480);
+    /**
+     * @brief Runs the GUI.
+     * @return An integer representing the exit status.
+     */                
     virtual int run();
 
+    /**
+     * @brief Displays a status message in the status line.
+     * @param fmt The format string for the message.
+     * @return An integer representing the number of characters printed.
+     */
     int status(const char *fmt, ...);
+    /**
+     * @brief Toggles animation on or off.
+     * @param will A boolean value indicating whether animation will be turned on or off.
+     */
     void animate(bool will);
 //    bool snapshot_to_file(int format, const char *filenamep=NULL);
     void resize_canvas(int width, int height);
