@@ -77,7 +77,9 @@ sudo systemctl start xrdp
 ```
 Now, open the Remote Desktop Connection application on your Windows computer; Enter the IP address of your system in the "Computer" field and click "Connect"; Follow the instructions to enter username and passward. You should be connected to your Linux system.
 
-This project was mainly developed and tested under a Ubuntu system: Ubuntu 22.04.2 LTS; with gcc v11.3.0; cmake v3.26.0. Due to development capacity, I have not tested in other environments. Contributions are welcome!
+### Tested environments
+
+This project was mainly developed and tested under an Ubuntu system: Ubuntu 22.04.2 LTS; with gcc v11.3.0; cmake v3.26.0. Due to development capacity, it has not been extendedly under other environments. Contributions are welcome!
 
 ## Known issues
 
