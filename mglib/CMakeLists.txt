@@ -5,9 +5,14 @@ cmake_minimum_required(VERSION 3.11-3.18)
 project(mglib)
 
 find_package(glog REQUIRED)
+if (NOT glog_FOUND)
+    message(FATAL_ERROR "glog not found. Please install it using 'sudo apt-get install libgoogle-glog-dev'.")
+endif()
+
 find_package(PNG REQUIRED)
-message("PNG include directory: ${PNG_INCLUDE_DIRS}")
-message("PNG lib directory: ${PNG_LIBRARY_DIRS}")
+if (NOT PNG_FOUND)
+    message(FATAL_ERROR "libpng not found. Please install it using 'sudo apt-get install libpng-dev'.")
+endif()
 
 set(MGLIB_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(MGLIB_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")

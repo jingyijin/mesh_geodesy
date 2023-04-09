@@ -65,11 +65,8 @@ public:
         double t;     /**< The normalized distance of the intersection point along the edge. */
 
         InterStruct()
-        {
-            e = NULL;
-            inter = 0.;
-            t = 0.;
-        }
+        : e(NULL), inter(0.), t(0.)
+        {}
         /**
          * @brief Check whether the intersection point coincides with the end of an interval.
          *
