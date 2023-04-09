@@ -27,7 +27,7 @@ MeshGUI::MeshGUI() : MxGUI(),
         m_will_draw_geodesic_path(false),
         m_grid_period(0x10),
         m_mesh(nullptr),
-        m_mls(nullptr),
+        m_mg(nullptr),
         m_displayed_face_id(0),
         m_display_face_increment(400)
 {
@@ -40,7 +40,7 @@ MeshGUI::MeshGUI() : MxGUI(),
 MeshGUI::~MeshGUI() 
 {
     if (m_mesh)     delete m_mesh;
-    if (m_mls)      delete m_mls;
+    if (m_mg)       delete m_mg;
 
     if (m_texture)  delete m_texture;
     if (m_mat)      delete m_mat;
@@ -120,7 +120,7 @@ void MeshGUI::cb_save_distance()
     string input_filename = fl_file_chooser("Select input file", "*{.dist}", NULL);
 
     if (!input_filename.empty())
-        gui.m_mls->save_distances(input_filename);
+        gui.m_mg->save_distances(input_filename);
 }
 
 void MeshGUI::cb_load_distance() 
@@ -128,13 +128,13 @@ void MeshGUI::cb_load_distance()
     string output_filename = fl_file_chooser("Select output file", "*{.dist}", NULL);
 
     if (!output_filename.empty())
-        gui.m_mls->load_distances(output_filename);
+        gui.m_mg->load_distances(output_filename);
 }
 
 void MeshGUI::load_mesh(const string& filename)
 {
     LOG(INFO) << "MeshGUI::load_mesh " << filename;
-    if (m_mls) delete m_mls;
+    if (m_mg) delete m_mg;
     TriMesh *tri = new TriMesh();
 
     tri->read_from_file(filename);
@@ -142,7 +142,7 @@ void MeshGUI::load_mesh(const string& filename)
     tri->compute_bbox(m_bb_min, m_bb_max);
     m_mesh = new GeoTriMesh(tri);
 
-    m_mls = new MLS(m_mesh);
+    m_mg = new MeshGeodesy(m_mesh);
 
     reset_camera();
     m_canvas->redraw();
@@ -480,7 +480,7 @@ void MeshGUI::draw_selection()
 void MeshGUI::draw_geodesic_distance()
 {
     LOG(INFO) << "MeshGUI::draw_geodesic_distance";
-    if (m_mls->distances.empty()) return;
+    if (m_mg->distances.empty()) return;
 
     glPushAttrib(GL_ENABLE_BIT|GL_POLYGON_BIT);
     glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
@@ -493,7 +493,7 @@ void MeshGUI::draw_geodesic_distance()
     glEnable(GL_TEXTURE_2D);
 
     int size = face.size();
-    GeoTriMesh::ScalarVector& dist = m_mls->distances;
+    GeoTriMesh::ScalarVector& dist = m_mg->distances;
     for(int i=0; i<size; i++)
     {
         const Face& f = face[i];
@@ -514,15 +514,15 @@ void MeshGUI::draw_geodesic_distance()
 void MeshGUI::draw_geodesic_path()
 {
     LOG(INFO) << "MeshGUI::draw_geodesic_path";
-    if (m_mls->paths.empty()) return;
+    if (m_mg->paths.empty()) return;
 
     glPushAttrib(GL_ENABLE_BIT|GL_LINE_BIT);
     glDisable(GL_LIGHTING);
     glColor3f(0.3f,0.4f,0.5f);
     glLineWidth(0.5f);
 
-    for (auto& path : m_mls->paths ) {
-        MLS::KnotVector::iterator vit = path.begin();
+    for (auto& path : m_mg->paths ) {
+        MeshGeodesy::KnotVector::iterator vit = path.begin();
         glBegin(GL_LINE_STRIP);
         for ( ; vit != path.end(); vit++)
             glVertex3dv(m_mesh->edge_point((*vit).first, (*vit).second));
@@ -610,12 +610,12 @@ bool MeshGUI::key_press(int key)
         break;
     case 'd':
         m_selected_vertex = (m_selected_vertex == -1) ? 0 : m_selected_vertex;
-        m_mls->compute_distances(m_selected_vertex);
+        m_mg->compute_distances(m_selected_vertex);
         cout << "Calculating geodesic distances" << endl;
         m_canvas->redraw();
         break;
     case 'p':
-        m_mls->sort_faces_by_distance();
+        m_mg->sort_faces_by_distance();
         m_canvas->redraw();
         break;
     }

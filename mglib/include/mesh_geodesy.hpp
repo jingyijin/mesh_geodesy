@@ -1,8 +1,8 @@
-#ifndef MLS_INCLUDED
-#define MLS_INCLUDED
+#ifndef MESH_GEODESY_INCLUDED
+#define MESH_GEODESY_INCLUDED
 
 /************************************************************************
- * File description: MLS class to compute geodesic distances and paths
+ * File description: MeshGeodesy class to compute geodesic distances and paths
  *
  * Author: Jingyi Jin
  * Version: 0.1
@@ -11,7 +11,7 @@
 
 #include "geomesh.hpp"
 
-class MLS
+class MeshGeodesy
 {
 public:
     typedef vector< pair<int, double> > ValueConstraintMap;
@@ -33,8 +33,8 @@ public:
     ScalarVector scalar_field;
 
 public:
-    MLS(GeoTriMesh *m);
-    ~MLS();
+    MeshGeodesy(GeoTriMesh *m);
+    ~MeshGeodesy();
 
     void clear();
     void clear_distances();

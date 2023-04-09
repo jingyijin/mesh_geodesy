@@ -13,6 +13,10 @@
 
 #include <map>
 
+/**
+ * @brief A template class for representing a manifold graph with a specified topology.
+ * @tparam _Topology The topology of the manifold graph.
+ */
 template<class _Topology>
 class ManifoldGraph
 {
@@ -30,28 +34,48 @@ public:
     typedef std::map<idpair_t, Edge*> EdgeMap;
 
 public:
-    CellList& cells;
+    CellList& cells;        /**< A reference to the list of cells in the manifold graph. */
 
-    EdgeMap open_edges;
-    size_t halfedge_count;
-    size_t vertex_count;
+    EdgeMap open_edges;     /**< A map of open edges in the manifold graph. */
+    size_t halfedge_count;  /**< The number of halfedges in the manifold graph. */
+    size_t vertex_count;    /**< The number of vertices in the manifold graph. */
 
-    std::vector<Handle> infinite_cell;
-    std::set<id_t> infinite_cell_id;
-    std::map<id_t, HandleSet> edges_of_vertices;
+    std::vector<Handle> infinite_cell;          /**< A vector of handles to the infinite cells (boundary) in the manifold graph. */
+    std::set<id_t> infinite_cell_id;            /**< A set of IDs of the infinite cells in the manifold graph. */
+    std::map<id_t, HandleSet> edges_of_vertices;/**< A map of edges of vertices in the manifold graph. */
 
 public:
+    /**
+     * @brief Constructor for the ManifoldGraph class.
+     *
+     * @param nvert The number of vertices in the manifold graph.
+     * @param C A reference to the list of cells in the manifold graph.
+     */
     ManifoldGraph(size_t nvert, CellList& C)
         : cells(C), vertex_count(nvert), halfedge_count(0)
     {
         link_finite_elements();
         link_infinite_elements();
     }
-
+    /**
+     * @brief Destructor for the ManifoldGraph class.
+     */
     ~ManifoldGraph()
     {
+        // clear open edges
+        typename EdgeMap::iterator e_it, e_end = open_edges.end();
+        for(e_it = open_edges.begin(); e_it != e_end; e_it++)
+            delete e_it->second;
+        // clear edges of vertices
+        typename std::map<id_t, HandleSet>::iterator v_it, v_end = edges_of_vertices.end();
+        for(v_it = edges_of_vertices.begin(); v_it != v_end; v_it++)
+            v_it->second.clear();
     }
 
+    /**
+     * @brief Link finite elements of the cell list.
+     * It iterates over all the cells in the list, creates halfedges for each side, and links them to form a triangular mesh.
+     */
     void link_finite_elements()
     {
         typename CellList::iterator e_it, e_end = cells.end();
@@ -95,6 +119,12 @@ public:
         }
     }
 
+    /**
+     * @brief Links infinite elements in the mesh.
+     * This function links infinite elements in the mesh by iterating over open edges,
+     * creating new infinite elements and connecting them properly. It also stores
+     * infinite elements in the infinite_cell vector and updates the infinite_cell_id set.
+     */
     void link_infinite_elements(void)
     {
         //now, collect infinite elements
@@ -159,6 +189,11 @@ public:
 
 public:
     // Emulation of selected CellGraph methods
+    /**
+     * @brief Collects adjacent edges of a vertex.
+     * @param vid Vertex ID.
+     * @param ering Set to store adjacent edges.
+     */    
     void collect_vertex_adj_edge(const VertexID vid, HandleSet& ering)
     {
         assert(vertex_exist(vid));
@@ -171,7 +206,12 @@ public:
             ering.insert(eh);
         }
     }
-    
+
+    /**
+     * @brief Collects adjacent edges of a vertex along with their symmetric edges.
+     * @param vid Vertex ID.
+     * @param ering Set to store adjacent edges with symmetric edges.
+     */
     void collect_vertex_adj_edge_with_sym(const VertexID vid, HandleSet& ering)
     {
         assert(vertex_exist(vid));
@@ -186,7 +226,13 @@ public:
                 ering.insert(eh->Sym());
         }
     }
-    
+
+    /**
+     * @brief Collects front edges of a vertex.
+     *
+     * @param vid Vertex ID.
+     * @param ering Set to store front edges.
+     */    
     void collect_vertex_front_edge(const VertexID vid, HandleSet& ering)
     {
         assert(vertex_exist(vid));
@@ -200,6 +246,12 @@ public:
         }
     }
 
+    /**
+     * @brief Collects vertices forming a ring around a given vertex.
+     *
+     * @param vid Vertex ID.
+     * @param vring Set to store the ring of vertices.
+     */
     void collect_vertex_ring(const VertexID vid, std::set<VertexID>& vring)
     {
         assert(vertex_exist(vid));
@@ -214,6 +266,12 @@ public:
         }
     }
 
+    /**
+     * @brief Collects faces forming a ring around a given vertex.
+     *
+     * @param vid Vertex ID.
+     * @param fring Set to store the ring of faces.
+     */
     void collect_face_ring(const VertexID vid, std::set<CellID>& fring)
     {
         assert(vertex_exist(vid));
@@ -228,9 +286,21 @@ public:
         }
     }
 
+    /**
+     * @brief Checks if a vertex exists in the mesh.
+     *
+     * @param vid Vertex ID.
+     * @return True if the vertex exists, false otherwise.
+     */
     bool vertex_exist(const VertexID vid) const
     {	return vid >= 0 && vid < vertex_count;	}
 
+    /**
+     * @brief Checks if a face is an infinite face.
+     *
+     * @param cid Cell ID (face ID).
+     * @return True if the face is infinite, false otherwise.
+     */
     bool is_infinite_face(const CellID cid) const
     {	return cid < 0 || infinite_cell_id.find(cid) != infinite_cell_id.end();	 }
 };

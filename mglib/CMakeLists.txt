@@ -17,8 +17,7 @@ set(GFX_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/gfx/include")
 set(MGLIB_SOURCES
     ${MGLIB_SOURCE_DIR}/general_math.cpp
     ${MGLIB_SOURCE_DIR}/geomesh.cpp
-    ${MGLIB_SOURCE_DIR}/interval.cpp
-    ${MGLIB_SOURCE_DIR}/mls.cpp
+    ${MGLIB_SOURCE_DIR}/mesh_geodesy.cpp
     ${MGLIB_SOURCE_DIR}/path_tracer.cpp
     ${MGLIB_SOURCE_DIR}/trimesh.cpp
     ${GFX_SOURCE_DIR}/heap.cpp
@@ -37,7 +36,7 @@ set(MGLIB_HEADERS
     ${MGLIB_INCLUDE_DIR}/interval.hpp
     ${MGLIB_INCLUDE_DIR}/last_step.hpp
     ${MGLIB_INCLUDE_DIR}/manifold.hpp
-    ${MGLIB_INCLUDE_DIR}/mls.hpp
+    ${MGLIB_INCLUDE_DIR}/mesh_geodesy.hpp
     ${MGLIB_INCLUDE_DIR}/path_tracer.hpp
     ${MGLIB_INCLUDE_DIR}/propagation.hpp
     ${MGLIB_INCLUDE_DIR}/trimesh.hpp

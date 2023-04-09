@@ -1,5 +1,5 @@
 /************************************************************************
- * File description: MLS class as the main class to store distances
+ * File description: Mesh Geodesy class as the main class to store distances
  * and paths for the geodesic computation.
  *
  * Author: Jingyi Jin
@@ -7,36 +7,36 @@
  * Date: 4/1/2023
  ************************************************************************/
 
-#include "mls.hpp"
+#include "mesh_geodesy.hpp"
 #include "general_math.hpp"
 
 #include <fstream>
 #include <algorithm>
 
-MLS::MLS(GeoTriMesh *m)
+MeshGeodesy::MeshGeodesy(GeoTriMesh *m)
 : mesh(m)
 {
     int vsize = mesh->m_vertex.size();
 }
 
-MLS::~MLS()
+MeshGeodesy::~MeshGeodesy()
 {
     if (mesh) delete mesh;
     clear_distances();
 }
 
-void MLS::clear_distances()
+void MeshGeodesy::clear_distances()
 {
-    LOG(INFO) << "MLS::clear_distances()";
+    LOG(INFO) << "MeshGeodesy::clear_distances()";
     for (auto& path : paths)
         path.clear();
     paths.clear(); 
     distances.clear();
 }
 
-void MLS::compute_distances(int selected_v)
+void MeshGeodesy::compute_distances(int selected_v)
 {
-    LOG(INFO) << "MLS::compute_distances(" << selected_v << ")";
+    LOG(INFO) << "MeshGeodesy::compute_distances(" << selected_v << ")";
     clear_distances();
 
     int vsize = mesh->m_vertex.size();
@@ -47,9 +47,9 @@ void MLS::compute_distances(int selected_v)
     cout << "finished computing geodesic for vertex " << selected_v << endl;
 }
 
-void MLS::sort_faces_by_distance()
+void MeshGeodesy::sort_faces_by_distance()
 {
-    cout << "MLS::sort_faces_by_distance()" << endl;
+    cout << "MeshGeodesy::sort_faces_by_distance()" << endl;
     // sort faces by distance
     vector<pair<double, Face>> dist_face_pairs;
     int i;
@@ -75,9 +75,9 @@ void MLS::sort_faces_by_distance()
     mesh->compute_fnormal();
 }
 
-void MLS::save_distances(const string& filename)
+void MeshGeodesy::save_distances(const string& filename)
 {
-    LOG(INFO) << "MLS::save_distances(" << filename << ")";
+    LOG(INFO) << "MeshGeodesy::save_distances(" << filename << ")";
     ofstream fout(filename);
     if (!fout.is_open())
     {
@@ -91,9 +91,9 @@ void MLS::save_distances(const string& filename)
     fout.close();
 }
 
-void MLS::load_distances(const string& filename)
+void MeshGeodesy::load_distances(const string& filename)
 {
-    LOG(INFO) << "MLS::load_distances(" << filename << ")";
+    LOG(INFO) << "MeshGeodesy::load_distances(" << filename << ")";
     ifstream fin(filename);
     if (!fin.is_open())
     {
@@ -114,7 +114,7 @@ void MLS::load_distances(const string& filename)
     fin.close();
 }
 
-void MLS::print_knot_vector(const KnotVector& kn)
+void MeshGeodesy::print_knot_vector(const KnotVector& kn)
 {
     for (auto& k : kn)
         cout << "k: " << *k.first << "  " << k.second << endl;

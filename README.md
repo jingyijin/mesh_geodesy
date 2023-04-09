@@ -41,12 +41,26 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
-```
 
 Then launch the mgapp with
 ```
 $ mgapp/mgapp
 ```
+
+### Remote Desktop Connection Instructions for Windows Users
+```
+In ooder to launch and visualize the GUI windows, if you are under a Windows remote system, the recommendation is to install Remote Desktop Connection by following the instructions below:
+```
+sudo apt-get update
+sudo apt-get install xrdp
+```
+Once the installation is complete, start the xrdp service by running the following
+```
+sudo systemctl enable xrdp
+sudo systemctl start xrdp
+```
+Now, open the Remote Desktop Connection application on your Windows computer; Enter the IP address of your system in the "Computer" field and click "Connect"; Follow the instructions to enter username and passward. You should be connected to your Linux system.
+
 
 ## Acknoledgemeent
 

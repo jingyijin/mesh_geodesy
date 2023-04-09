@@ -317,7 +317,6 @@ public:
 
     /**
      * Check if an interval ends at the start of an edge.
-     *
      * @param tau Boolean value indicating whether to use the b0 or b1 value of the interval.
      * @param iv The interval to check.
      * @param e_length The length of the edge.
@@ -326,7 +325,6 @@ public:
     inline bool is_iv_b0_end(bool tau, Interval *iv, double e_length);
     /**
      * Check if an interval ends at the end of an edge.
-     *
      * @param tau Boolean value indicating whether to use the b0 or b1 value of the interval.
      * @param iv The interval to check.
      * @param e_length The length of the edge.
@@ -335,16 +333,13 @@ public:
     inline bool is_iv_b1_end(bool tau, Interval *iv, double e_length);
     /**
      * @brief Returns the s-coordinates of the given interval.
-     *
      * Computes the s-coordinates of the given interval and returns it as a Vec2.
-     *
      * @param iv Interval to get the s-coordinates from.
      * @return Vec2 containing the s-coordinates of the interval.
      */
     Vec2 get_s_coord(const Interval *iv) const;
     /**
      * @brief Returns the s-coordinates of the given interval using straight line distance.
-     *
      * Computes the s-coordinates of the given interval using straight line distance and
      * returns it as a Vec2.
      *
@@ -376,7 +371,6 @@ public:
     void fill_diamond_gap(Handle cur_e, double cur_sigma, Vec3 &source, EdgeStructMap &new_ivs);
     /**
      * @brief Projects a 3D point to a 2D point on a face.
-     *
      * @param e        An edge on the face.
      * @param to_face  The index of the face.
      * @param p        The 3D point to project.
@@ -385,7 +379,6 @@ public:
     Vec2 project_p(Handle e, int to_face, const Vec3 &p) const;
     /**
      * @brief Unprojects a 2D point on a face to a 3D point.
-     *
      * @param e      An edge on the face.
      * @param to_face  The index of the face.
      * @param s_xy     The 2D point to unproject.

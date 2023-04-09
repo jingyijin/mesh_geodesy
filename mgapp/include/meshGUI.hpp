@@ -18,7 +18,7 @@
 #include "geomesh.hpp"
 #include "arcball.hpp"
 #include "vec4.hpp"
-#include "mls.hpp"
+#include "mesh_geodesy.hpp"
 #include "raster.hpp"
 
 typedef Vec4f rgbColor;
@@ -127,7 +127,7 @@ protected:
     int m_grid_period;         // Period of the texture grid
 public:
     GeoTriMesh *m_mesh;        // The core mesh data structure
-    MLS *m_mls;                // The data structure to trigger distance calculation
+    MeshGeodesy *m_mg;                // The data structure to trigger distance calculation
     ByteRaster* m_texture;     // The texture image
 
     enum {Draw_mode_wireframe, Draw_mode_color, Draw_mode_solid} m_draw_mode;   // Drawing mode
@@ -277,7 +277,7 @@ public:
      * @brief Draws the geodesic distance texture on the mesh.
      *
      * This function draws the geodesic distance texture on the mesh. It uses the
-     * distances calculated by the MLS algorithm to color each triangle of the mesh
+     * distances calculated by the mesh geodesy algorithm to color each triangle of the mesh
      * according to its geodesic distance. The texture is applied to the triangles
      * as a fill, and the mesh is drawn with depth testing enabled and texture
      * mapping enabled.
@@ -287,7 +287,7 @@ public:
      * @brief Draws the geodesic paths on the mesh.
      *
      * This function draws the geodesic paths on the mesh. It uses the paths
-     * calculated by the MLS algorithm to draw each geodesic path as a line
+     * calculated by the MeshGeodesy algorithm to draw each geodesic path as a line
      * segment. The color of the line segments is set to a shade of gray, and the
      * line width is set to 0.5.
      */
@@ -378,7 +378,7 @@ public:
     static void cb_load_distance();
 
     /**
-    * @brief Loads a mesh from file and initializes the MLS, resets camera, and redraws the canvas.
+    * @brief Loads a mesh from file and initializes the MeshGeodesy, resets camera, and redraws the canvas.
     * @param filename the name of the file containing the mesh to load
     */
     void load_mesh(const string& filename);
