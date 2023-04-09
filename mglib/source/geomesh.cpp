@@ -24,8 +24,6 @@ GeoTriMesh::GeoTriMesh(TriMesh *m)
 
 GeoTriMesh::~GeoTriMesh()
 {
-    reset_distance();
-
     if (graph) delete graph;
 }
  
