@@ -296,7 +296,7 @@ inline void print_vector(const vector<T>& vec)
 }
 
 template <class T>
-void copy_vector(vector<T>& from, vector<T>& to)
+inline void copy_vector(vector<T>& from, vector<T>& to)
 {
     to.clear();
     to.resize(from.size());
@@ -304,7 +304,7 @@ void copy_vector(vector<T>& from, vector<T>& to)
 }
 
 template <class T>
-void attach_vector(vector<T>& first, vector<T>& second)
+inline void attach_vector(vector<T>& first, vector<T>& second)
 {
     for (typename vector<T>::iterator lit = second.begin(); lit != second.end(); lit++)
         first.push_back(*lit);

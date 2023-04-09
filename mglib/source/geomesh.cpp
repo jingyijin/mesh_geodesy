@@ -1172,7 +1172,6 @@ bool GeoTriMesh::intersect_face_border_loose(int face, Handle from_e, map<int,Ve
 
 bool GeoTriMesh::close_enough(const Vec2& p0, const Vec2& p1)
 {
-    if (DEBUG) double temp = norm2(p0-p1);
     return FEQ(norm2(p0-p1), 0.0);
 }
 
