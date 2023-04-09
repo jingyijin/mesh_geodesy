@@ -12,25 +12,41 @@
 #include "vec3.hpp"
 #include "general_math.hpp"
 
+/**
+ * @brief A template class for a ray in n-dimensional space.
+ * @tparam Vec A vector class representing points in n-dimensional space.
+ */
 template <class Vec>
 class Ray
 {
 public:
-    enum { Infinite_intersection, One_intersection, No_intersection } intersection_type;
+    enum { Infinite_intersection, One_intersection, No_intersection } intersection_type;    /**< The type of intersection. */
 
 public:
-    Vec p;
-    Vec d;
-    double t;	// the distance from the origin to the point used to specify the ray's direction
+    Vec p;      /**< The origin of the ray.*/
+    Vec d;      /**< The direction of the ray. */
+    double t;   /**< The length of the ray. */
 
 public:
+    /**
+     * @brief Default constructor.
+     */
     Ray() {}
-
+    /**
+     * @brief Constructs a ray from source to target.
+     * @param source The source point.
+     * @param target The target point.
+     */
     Ray(const Vec& source, const Vec& target)
     {
         makeRay(source, target);
     }
 
+    /**
+     * @brief Constructs a ray from source to target.
+     * @param source The source point.
+     * @param target The target point.
+     */
     void makeRay(const Vec& source, const Vec& target)
     {
         p = source;
@@ -39,6 +55,13 @@ public:
         unitize(d);
     }
 
+    /**
+     * @brief Computes the intersection of the ray with a plane.
+     * @param normal The normal vector of the plane.
+     * @param D The distance from the origin to the plane.
+     * @param[out] point The intersection point.
+     * @return The distance from the ray's origin to the intersection point.
+     */
     double planeIntersect(const Vec& normal, const double D, Vec& point)
     {
         double num = normal*p + D;
@@ -61,6 +84,13 @@ public:
         return t;
     }
 
+    /**
+     * @brief Computes the intersection of the ray with a line segment.
+     * @param A The starting point of the line segment.
+     * @param B The ending point of the line segment.
+     * @param[out] point The intersection point.
+     * @return The distance from the ray's origin to the intersection point.
+     */
     double segment_intersect(const Vec& A, const Vec& B, Vec& point)
     {
         Vec C = p;
@@ -96,11 +126,28 @@ public:
         return 0.0;
     }
 
-    bool has_infinite_intersection()const { return intersection_type == Infinite_intersection; }
-    bool has_one_intersection()		const { return intersection_type == One_intersection; }
-    bool has_no_intersection()		const { return intersection_type == No_intersection; }
+    /**
+     * @brief Checks if the ray has an infinite intersection.
+     * @return true if the ray has an infinite intersection, false otherwise.
+     */
+    inline bool has_infinite_intersection()const { return intersection_type == Infinite_intersection; }
+    /**
+     * @brief Checks if the ray has one intersection.
+     * @return true if the ray has one intersection, false otherwise.
+     */
+    inline bool has_one_intersection()     const { return intersection_type == One_intersection; }
+    /**
+     * @brief Checks if the ray has no intersection.
+     * @return true if the ray has no intersection, false otherwise.
+     */
+    inline bool has_no_intersection()      const { return intersection_type == No_intersection; }
 
-    double sign(double value)
+    /**
+     * @brief Returns the sign of the value.
+     * @param value The input value.
+     * @return -1 if the value is negative, 1 otherwise.
+     */
+    inline double sign(double value)
     {
         return (value < 0) ? -1 : 1;
     }

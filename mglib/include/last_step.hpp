@@ -9,10 +9,8 @@
  * Date: 4/1/2023
  ************************************************************************/
 
-
 #include "ray.hpp"
 #include "propagation.hpp"
-
 
 /**
  * @brief A class to hold information about the last propagation step.
