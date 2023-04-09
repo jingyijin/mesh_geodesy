@@ -30,22 +30,22 @@ public:
         Tracing_path_state, Test_s_state, Test_sigma_state, Complete_state};
 
 public:
-    GeoTriMesh& mesh;       /**< The core mesh with attributes to calculate distance and paths. */
-    PathKnotVectorVector& path_knot;    /**< The geodesic paths from a selected vertex. */
+    GeoTriMesh& m_mesh;       /**< The core mesh with attributes to calculate distance and paths. */
+    PathKnotVectorVector& m_path_knot;    /**< The geodesic paths from a selected vertex. */
 
-    State_type state;   /**< The state of the path tracer. */
-    int next_vertex, target_vertex, vindex;   /**< The next vertex to be traced. */
-    Interval* min_iv;   /**< The interval with the minimum distance. */
-    Handle min_e;       /**< The edge with the minimum distance. */
-    Handle cur_e;       /**< The current edge. */
-    Handle prev_e;      /**< The previous edge. */
-    InterStruct inter;  /**< The intersection structure. */
-    Vec2 s;             /**< The pseudi start coordinate. */
-    Vec2 start_coord;   /**< The start coordinate. */
-    Vec2 inter_p2D;     /**< The intersection point in 2D. */
-    int to_face;        /**< The face to be traced. */
-    Ray<Vec2> ray;      /**< The ray to be traced. */
-    map<Handle, bool> current_ring; /**< The current ring. */
+    State_type m_state;   /**< The state of the path tracer. */
+    int m_next_vertex, m_target_vertex, m_vindex;   /**< The next vertex to be traced. */
+    Interval* m_min_iv;   /**< The interval with the minimum distance. */
+    Handle m_min_e;       /**< The edge with the minimum distance. */
+    Handle m_cur_e;       /**< The current edge. */
+    Handle m_prev_e;      /**< The previous edge. */
+    InterStruct m_inter;  /**< The intersection structure. */
+    Vec2 m_s;             /**< The pseudi start coordinate. */
+    Vec2 m_start_coord;   /**< The start coordinate. */
+    Vec2 m_inter_p2D;     /**< The intersection point in 2D. */
+    int m_to_face;        /**< The face to be traced. */
+    Ray<Vec2> m_ray;      /**< The ray to be traced. */
+    map<Handle, bool> m_current_ring; /**< The current ring. */
 
 public:
     /**

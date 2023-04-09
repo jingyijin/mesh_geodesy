@@ -376,6 +376,10 @@ public:
      * Callback function for loading a geodesic distance file.
      */
     static void cb_load_distance();
+    /**
+     * Callback function for starting the geodesic distance and path calculation.
+     */
+    static void cb_compute_geodesic();
 
     /**
     * @brief Loads a mesh from file and initializes the MeshGeodesy, resets camera, and redraws the canvas.

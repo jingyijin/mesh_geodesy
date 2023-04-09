@@ -87,25 +87,25 @@ public:
 
     typedef vector<GeoTriMesh::VertexList> PointVectorVector; /**< A vector of VertexLists. */
 public:
-    ManifoldGraphT *graph; /**< The manifold graph of the mesh. */
+    ManifoldGraphT *m_graph; /**< The manifold graph of the mesh. */
 
     // ******************************
     // for geodesic computation
-    MxHeap i_queue;            /**< The heap for storing intervals. */
-    EdgeStructMap edge_map;    /**< The map of edge handles to EdgeStructs. */
-    ScalarVector geo_distance; /**< The vector of geodesic distances. */
-    KnotVectorVector geo_path; /**< The vector of geodesic paths. */
+    MxHeap m_i_queue;            /**< The heap for storing intervals. */
+    EdgeStructMap m_edge_map;    /**< The map of edge handles to EdgeStructs. */
+    ScalarVector m_geo_distance; /**< The vector of geodesic distances. */
+    KnotVectorVector m_geo_path; /**< The vector of geodesic paths. */
 
-    int prop_step_size;        /**< The propagation step size. */
-    int num_prop_edge;         /**< The number of edges to propagate. */
-    int stop_prop_number;      /**< The number of edges to stop propagation. */
-    bool is_first_propagation; /**< Whether it is the first propagation. */
-    double ERROR_TOLERANCE;    /**< The error tolerance for the propagation. */
+    int m_prop_step_size;        /**< The propagation step size. */
+    int m_num_prop_edge;         /**< The number of edges to propagate. */
+    int m_stop_prop_number;      /**< The number of edges to stop propagation. */
+    bool m_is_first_propagation; /**< Whether it is the first propagation. */
+    double m_ERROR_TOLERANCE;    /**< The error tolerance for the propagation. */
 
-    LastStepInfo last_step; /**< The last step information. */
+    LastStepInfo m_last_step; /**< The last step information. */
 
     // for checking purpose
-    EdgeCoveringMap edge_covering;
+    EdgeCoveringMap m_edge_covering;
 
 public:
     /**

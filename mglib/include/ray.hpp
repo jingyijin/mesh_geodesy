@@ -23,9 +23,9 @@ public:
     enum { Infinite_intersection, One_intersection, No_intersection } intersection_type;    /**< The type of intersection. */
 
 public:
-    Vec p;      /**< The origin of the ray.*/
-    Vec d;      /**< The direction of the ray. */
-    double t;   /**< The length of the ray. */
+    Vec m_p;      /**< The origin of the ray.*/
+    Vec m_d;      /**< The direction of the ray. */
+    double m_t;   /**< The length of the ray. */
 
 public:
     /**
@@ -49,10 +49,10 @@ public:
      */
     void makeRay(const Vec& source, const Vec& target)
     {
-        p = source;
-        d = target - source;
-        t = norm(d);
-        unitize(d);
+        m_p = source;
+        m_d = target - source;
+        m_t = norm(m_d);
+        unitize(m_d);
     }
 
     /**
@@ -64,8 +64,8 @@ public:
      */
     double planeIntersect(const Vec& normal, const double D, Vec& point)
     {
-        double num = normal*p + D;
-        double den = normal*d;
+        double num = normal*m_p + D;
+        double den = normal*m_d;
         if (FEQ(den, 0.0)) {
             if (FEQ(num, 0.0))
                 intersection_type = Infinite_intersection;
@@ -80,7 +80,7 @@ public:
             return 0.0;
 
         t *= -sign(den);
-        point = p + t*d;
+        point = m_p + t*m_d;
         return t;
     }
 
@@ -93,8 +93,8 @@ public:
      */
     double segment_intersect(const Vec& A, const Vec& B, Vec& point)
     {
-        Vec C = p;
-        Vec D = p+d;
+        Vec C = m_p;
+        Vec D = m_p+m_d;
         double r_nom = (A[1]-C[1])*(D[0]-C[0])-(A[0]-C[0])*(D[1]-C[1]);
         double r_den = (B[0]-A[0])*(D[1]-C[1])-(B[1]-A[1])*(D[0]-C[0]);
 
@@ -108,16 +108,16 @@ public:
         double r = r_nom/r_den;
         double s = s_nom/s_den;
         double c = (B[1]-A[1])*B[0] - (B[0]-A[0])*B[1];
-        double side = (B[1]-A[1])*p[0] - (B[0]-A[0])*p[1] - c;
+        double side = (B[1]-A[1])*m_p[0] - (B[0]-A[0])*m_p[1] - c;
         if (!FLT(r, 0.0) && !FGT(r, 1.0) && !FLT(s, 0.0) && !FGT(side, 0)) {
             intersection_type = One_intersection;
-            point = p + s*d;
+            point = m_p + s*m_d;
             return s;
         }
 
         Vec BA = B-A; 
         unitize(BA);
-        if (FEQ(fabs(BA*d), 1.0) && FEQ(side, 0.0)) {
+        if (FEQ(fabs(BA*m_d), 1.0) && FEQ(side, 0.0)) {
             intersection_type = Infinite_intersection;
             return 0.0;
         }

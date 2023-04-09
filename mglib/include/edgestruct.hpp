@@ -51,21 +51,23 @@ public:
     typedef set<Range, cmp_range> RangeSet;
     
 public:
-    bool modified; /**< Flag indicating if the edge has been modified since it was last checked. */
+    bool m_modified; /**< Flag indicating if the edge has been modified since it was last checked. */
 
 public:
     /**
     * @brief Default constructor for EdgeStruct.
     */
     EdgeStruct()
-    { modified = false;	}
+        : m_modified(false)
+    {}
     /**
      * @brief Constructor for EdgeStruct with one initial Interval.
      * 
      * @param iv The Interval to add to the EdgeStruct.
      */
     EdgeStruct(Interval* iv)
-    { push_back(iv); modified = false; }
+        : m_modified(false)
+    { push_back(iv); }
     /**
      * @brief Destructor for EdgeStruct.
      */    

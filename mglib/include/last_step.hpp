@@ -22,36 +22,36 @@ public:
     typedef ManifoldGraphT::Handle Handle;
 
 public:
-    int from_face, to_face; /**< Indexes of the faces before and after the last propagation step */
-    Interval *cur_iv;       /**< The current interval */
-    Handle cur_e;           /**< Handle to the current halfedge */
-    Vec2 s;                 /**< Psudo source point */
-    Vec3 i0_pt, i1_pt;      /**< Intersection points */
-    Ray<Vec2> ray0, ray1;   /**< Rays */
-    Vec3 other_v;           /**< Other vector */
+    int m_from_face, m_to_face; /**< Indexes of the faces before and after the last propagation step */
+    Interval *m_cur_iv;         /**< The current interval */
+    Handle m_cur_e;             /**< Handle to the current halfedge */
+    Vec2 m_s;                   /**< Psudo source point */
+    Vec3 m_i0_pt, m_i1_pt;      /**< Intersection points */
+    Ray<Vec2> m_ray0, m_ray1;   /**< Rays */
+    Vec3 m_other_v;             /**< Other vector */
 
     // modified intervals for 
-    vector< pair<Interval*, Propagation> > modified_ivs;    /**< Modified intervals */
+    vector< pair<Interval*, Propagation>> m_modified_ivs;    /**< Modified intervals */
 
 public:
     /**
      * @brief Default constructor.
      */
     LastStepInfo() 
-        : cur_iv(nullptr), cur_e(NULL), from_face(-1), to_face(-1) 
+        : m_cur_iv(nullptr), m_cur_e(NULL), m_from_face(-1), m_to_face(-1) 
     {}
 
     /**
      * @brief Default destructor.
      */
     ~LastStepInfo() {
-        if (cur_iv) delete cur_iv;
+        if (m_cur_iv) delete m_cur_iv;
     }
     /**
      * @brief Resets the object to its default state.
      */
     void reset() 
-    { from_face = to_face = -1; cur_e = NULL; modified_ivs.clear(); }
+    { m_from_face = m_to_face = -1; m_cur_e = NULL; m_modified_ivs.clear(); }
 };
 
 #endif

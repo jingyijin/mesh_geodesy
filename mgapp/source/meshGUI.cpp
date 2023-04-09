@@ -55,8 +55,8 @@ void MeshGUI::initialize(int argc, char* argv[])
     // Set up the menu bar
     add_menu_item("&File/Load mesh", FL_CTRL+'o', (Fl_Callback *)cb_open_file, NULL);
     add_menu_item("&File/Save mesh", FL_CTRL+'s', (Fl_Callback *)cb_save_file, NULL);
-    add_menu_item("&File/Save mesh geodesy", 0, (Fl_Callback *)cb_save_distance, NULL);
-    add_menu_item("&File/Load mesh geodesy", 0, (Fl_Callback *)cb_load_distance, NULL);
+    add_menu_item("&File/Save mesh geodesy",   0, (Fl_Callback *)cb_save_distance, NULL);
+    add_menu_item("&File/Load mesh geodesy",   0, (Fl_Callback *)cb_load_distance, NULL);
 
     add_toggle_menu("&Draw/Vertices",              0, m_will_draw_vertices);
     add_toggle_menu("&Draw/Surface + face normal", 0, m_will_draw_surface_fnormal);
@@ -65,8 +65,9 @@ void MeshGUI::initialize(int argc, char* argv[])
     add_toggle_menu("&Draw/Geodesic distance",     0, m_will_draw_geodesic_distance);
     add_toggle_menu("&Draw/Geodesic path",         0, m_will_draw_geodesic_path);
 
-    add_menu_item("&Tools/Default texture",        0, (Fl_Callback *)cb_load_default_texture, NULL);
-    add_menu_item("&Tools/Load texture",           0, (Fl_Callback *)cb_load_texture, NULL);
+    // add_menu_item("&Tools/Default texture",        0, (Fl_Callback *)cb_load_default_texture, NULL);
+    // add_menu_item("&Tools/Load texture",           0, (Fl_Callback *)cb_load_texture, NULL);
+    add_menu_item("&Tools/Compute dist and paths ",  FL_CTRL+'d', (Fl_Callback *)cb_compute_geodesic, NULL);
 }
 
 int MeshGUI::add_menu_item(const char* name, int key, Fl_Callback *f, void* val, int flags) 
@@ -128,6 +129,14 @@ void MeshGUI::cb_load_distance()
 
     if (!output_filename.empty())
         gui.load_geodesic(output_filename);
+}
+
+void MeshGUI::cb_compute_geodesic() 
+{
+    gui.m_selected_vertex = (gui.m_selected_vertex == -1) ? 0 : gui.m_selected_vertex;
+    gui.m_mg->compute_distances(gui.m_selected_vertex);
+
+    gui.m_canvas->redraw();
 }
 
 void MeshGUI::load_mesh(const string& filename)

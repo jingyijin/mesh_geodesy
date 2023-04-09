@@ -65,7 +65,7 @@ $ mgapp/mgapp
 
 ### Remote Desktop Connection instructions for Windows users
 
-In ooder to launch and visualize the GUI windows, if you are under a Windows remote system, the recommendation is to install Remote Desktop Connection by following the instructions below:
+In order to launch and visualize the GUI windows, if you are under a Windows remote system, the recommendation is to install Remote Desktop Connection by following the instructions below:
 ```
 sudo apt-get update
 sudo apt-get install xrdp

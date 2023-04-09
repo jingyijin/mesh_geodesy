@@ -34,15 +34,15 @@ public:
     typedef std::map<idpair_t, Edge*> EdgeMap;
 
 public:
-    CellList& cells;        /**< A reference to the list of cells in the manifold graph. */
+    CellList& m_cells;        /**< A reference to the list of cells in the manifold graph. */
 
-    EdgeMap open_edges;     /**< A map of open edges in the manifold graph. */
-    size_t halfedge_count;  /**< The number of halfedges in the manifold graph. */
-    size_t vertex_count;    /**< The number of vertices in the manifold graph. */
+    EdgeMap m_open_edges;     /**< A map of open edges in the manifold graph. */
+    size_t m_halfedge_count;  /**< The number of halfedges in the manifold graph. */
+    size_t m_vertex_count;    /**< The number of vertices in the manifold graph. */
 
-    std::vector<Handle> infinite_cell;          /**< A vector of handles to the infinite cells (boundary) in the manifold graph. */
-    std::set<id_t> infinite_cell_id;            /**< A set of IDs of the infinite cells in the manifold graph. */
-    std::map<id_t, HandleSet> edges_of_vertices;/**< A map of edges of vertices in the manifold graph. */
+    std::vector<Handle> m_infinite_cell;          /**< A vector of handles to the infinite cells (boundary) in the manifold graph. */
+    std::set<id_t> m_infinite_cell_id;            /**< A set of IDs of the infinite cells in the manifold graph. */
+    std::map<id_t, HandleSet> m_edges_of_vertices;/**< A map of edges of vertices in the manifold graph. */
 
 public:
     /**
@@ -52,7 +52,7 @@ public:
      * @param C A reference to the list of cells in the manifold graph.
      */
     ManifoldGraph(size_t nvert, CellList& C)
-        : cells(C), vertex_count(nvert), halfedge_count(0)
+        : m_cells(C), m_vertex_count(nvert), m_halfedge_count(0)
     {
         link_finite_elements();
         link_infinite_elements();
@@ -63,12 +63,12 @@ public:
     ~ManifoldGraph()
     {
         // clear open edges
-        typename EdgeMap::iterator e_it, e_end = open_edges.end();
-        for(e_it = open_edges.begin(); e_it != e_end; e_it++)
+        typename EdgeMap::iterator e_it, e_end = m_open_edges.end();
+        for(e_it = m_open_edges.begin(); e_it != e_end; e_it++)
             delete e_it->second;
         // clear edges of vertices
-        typename std::map<id_t, HandleSet>::iterator v_it, v_end = edges_of_vertices.end();
-        for(v_it = edges_of_vertices.begin(); v_it != v_end; v_it++)
+        typename std::map<id_t, HandleSet>::iterator v_it, v_end = m_edges_of_vertices.end();
+        for(v_it = m_edges_of_vertices.begin(); v_it != v_end; v_it++)
             v_it->second.clear();
     }
 
@@ -78,10 +78,10 @@ public:
      */
     void link_finite_elements()
     {
-        typename CellList::iterator e_it, e_end = cells.end();
+        typename CellList::iterator e_it, e_end = m_cells.end();
         id_t v_ids[4], v0_id, v1_id, fid=0;
         Handle e_hs[3];
-        for(e_it = cells.begin(); e_it != e_end; e_it++, fid++)
+        for(e_it = m_cells.begin(); e_it != e_end; e_it++, fid++)
         {
             v_ids[0] = (*e_it)[0];	v_ids[1] = (*e_it)[1];
             v_ids[2] = (*e_it)[2];	v_ids[3] = (*e_it)[0];
@@ -90,16 +90,16 @@ public:
             {
                 v0_id = v_ids[i];	v1_id = v_ids[i+1];
                 e_hs[i] = new Edge(v0_id, fid);
-                edges_of_vertices[v0_id].insert(e_hs[i]);
+                m_edges_of_vertices[v0_id].insert(e_hs[i]);
 
                 idpair_t p(v0_id, v1_id);
                 idpair_t q(v1_id, v0_id);
 
-                if( open_edges.find(q) == open_edges.end() )
-                    open_edges[p] = e_hs[i];
+                if( m_open_edges.find(q) == m_open_edges.end() )
+                    m_open_edges[p] = e_hs[i];
                 else
                 {
-                    Handle e2 = open_edges[q];
+                    Handle e2 = m_open_edges[q];
                     assert( e_hs[i]->Sym() == NULL );
                     assert( e2->Sym() == NULL );
                     assert( e_hs[i]->Org() == e2->Dest() );
@@ -107,7 +107,7 @@ public:
                     e_hs[i]->sym = e2;
                     e2->sym = e_hs[i];
 
-                    open_edges.erase(q);
+                    m_open_edges.erase(q);
                 }
             }
 
@@ -128,22 +128,22 @@ public:
     void link_infinite_elements(void)
     {
         //now, collect infinite elements
-        EdgeMap::iterator o_e_it, o_e_end = open_edges.end();
+        EdgeMap::iterator o_e_it, o_e_end = m_open_edges.end();
         id_t infinite_e_id = -2;
         id_t v0_id, v1_id;
         unsigned int size, i;
-        for (o_e_it = open_edges.begin(); o_e_it != o_e_end; o_e_it++)
+        for (o_e_it = m_open_edges.begin(); o_e_it != o_e_end; o_e_it++)
         {
             Handle e_h = o_e_it->second;
             assert(e_h->Sym() == NULL);
             v0_id = e_h->Dest();	
             v1_id = e_h->Org();
             Handle inf_e_h = new Edge(v0_id, infinite_e_id);
-            edges_of_vertices[v0_id].insert(inf_e_h);
+            m_edges_of_vertices[v0_id].insert(inf_e_h);
             inf_e_h->sym = e_h;	e_h->sym = inf_e_h;
         }
 
-        while ( (o_e_it = open_edges.begin()) != open_edges.end() )
+        while ( (o_e_it = m_open_edges.begin()) != m_open_edges.end() )
         {
             std::vector<Handle> edges;
             Handle e_h = o_e_it->second;
@@ -151,14 +151,14 @@ public:
             {
                 v0_id = e_h->Dest();	v1_id = e_h->Org();
                 Handle inf_e_h = e_h->Sym();
-                size = open_edges.erase(idpair_t(v1_id, v0_id));
+                size = m_open_edges.erase(idpair_t(v1_id, v0_id));
                 if(size == 0)	break;
                 edges.push_back(inf_e_h);
 
                 e_h = NULL;
                 HandleSet::iterator v_e_it, v_e_end;
-                v_e_end = edges_of_vertices[v1_id].end();
-                for (v_e_it = edges_of_vertices[v1_id].begin(); v_e_it != v_e_end; v_e_it++)
+                v_e_end = m_edges_of_vertices[v1_id].end();
+                for (v_e_it = m_edges_of_vertices[v1_id].begin(); v_e_it != v_e_end; v_e_it++)
                 {
                     Handle tmp_eh = *v_e_it;
                     if(tmp_eh->Lnext() == NULL)
@@ -181,8 +181,8 @@ public:
             edges[size]->lnext = edges[0];
             edges[0]->lprev = edges[size];
             edges[size]->lface = infinite_e_id;
-            infinite_cell.push_back(edges[0]);
-            infinite_cell_id.insert(infinite_e_id);
+            m_infinite_cell.push_back(edges[0]);
+            m_infinite_cell_id.insert(infinite_e_id);
             infinite_e_id--;
         }
     }
@@ -198,7 +198,7 @@ public:
     {
         assert(vertex_exist(vid));
         ering.clear();
-        HandleSet& es = edges_of_vertices[vid];
+        HandleSet& es = m_edges_of_vertices[vid];
         for (HandleSet::iterator eit = es.begin(); eit != es.end(); eit++) 
         {
             const Handle eh = *eit;
@@ -216,7 +216,7 @@ public:
     {
         assert(vertex_exist(vid));
         ering.clear();
-        HandleSet& es = edges_of_vertices[vid];
+        HandleSet& es = m_edges_of_vertices[vid];
         for (HandleSet::iterator eit = es.begin(); eit != es.end(); eit++) 
         {
             const Handle eh = *eit;
@@ -237,7 +237,7 @@ public:
     {
         assert(vertex_exist(vid));
         ering.clear();
-        HandleSet& es = edges_of_vertices[vid];
+        HandleSet& es = m_edges_of_vertices[vid];
         for (HandleSet::iterator eit = es.begin(); eit != es.end(); eit++) 
         {
             const Handle eh = *eit;
@@ -256,7 +256,7 @@ public:
     {
         assert(vertex_exist(vid));
         vring.clear();
-        HandleSet& ering = edges_of_vertices[vid];
+        HandleSet& ering = m_edges_of_vertices[vid];
         for (HandleSet::iterator eit = ering.begin(); eit != ering.end(); eit++)
         {
             const Handle eh = *eit;
@@ -276,7 +276,7 @@ public:
     {
         assert(vertex_exist(vid));
         fring.clear();
-        HandleSet& ering = edges_of_vertices[vid];
+        HandleSet& ering = m_edges_of_vertices[vid];
         for (HandleSet::iterator eit = ering.begin(); eit != ering.end(); eit++)
         {
             const Handle eh = *eit;
@@ -293,7 +293,7 @@ public:
      * @return True if the vertex exists, false otherwise.
      */
     bool vertex_exist(const VertexID vid) const
-    {	return vid >= 0 && vid < vertex_count;	}
+    {	return vid >= 0 && vid < m_vertex_count;	}
 
     /**
      * @brief Checks if a face is an infinite face.
@@ -302,7 +302,7 @@ public:
      * @return True if the face is infinite, false otherwise.
      */
     bool is_infinite_face(const CellID cid) const
-    {	return cid < 0 || infinite_cell_id.find(cid) != infinite_cell_id.end();	 }
+    {	return cid < 0 || m_infinite_cell_id.find(cid) != m_infinite_cell_id.end();	 }
 };
 
 #endif

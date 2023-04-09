@@ -33,17 +33,17 @@ public:
     typedef Halfedge<id_t>::Handle Handle; /**< Handle to a halfedge */
 
 public:
-    Handle e;       /**< Handle to the halfedge associated with the interval */
-    double b0, b1;  /**< Interval endpoints */
-    double d0, d1;  /**< Scalar values at the endpoints */
-    double sigma;   /**< Pseudo-source distance */
-    bool tau;       /**< Side of the (pseudo) source:
-                     * positive if the source is on e->LFace()
-                     * negative if the source is on e->Sym()->LFace()
-                     */
-    double xi;      /**< Accumulated error in approximation */
+    Handle m_e;         /**< Handle to the halfedge associated with the interval */
+    double m_b0, m_b1;  /**< Interval endpoints */
+    double m_d0, m_d1;  /**< Scalar values at the endpoints */
+    double m_sigma;     /**< Pseudo-source distance */
+    bool m_tau;         /**< Side of the (pseudo) source:
+                         * positive if the source is on e->LFace()
+                         * negative if the source is on e->Sym()->LFace()
+                         */
+    double m_xi;        /**< Accumulated error in approximation */
 
-    TraversalState state;   /**< State of the interval:
+    TraversalState m_state; /**< State of the interval:
                              * Discovered if the interval is in the narrow band
                              * Finished if the interval is not in the narrow band
                              */
@@ -60,15 +60,8 @@ public:
      * @param tau_ Side of the (pseudo) source. Positive if the source is on e->LFace(), negative if the source is on e->Sym()->LFace().
      */
     Interval(Handle e_, double b0_, double b1_, double d0_, double d1_, double sigma_, bool tau_)
-        : MxHeapable()
+        : MxHeapable(), m_state(Discovered), m_xi(0.0), m_e(e_), m_b0(b0_), m_b1(b1_), m_d0(d0_), m_d1(d1_), m_sigma(sigma_), m_tau(tau_)
     {
-        e = e_;
-        b0 = b0_; b1 = b1_;
-        d0 = d0_; d1 = d1_;
-        sigma = sigma_;
-        tau = tau_;
-        xi = 0.0;
-        state = Discovered;
         compute_min_dist();
     }
 
@@ -84,15 +77,8 @@ public:
      * @param state_ Traversal state of the interval.
      */    
     Interval(Handle e_, double b0_, double b1_, double d0_, double d1_, double sigma_, bool tau_, TraversalState state_)
-        : MxHeapable()
+        : MxHeapable(), m_state(state_), m_xi(0.0), m_e(e_), m_b0(b0_), m_b1(b1_), m_d0(d0_), m_d1(d1_), m_sigma(sigma_), m_tau(tau_)
     {
-        e = e_;
-        b0 = b0_; b1 = b1_;
-        d0 = d0_; d1 = d1_;
-        sigma = sigma_;
-        tau = tau_;
-        xi = 0.0;
-        state = state_;
         compute_min_dist();
     }
     /**
@@ -108,40 +94,33 @@ public:
      * @param state_ Traversal state of the interval.
      */    
     Interval(Handle e_, double b0_, double b1_, double d0_, double d1_, double sigma_, double xi_, bool tau_, TraversalState state_)
-        : MxHeapable()
+        : MxHeapable(), m_state(state_), m_xi(xi_), m_e(e_), m_b0(b0_), m_b1(b1_), m_d0(d0_), m_d1(d1_), m_sigma(sigma_), m_tau(tau_)
     {
-        e = e_;
-        b0 = b0_; b1 = b1_;
-        d0 = d0_; d1 = d1_;
-        sigma = sigma_;
-        tau = tau_;
-        xi = xi_;
-        state = state_;
         compute_min_dist();
     }
 
-    inline Handle handle() const { return e; }          /**< Get the handle of the interval */
-    inline double key() const { return heap_key(); }    /**< Get the heap key of the interval */
-    inline double get_b0() const { return b0; }         /**< Get the interval endpoint b0 */
-    inline double get_b1() const { return b1; }         /**< Get the interval endpoint b1 */
-    inline double get_d0() const { return d0; }         /**< Get the scalar value at the interval endpoint b0 */
-    inline double get_d1() const { return d1; }         /**< Get the scalar value at the interval endpoint b1 */
-    inline double get_sigma() const { return sigma; }   /**< Get the pseudo-source distance */
-    inline bool get_tau() const { return tau; }         /**< Get the side of the (pseudo) source */
-    inline double get_xi() const { return xi; }         /**< Get the accumulated error in approximation */
-    inline TraversalState get_state() const { return state; } /**< Get the traversal state of the interval */
+    inline Handle handle() const { return m_e; }          /**< Get the handle of the interval */
+    inline double key() const { return heap_key(); }      /**< Get the heap key of the interval */
+    inline double get_b0() const { return m_b0; }         /**< Get the interval endpoint b0 */
+    inline double get_b1() const { return m_b1; }         /**< Get the interval endpoint b1 */
+    inline double get_d0() const { return m_d0; }         /**< Get the scalar value at the interval endpoint b0 */
+    inline double get_d1() const { return m_d1; }         /**< Get the scalar value at the interval endpoint b1 */
+    inline double get_sigma() const { return m_sigma; }   /**< Get the pseudo-source distance */
+    inline bool get_tau() const { return m_tau; }         /**< Get the side of the (pseudo) source */
+    inline double get_xi() const { return m_xi; }         /**< Get the accumulated error in approximation */
+    inline TraversalState get_state() const { return m_state; } /**< Get the traversal state of the interval */
 
-    inline void set_b0(double b0_) { b0 = b0_; } /**< Set the value of b0 attribute */
-    inline void set_b1(double b1_) { b1 = b1_; } /**< Set the value of b1 attribute */
-    inline void set_d0(double d0_) { d0 = d0_; } /**< Set the value of d0 attribute */
-    inline void set_d1(double d1_) { d1 = d1_; } /**< Set the value of d1 attribute */
-    inline void set_xi(double xi_) { xi = xi_; } /**< Set the value of xi attribute */
-    inline void set_sigma(double sigma_) { sigma = sigma_; } /**< Set the value of sigma attribute */
+    inline void set_b0(double b0) { m_b0 = b0; } /**< Set the value of b0 attribute */
+    inline void set_b1(double b1) { m_b1 = b1; } /**< Set the value of b1 attribute */
+    inline void set_d0(double d0) { m_d0 = d0; } /**< Set the value of d0 attribute */
+    inline void set_d1(double d1) { m_d1 = d1; } /**< Set the value of d1 attribute */
+    inline void set_xi(double xi) { m_xi = xi; } /**< Set the value of xi attribute */
+    inline void set_sigma(double sigma) { m_sigma = sigma; } /**< Set the value of sigma attribute */
 
-    inline bool is_discovered() const { return state == Discovered; } /**< Check if interval is discovered. */
-    inline bool is_finished() const { return state == Finished; }     /**< Check if interval is finished. */
-    inline void set_discovered() { state = Discovered; }              /**< Set interval as discovered. */
-    inline void set_finished() { state = Finished; }                  /**< Set interval as finished. */
+    inline bool is_discovered() const { return m_state == Discovered; } /**< Check if interval is discovered. */
+    inline bool is_finished() const { return m_state == Finished; }     /**< Check if interval is finished. */
+    inline void set_discovered() { m_state = Discovered; }              /**< Set interval as discovered. */
+    inline void set_finished() { m_state = Finished; }                  /**< Set interval as finished. */
 
     /**
      * @brief Computes the minimum distance value from the pseudo-source to one of the end points.
@@ -149,7 +128,7 @@ public:
      */
     inline double min_dist() const
     {
-        return sigma + ((d0 < d1) ? d0 : d1);
+        return m_sigma + ((m_d0 < m_d1) ? m_d0 : m_d1);
     }
 
     /**
@@ -159,11 +138,11 @@ public:
     {
         heap_key(-min_dist());
     }
-    inline double get_d0_dist() const { return sigma + get_d0(); } /**< Returns the distance to the pseudo-source at d0. */
-    inline double get_d1_dist() const { return sigma + get_d1(); } /**< Returns the distance to the pseudo-source at d1. */
+    inline double get_d0_dist() const { return m_sigma + get_d0(); } /**< Returns the distance to the pseudo-source at d0. */
+    inline double get_d1_dist() const { return m_sigma + get_d1(); } /**< Returns the distance to the pseudo-source at d1. */
 
-    inline bool is_b0_end(double e_value) const { return FEQ(b0, e_value); } /**< Checks if b0 is equal to the given value e_value. */
-    inline bool is_b1_end(double e_value) const { return FEQ(b1, e_value); } /**< Checks if b1 is equal to the given value e_value. */
+    inline bool is_b0_end(double e_value) const { return FEQ(m_b0, e_value); } /**< Checks if b0 is equal to the given value e_value. */
+    inline bool is_b1_end(double e_value) const { return FEQ(m_b1, e_value); } /**< Checks if b1 is equal to the given value e_value. */
     /**
      * @brief Checks if this interval intersects with the given Interval instance.
      * @param iv Interval instance to check for intersection with this interval.
@@ -171,7 +150,7 @@ public:
      */
     inline bool does_intersect(Interval* iv) const
     {
-        return ( FLT(get_b0(), iv->get_b1()) && FGT(get_b1(), iv->get_b0()) );
+        return ( FLT(m_b0, iv->get_b1()) && FGT(m_b1, iv->get_b0()) );
     }
     /**
      * @brief Checks if this interval covers the whole segment between two given end points.
@@ -181,7 +160,7 @@ public:
      */
     inline bool cover_whole(double end0, double end1) const
     {
-        return ( FEQ(get_b0(), end0) && FEQ(get_b1(), end1) );
+        return ( FEQ(m_b0, end0) && FEQ(m_b1, end1) );
     }
     /**
      * @brief Checks if the interval is very small, i.e., if the difference between its two endpoints is close to zero.
@@ -189,7 +168,7 @@ public:
      */
     inline bool is_very_small() const 
     {
-        return FEQ(get_b0()-get_b1(), 0.0, 1e-4);
+        return FEQ(m_b0-m_b1, 0.0, 1e-4);
     }
 
     /**
@@ -202,7 +181,7 @@ public:
      */
     inline Interval* copy(double new_b0, double new_b1, double new_d0, double new_d1) 
     {
-        return new Interval(e, new_b0, new_b1, new_d0, new_d1, sigma, tau, state);
+        return new Interval(m_e, new_b0, new_b1, new_d0, new_d1, m_sigma, m_tau, m_state);
     }
     /**
      * @brief Updates the values of the attributes of this Interval instance with the new given values.
@@ -213,8 +192,8 @@ public:
      */
     inline void set_range(double new_b0, double new_b1, double new_d0, double new_d1)
     {
-        b0 = new_b0; b1 = new_b1;
-        d0 = new_d0; d1 = new_d1;
+        m_b0 = new_b0; m_b1 = new_b1;
+        m_d0 = new_d0; m_d1 = new_d1;
     }
     /**
      * Merges two Intervals by updating the attributes of this Interval based on the attributes of Interval a and a new point new_s
@@ -225,11 +204,11 @@ public:
      */
     inline void merge(Interval* a, Vec2& new_s, double new_sigma, double new_xi)
     {
-        this->set_b0(a->get_b0());
-        this->set_d0(norm(new_s-Vec2(a->get_b0(), 0)));
-        this->set_d1(norm(new_s-Vec2(this->get_b1(), 0)));
-        this->set_sigma(new_sigma);
-        this->set_xi(new_xi);
+        m_b0 = a->get_b0();
+        m_d0 = norm(new_s-Vec2(a->get_b0(), 0));
+        m_d1 = norm(new_s-Vec2(this->get_b1(), 0));
+        m_sigma = new_sigma;
+        m_xi = new_xi;
     }
 
     /**
