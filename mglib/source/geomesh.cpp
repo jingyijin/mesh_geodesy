@@ -17,9 +17,10 @@
 bool DEBUG = false;
 
 GeoTriMesh::GeoTriMesh(TriMesh *m)
-: TriMesh(*m), ERROR_TOLERANCE(0.001)
+: TriMesh(*m), ERROR_TOLERANCE(0.001), graph(NULL), prop_step_size(1), num_prop_edge(0), is_first_propagation(true), stop_prop_number(283)
 {
-    initialize();
+    graph = new ManifoldGraphT(m_vertex.size(), m_face);
+    geo_distance.resize(m_vertex.size(), DBL_MAX); 
 }
 
 GeoTriMesh::~GeoTriMesh()
@@ -30,6 +31,7 @@ GeoTriMesh::~GeoTriMesh()
 void GeoTriMesh::initialize()
 {
     LOG(INFO) << "GeoTriMesh::initialize()";
+    if (graph) delete graph;
     graph = new ManifoldGraphT(m_vertex.size(), m_face);
     prop_step_size = 1;
     num_prop_edge = 0;
@@ -60,7 +62,7 @@ void GeoTriMesh::clear_edge_map()
     edge_map.clear();
 }
 
-void GeoTriMesh::compute_geodesic(int selected_v, ScalarVector& distance, KnotVectorVector& path)
+void GeoTriMesh::compute_geodesic(int selected_v, ScalarVector& distance, PointVectorVector& path)
 {
     LOG(INFO) << "GeoTriMesh::compute_geodesic(" << selected_v << ")";
     reset_distance();
@@ -77,8 +79,15 @@ void GeoTriMesh::compute_geodesic(int selected_v, ScalarVector& distance, KnotVe
     distance.resize(m_vertex.size());
     copy(geo_distance.begin(), geo_distance.end(), distance.begin());
 
-    path.resize(m_vertex.size());
-    copy(geo_path.begin(), geo_path.end(), path.begin());
+    path.resize(geo_path.size());
+    VertexList vlist;
+    for (auto& p : geo_path) {
+        vlist.clear();
+        for (auto& eh : p) {
+            vlist.push_back(this->edge_point(eh.first, eh.second));
+        }
+        path.push_back(vlist);
+    }
 }
 
 bool GeoTriMesh::init_propagation(int selected_v)

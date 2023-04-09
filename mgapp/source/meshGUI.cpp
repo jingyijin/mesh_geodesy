@@ -53,9 +53,10 @@ void MeshGUI::initialize(int argc, char* argv[])
     MxGUI::initialize(argc, argv);
 
     // Set up the menu bar
-    add_menu_item("&File/Open", FL_CTRL+'o', (Fl_Callback *)cb_open_file, NULL);
-    add_menu_item("&File/Open", FL_CTRL+'o', (Fl_Callback *)cb_open_file, NULL);
-    add_menu_item("&File/Save", FL_CTRL+'s', (Fl_Callback *)cb_save_file, NULL);
+    add_menu_item("&File/Load mesh", FL_CTRL+'o', (Fl_Callback *)cb_open_file, NULL);
+    add_menu_item("&File/Save mesh", FL_CTRL+'s', (Fl_Callback *)cb_save_file, NULL);
+    add_menu_item("&File/Save mesh geodesy", 0, (Fl_Callback *)cb_save_distance, NULL);
+    add_menu_item("&File/Load mesh geodesy", 0, (Fl_Callback *)cb_load_distance, NULL);
 
     add_toggle_menu("&Draw/Vertices",              0, m_will_draw_vertices);
     add_toggle_menu("&Draw/Surface + face normal", 0, m_will_draw_surface_fnormal);
@@ -66,8 +67,6 @@ void MeshGUI::initialize(int argc, char* argv[])
 
     add_menu_item("&Tools/Default texture",        0, (Fl_Callback *)cb_load_default_texture, NULL);
     add_menu_item("&Tools/Load texture",           0, (Fl_Callback *)cb_load_texture, NULL);
-    add_menu_item("&Tools/Save geodesic distance", 0, (Fl_Callback *)cb_save_distance, NULL);
-    add_menu_item("&Tools/Load geodesic distance", 0, (Fl_Callback *)cb_load_distance, NULL);
 }
 
 int MeshGUI::add_menu_item(const char* name, int key, Fl_Callback *f, void* val, int flags) 
@@ -117,18 +116,18 @@ void MeshGUI::cb_load_texture()
 
 void MeshGUI::cb_save_distance() 
 {
-    string input_filename = fl_file_chooser("Select input file", "*{.dist}", NULL);
+    string input_filename = fl_file_chooser("Select input file", "*{.mg}", NULL);
 
     if (!input_filename.empty())
-        gui.m_mg->save_distances(input_filename);
+        gui.m_mg->save_geodesic(input_filename);
 }
 
 void MeshGUI::cb_load_distance() 
 {
-    string output_filename = fl_file_chooser("Select output file", "*{.dist}", NULL);
+    string output_filename = fl_file_chooser("Select output file", "*{.mg}", NULL);
 
     if (!output_filename.empty())
-        gui.m_mg->load_distances(output_filename);
+        gui.load_geodesic(output_filename);
 }
 
 void MeshGUI::load_mesh(const string& filename)
@@ -146,6 +145,18 @@ void MeshGUI::load_mesh(const string& filename)
 
     reset_camera();
     m_canvas->redraw();
+}
+
+void MeshGUI::load_geodesic(const string& filename)
+{
+    LOG(INFO) << "MeshGUI::load_geodesic " << filename;
+    m_mg->load_geodesic(filename);
+
+    m_mesh->compute_bbox(m_bb_min, m_bb_max);
+
+    reset_camera();
+    m_canvas->redraw();
+
 }
 
 void MeshGUI::setup_for_drawing() 
@@ -480,7 +491,7 @@ void MeshGUI::draw_selection()
 void MeshGUI::draw_geodesic_distance()
 {
     LOG(INFO) << "MeshGUI::draw_geodesic_distance";
-    if (m_mg->distances.empty()) return;
+    if (m_mg->m_distances.empty()) return;
 
     glPushAttrib(GL_ENABLE_BIT|GL_POLYGON_BIT);
     glVertexPointer(3, GL_DOUBLE, 0, &m_mesh->m_vertex[0]);
@@ -493,7 +504,7 @@ void MeshGUI::draw_geodesic_distance()
     glEnable(GL_TEXTURE_2D);
 
     int size = face.size();
-    GeoTriMesh::ScalarVector& dist = m_mg->distances;
+    GeoTriMesh::ScalarVector& dist = m_mg->m_distances;
     for(int i=0; i<size; i++)
     {
         const Face& f = face[i];
@@ -514,18 +525,18 @@ void MeshGUI::draw_geodesic_distance()
 void MeshGUI::draw_geodesic_path()
 {
     LOG(INFO) << "MeshGUI::draw_geodesic_path";
-    if (m_mg->paths.empty()) return;
+    if (m_mg->m_path_points.empty()) return;
 
     glPushAttrib(GL_ENABLE_BIT|GL_LINE_BIT);
     glDisable(GL_LIGHTING);
     glColor3f(0.3f,0.4f,0.5f);
     glLineWidth(0.5f);
 
-    for (auto& path : m_mg->paths ) {
-        MeshGeodesy::KnotVector::iterator vit = path.begin();
+    for (auto& path : m_mg->m_path_points) {
         glBegin(GL_LINE_STRIP);
-        for ( ; vit != path.end(); vit++)
-            glVertex3dv(m_mesh->edge_point((*vit).first, (*vit).second));
+        for (auto& p : path) {
+            glVertex3dv(p);
+        }
         glEnd();
     }
     glPopAttrib();

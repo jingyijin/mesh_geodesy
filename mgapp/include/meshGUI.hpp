@@ -382,6 +382,11 @@ public:
     * @param filename the name of the file containing the mesh to load
     */
     void load_mesh(const string& filename);
+    /**
+    * @brief Loads a mesh and its geodesic information from file and initializes the MeshGeodesy, resets camera, and redraws the canvas.
+    * @param filename the name of the file containing the mesh + geodesy to load
+    */
+    void load_geodesic(const string& filename);
 };
 extern MeshGUI gui;
 

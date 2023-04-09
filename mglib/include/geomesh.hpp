@@ -85,6 +85,7 @@ public:
     typedef vector<PathKnotPair> PathKnotVector;     /**< A vector of PathKnotPairs. */
     typedef vector<PathKnotVector> KnotVectorVector; /**< A vector of PathKnotVectors. */
 
+    typedef vector<GeoTriMesh::VertexList> PointVectorVector; /**< A vector of VertexLists. */
 public:
     ManifoldGraphT *graph; /**< The manifold graph of the mesh. */
 
@@ -148,7 +149,7 @@ public:
      * @param distance The output vector of geodesic distances.
      * @param path The output vector of geodesic paths.
      */
-    void compute_geodesic(int selected_v, ScalarVector &distance, KnotVectorVector &path);
+    void compute_geodesic(int selected_v, ScalarVector &distance, PointVectorVector &path);
     /**
      * @brief Initializes the propagation of geodesic distances from a given vertex.
      * @param selected_v The index of the vertex from which to propagate the geodesic distances.

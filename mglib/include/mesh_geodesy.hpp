@@ -22,18 +22,17 @@ public:
     typedef vector<double> ScalarVector;
     typedef vector<Vec3> VectorVector;
 
-    typedef pair<Handle, double> KnotPair;
-    typedef vector<KnotPair> KnotVector;
-    typedef vector<KnotVector> KnotVectorVector;
+    typedef GeoTriMesh::PointVectorVector PointVectorVector;
 
 public:
-    GeoTriMesh *mesh;               /**< The core mesh with fundamental structures to compute geodesic. */
+    GeoTriMesh *m_mesh;               /**< The core mesh with fundamental structures to compute geodesic. */
 
     // geodesic distances and paths
-    ScalarVector distances;         /**< The geodesic distances from a selected vertex. */
-    KnotVectorVector paths;         /**< The geodesic paths from a selected vertex. */
+    ScalarVector m_distances;         /**< The geodesic distances from a selected vertex. */
+    PointVectorVector m_path_points;  /**< The geodesic paths represented as list of 3D points. */
 
-    ScalarVector scalar_field;      /**< The scalar field on the mesh. */
+    ScalarVector m_scalar_field;      /**< The scalar field on the mesh. */
+    int m_source_v;                   /**< The index of the source vertex. */
 
 public:
     /**
@@ -69,18 +68,12 @@ public:
      * @brief Save computed geodesic distances to a file.
      * @param filename The output file name.
      */
-    void save_distances(const string& filename);
+    void save_geodesic(const string& filename);
     /**
      * @brief Load geodesic distances from a file.
      * @param filename The input file name.
      */
-    void load_distances(const string& filename);
-
-    /**
-     * @brief Print a knot vector for debugging purposes.
-     * @param kn The input knot vector.
-     */
-    void print_knot_vector(const KnotVector& kn);
+    void load_geodesic(const string& filename);
 };
 
 #endif
