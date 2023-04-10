@@ -26,7 +26,7 @@ mblib: It is a self contained library that provides a set of APIs for calculatin
 ### Mesh Geodesy GUI Application
 mgapp: It is a GUI-based tool built on FLTK that allows interactive visualization and manipulation of 3D triangle meshes. The application provides a few more features, such as selecting vertices, changing textures, and more.
 
-### Mesh Geodesy Command Line Application
+### Mesh Geodesy Command Line
 mgcmd: It is a command line application that allows computation of geodesic distance and path by commandline. The input 3D model, output distance information can all be specified as call argument.
 
 ## Installation & Requirements
@@ -54,7 +54,7 @@ The CMake builder will try to find the following dependency packages/libraries. 
 ```$ sudo apt-get install libpng-dev```
 
 
-Finally, installation of Mesh Geodesy package can be done by the typical
+Finally, the installation of Mesh Geodesy package can be done by the typical
 ```
 $ mkdir build
 $ cd build
@@ -65,11 +65,11 @@ To launch the GUI mgguiapp, run
 ```
 $ mgapp/mgapp
 ```
-On the other hand, to use the command line style function, use
+To use the command line function, use
 ```
 $ mgcmd/mgcmd <options>
 ```
-For more examples of how to use GUI or command line, go to [examples](./examples.md)
+For more details on how to use GUI or command line, please refer to [examples](./examples.md)
 
 ### Remote Desktop Connection instructions for Windows users
 
