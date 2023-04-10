@@ -8,5 +8,6 @@ project(
     DESCRIPTION "Mesh Geodesy - an intuitive program that computes \
         geodesic distance on triangle meshes.")
 
-add_subdirectory(mgguiapp)      # look in app subdirectory for CMakeLists.txt to process
-add_subdirectory(mglib)      # look in lib subdirectory for CMakeLists.txt to process
+add_subdirectory(mgapp)   # look in app subdirectory for CMakeLists.txt to process
+add_subdirectory(mgcmd)   # look in cmd subdirectory for CMakeLists.txt to process
+add_subdirectory(mglib)   # look in lib subdirectory for CMakeLists.txt to process

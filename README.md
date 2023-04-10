@@ -18,13 +18,16 @@ This library implements the exact algorithim presented in the paper "Fast Exact 
 
 ## Content
 
-This repository consists of two main components:
+This repository consists of three main components:
 
 ### Mesh Geodesy library
 mblib: It is a self contained library that provides a set of APIs for calculating geodesic distance and path on 3D triangle meshes. It comes with APIs that allows loading of a mesh and compute geodesic distances and paths for any given vertex of the mesh. 
 
-### Mesh Geodesy Application
+### Mesh Geodesy GUI Application
 mgapp: It is a GUI-based tool built on FLTK that allows interactive visualization and manipulation of 3D triangle meshes. The application provides a few more features, such as selecting vertices, changing textures, and more.
+
+### Mesh Geodesy Command Line Application
+mgcmd: It is a command line application that allows computation of geodesic distance and path by commandline. The input 3D model, output distance information can all be specified as call argument.
 
 ## Installation & Requirements
 
@@ -58,10 +61,15 @@ $ cd build
 $ cmake ..
 $ make
 ```
-Then launch the mgapp with
+To launch the GUI mgguiapp, run
 ```
 $ mgapp/mgapp
 ```
+On the other hand, to use the command line style function, use
+```
+$ mgcmd/mgcmd <options>
+```
+For more examples of how to use GUI or command line, go to [examples](./examples.md)
 
 ### Remote Desktop Connection instructions for Windows users
 

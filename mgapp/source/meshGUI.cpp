@@ -160,6 +160,7 @@ void MeshGUI::load_geodesic(const string& filename)
 {
     LOG(INFO) << "MeshGUI::load_geodesic " << filename;
     m_mg->load_geodesic(filename);
+    this->m_selected_vertex = m_mg->m_source_v;
 
     m_mesh->compute_bbox(m_bb_min, m_bb_max);
 
