@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(mgapp)
+project(mgguiapp)
 
 
 find_package(FLTK REQUIRED)
@@ -49,31 +49,31 @@ if (NOT glog_FOUND)
 endif()
 
 
-set(MGAPP_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
-set(MGAPP_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(MGGUIAPP_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
+set(MGGUIAPP_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
-set(MGAPP_SOURCES
-    ${MGAPP_SOURCE_DIR}/mxGUI.cpp
-    ${MGAPP_SOURCE_DIR}/meshGUI.cpp
-    ${MGAPP_SOURCE_DIR}/arcball.cpp
-    ${MGAPP_SOURCE_DIR}/baseball.cpp
-    ${MGAPP_SOURCE_DIR}/main.cpp
+set(MGGUIAPP_SOURCES
+    ${MGGUIAPP_SOURCE_DIR}/mxGUI.cpp
+    ${MGGUIAPP_SOURCE_DIR}/meshGUI.cpp
+    ${MGGUIAPP_SOURCE_DIR}/arcball.cpp
+    ${MGGUIAPP_SOURCE_DIR}/baseball.cpp
+    ${MGGUIAPP_SOURCE_DIR}/main.cpp
 )
 
-set(MGAPP_HEADERS
-    ${MGAPP_INCLUDE_DIR}/mxGUI.hpp
-    ${MGAPP_INCLUDE_DIR}/meshGUI.hpp
-    ${MGAPP_INCLUDE_DIR}/arcball.hpp
-    ${MGAPP_INCLUDE_DIR}/baseball.hpp
+set(MGGUIAPP_HEADERS
+    ${MGGUIAPP_INCLUDE_DIR}/mxGUI.hpp
+    ${MGGUIAPP_INCLUDE_DIR}/meshGUI.hpp
+    ${MGGUIAPP_INCLUDE_DIR}/arcball.hpp
+    ${MGGUIAPP_INCLUDE_DIR}/baseball.hpp
 )
 
 set(CMAKE_BUILD_TYPE Debug)
 
-add_executable(mgapp ${MGAPP_SOURCES} ${MGAPP_HEADERS})
+add_executable(mgguiapp ${MGGUIAPP_SOURCES} ${MGGUIAPP_HEADERS})
 
-target_include_directories(mgapp PRIVATE ${MGAPP_INCLUDE_DIR})
+target_include_directories(mgguiapp PRIVATE ${MGGUIAPP_INCLUDE_DIR})
 
-target_link_libraries(mgapp mglib
+target_link_libraries(mgguiapp mglib
     ${FLTK_LIBRARIES}
     ${OPENGL_LIBRARIES} 
     ${XFT_LIBRARY}
