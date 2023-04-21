@@ -18,16 +18,12 @@ This library implements the exact algorithim presented in the paper "Fast Exact 
 
 ## Content
 
-This repository consists of three main components:
+This repository contains several main components:
 
-### Mesh Geodesy library
-mblib: It is a self contained library that provides a set of APIs for calculating geodesic distance and path on 3D triangle meshes. It comes with APIs that allows loading of a mesh and compute geodesic distances and paths for any given vertex of the mesh. 
-
-### Mesh Geodesy GUI Application
-mgapp: It is a GUI-based tool built on FLTK that allows interactive visualization and manipulation of 3D triangle meshes. The application provides a few more features, such as selecting vertices, changing textures, and more.
-
-### Mesh Geodesy Command Line
-mgcmd: It is a command line application that allows computation of geodesic distance and path by commandline. The input 3D model, output distance information can all be specified as call argument.
+1. **Mesh Geodesy Library (mblib)**: This is a self-contained library that provides a set of APIs for calculating geodesic distance and path on 3D triangle meshes. It includes APIs for loading a mesh and computing geodesic distances and paths for any given vertex of the mesh.
+2. **Mesh Geodesy GUI Application (mgapp)**: This is a GUI-based tool built on FLTK that allows for interactive visualization and manipulation of 3D triangle meshes. The application includes features such as selecting vertices, changing textures, and more.
+3. **Mesh Geodesy Command Line (mgcmd)**: This is a command line application that allows for the computation of geodesic distance and path via the command line. The input 3D model and output distance information can all be specified as call arguments.
+4. **Mesh Models (models)**: This directory contains testing 3D models that have been cleaned up to demonstrate the properties of a manifold.
 
 ## Installation & Requirements
 
