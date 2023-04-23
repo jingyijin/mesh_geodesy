@@ -63,8 +63,11 @@ When the vertex selection is successful, you can click on "Tools" menu item, and
 
 ### Step 4 - Visualizing results
 
+Enable the rendering of the geodesic path by selecting "Draw" menu item, and the option "Geodesic Path". Alternatively, to enable the rendering of the distance information, Select "Draw" menu, deselect all drawing options, except "Geodesic Distance". You will see the distance information being displayed as isolines as illustrated in the figure below.
+
+<img src="pictures/lucy_distance.png " alt="alt text" width="500" height="350">
+
 Use the following keys to control the frequency of the isolines that represents the distance information:
 * Up to make the frequency higher, thus denser iso-lines
 * Down to make the frequency lower, thus sparser iso-lines.
 
-<img src="pictures/lucy_distance.png " alt="alt text" width="500" height="350">
