@@ -479,7 +479,7 @@ void MeshGUI::draw_surface_fnormal()
 void MeshGUI::draw_selection()
 {
     LOG(INFO) << "MeshGUI::draw_selection";
-    const float sball_radius = 0.01f;
+    const float sball_radius = norm(m_bb_max - m_bb_min) * 0.0005f;
 
     glPushAttrib(GL_ENABLE_BIT);
 
@@ -669,7 +669,7 @@ void MeshGUI::draw_for_selection()
     glPushAttrib(GL_ENABLE_BIT | GL_POINT_BIT);
     glDisable(GL_LIGHTING);
     glColor3f(0.f, 0.f, 0.f);
-    glPointSize(5.f);
+    glPointSize(10.f);
     
     if (m_selection_mode == Vselect) {
         int psize = m_mesh->m_vertex.size();
